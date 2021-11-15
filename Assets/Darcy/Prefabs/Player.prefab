@@ -1,0 +1,262 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2234785439003819442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2234785439003819440}
+  - component: {fileID: 2234785439003819441}
+  - component: {fileID: 2234785439003819447}
+  - component: {fileID: 2234785439003819445}
+  - component: {fileID: 2234785439003819446}
+  m_Layer: 13
+  m_Name: Player
+  m_TagString: Player
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2234785439003819440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234785439003819442}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2234785440069551400}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2234785439003819441
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234785439003819442}
+  m_Material: {fileID: 13400000, guid: 8d88e24ddef1857488051da9d216b036, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &2234785439003819447
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234785439003819442}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 80
+  m_CollisionDetection: 1
+--- !u!114 &2234785439003819445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234785439003819442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd45cc58ed16d8459eb7a6a8ecc36d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMoveSpeed: 6
+  groundAcceleration: 50
+  airAcceleration: 10
+  directionChangeCoefficient: 3
+  maxWalkingSlopeLimit: 45
+  sprintMoveSpeedCoefficient: 2
+  crouchMoveSpeedCoefficient: 0.5
+  groundDragCoefficient: 20
+  airDragCoefficient: 3
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  invisibleWallMask:
+    serializedVersion: 2
+    m_Bits: 1073741824
+  groundCheckResolution: 8
+  groundCheckDistance: 0.1
+  groundCheckCooldown: 0.1
+  gravityAcceleration: 40
+  jumpHeight: 3
+  jumpInputBufferDepth: 20
+  groundContactBufferDepth: 30
+  magnetismStrengthCoefficient: 3
+  magnetismMinVelocityThreshold: 2
+  magnetismRange: 2
+  magnetismVelocityScaling: 0.1
+  mantleVelocity: {x: 0, y: 8, z: 2}
+  mantleHeadCheckHeight: 2.5
+  mantleFootholdHeight: 0.9
+  mantleClearedHeight: -0.2
+  crouchTransitionTime: 0.1
+  crouchColliderHeight: 1
+  slideInitialVelocityCoefficient: 1.2
+  slideGroundDragCoefficient: 2.5
+  slideAirDragCoefficient: 1
+  slideSlopeForceCoefficient: 25
+  slideSlopeDragCoefficient: 0.5
+  slideSlopeMinAngle: 10
+  grappleMinRange: 5
+  grappleMaxRange: 20
+  grappleDetectionRange: 40
+  grappleMinHeightOffset: 1
+  minimumAngularSimilarity: 0.9
+  grapplePointLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  grappleVelocity: 40
+  grapplePointVerticalBoost: 2
+  grappleLineResolution: 500
+  grappleRopeEffectCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.7181478
+      outSlope: 3.7181478
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.0074525746
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  grappleEffectWaveHeight: 1
+  grappleEffectWaveCount: 2
+  grappleRopeFireSpeed: 20
+  grappleRopeEffectDuration: 0.3
+  grappleRopeEffectScrollSpeed: 8
+  grappleRopeTimeDropoffCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1.5106802
+      outSlope: -1.5106802
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.03590786
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.2627269
+      outSlope: -0.2627269
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.035907865
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  toggleCrouch: 0
+  cameraHolderTransform: {fileID: 0}
+  headPointTransform: {fileID: 2234785440069551400}
+  grappleLine: {fileID: 0}
+  weaponCoordinator: {fileID: 0}
+  weaponGrapplePointTransform: {fileID: 0}
+  weaponTransform: {fileID: 0}
+  playerTransform: {fileID: 2234785439003819440}
+  playerRigidbody: {fileID: 2234785439003819447}
+  playerCollider: {fileID: 2234785439003819441}
+--- !u!114 &2234785439003819446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234785439003819442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d00e7cbb2eb5c408b4cb8b8baae252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenshakeDamageScaler: 3
+  baseHealth: 100
+  maxHealth: 0
+  currentHealth: 0
+  healthMultiplierPerLevel: 1.2
+  timeBeforeRegeneration: 10
+  percentRegenerationPerSecond: 1
+  fibrePerHealthPoint: 0.2
+  healthUpgradeCostBase: 30
+  healthUpgradeCostMultiplierPerLevel: 1.3
+  maxOneShotProtectionThreshold: 90
+  minOneShotProtectionThreshold: 10
+  passiveUltimateChargeRate: 0.002
+  currentFibre: 0
+  difficultyWaveFactor: 1.05
+  difficultyTimeFactor: 0.025
+  interactRange: 4
+  interactiveLayer:
+    serializedVersion: 2
+    m_Bits: 65536
+  environmentLayers:
+    serializedVersion: 2
+    m_Bits: 33024
+  playerMovement: {fileID: 2234785439003819445}
+  gunControllers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  playerLevel: 0
+--- !u!1 &2234785440069551401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2234785440069551400}
+  m_Layer: 13
+  m_Name: HeadPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2234785440069551400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234785440069551401}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2234785439003819440}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
