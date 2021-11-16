@@ -9,11 +9,28 @@ using TMPro;
 /*
 PlayerPref keys
 
-"RefreshRate"        - target framerate       - Type: Int   | Range: 30 - 300 | Default: 60  | Displayed as: 30 - 300 int
-"MouseSensitivity"   - Sensitivity of mouse   - Type: Float | Range: 0.1 - 5 | Default: 3   | Displayed as: 0.1 - 5 float
-"AudioLevelMaster"   - Master Audio           - Type: Float | Range: 0 - 1    | Default: 0.8 | Displayed as: 0 - 10 int
-"AudioLevelMusic"    - Music Audio            - Type: Float | Range: 0 - 1    | Default: 1   | Displayed as: 0 - 10 int
-"AudioLevelSFX"      - SFX Audio              - Type: Float | Range: 0 - 1    | Default: 1   | Displayed as: 0 - 10 int
+Sliders - 
+"MouseSensitivity"     - Sensitivity of mouse   - Type: Float | Range: 1 - 5  | Default: 3   | Displayed as: 1 - 5 float
+"AudioLevelMaster"     - Master Audio           - Type: Float | Range: 0 - 1  | Default: 0.8 | Displayed as: 0 - 10 int
+"AudioLevelMusic"      - Music Audio            - Type: Float | Range: 0 - 1  | Default: 1   | Displayed as: 0 - 10 int
+"AudioLevelSFX"        - SFX Audio              - Type: Float | Range: 0 - 1  | Default: 1   | Displayed as: 0 - 10 int
+
+To add/edit
+
+"ScreenshakeIntensity" - Screenshake            - Type: Int   | Range: 0 - 10 | Default: 10  | Displayed as: 0 - 10 int
+
+Toggles: -                                      - Type: Int   | Range: 0 or 1 | Default: Varies 
+"UseHeadBob"           - Head Bob effect        - Default: true (1)
+"ToggleCrouch"         - Toggle Crouch          - Default: false (0)
+"V-Sync"               - Use V-Sync             - Default:
+"WindowMode"           - Is in Window Mode      - Default: 
+
+Presets: - 
+"Resolution"           - Resolution of game     - Type: Int   | Range: 0 - 5  | Default: 2   | Displayed as: below
+                                                + 0 - 1366x768 | 1 - 1600x900 | 2 - 1920x1080 | 3 - 2560x1440 | 4 - 3440x1440 | 5 - 3840x2160
+
+"RefreshRate"          - target framerate       - Type: Int   | Range: 0 - 6  | Default: 2   | Displayed as: below
+                                                + 0 - Unlimited | 1 - 30 | 2 - 60 | 3 - 75 | 4 - 120 | 5 - 144 | 6 - 240
 */
 
 public class SettingsMenu : MonoBehaviour

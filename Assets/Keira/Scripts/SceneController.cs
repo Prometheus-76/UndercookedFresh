@@ -11,32 +11,28 @@ public class SceneController : MonoBehaviour
 
     [Tooltip("Title Screen Scene Number")]
     public int titleScreenSceneNumber = 0;
-    [Tooltip("Options Scene Number")]
-    public int optionsSceneNumber = 1;
     [Tooltip("Game Scene Number")]
-    public int gameSceneNumber = 2;
-    [Tooltip("End Scene Number")]
-    public int endSceneNumber = 3;
+    public int gameSceneNumber = 1;
+
+    //Loads game scene
+    //private SceneLoader sceneLoader;
+
+    void Start()
+    {
+       //sceneLoader = GameObject.FindGameObjectWithTag("LoadingSceen").GetComponent<SceneLoader>;
+    }
 
     //Go to title screen scene
     public void TitleScreenScene()
     {
         SceneManager.LoadScene(titleScreenSceneNumber);
-    }
-    //Go to title screen scene
-    public void OptionsScene()
-    {
-        SceneManager.LoadScene(optionsSceneNumber);
+        //sceneLoader.LoadSceneWithProgress(titleScreenSceneNumber);
     }
     //Go to game screen scene
     public void GameScene()
     {
         SceneManager.LoadScene(gameSceneNumber);
-    }
-    //Go to end screen scene
-    public void EndScene()
-    {
-        SceneManager.LoadScene(endSceneNumber);
+        //sceneLoader.LoadSceneWithProgress(gameSceneNumber);
     }
     //Go to next scene
     public void NextScene()
