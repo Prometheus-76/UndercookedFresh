@@ -70,7 +70,7 @@ public class UserInterfaceHUD : MonoBehaviour
     public static int ammoInReserves;
     public static int equippedWeapon;
     #endregion
-
+    
     #region Ultimate Ability
     [Header("Ultimate Ability")]
 

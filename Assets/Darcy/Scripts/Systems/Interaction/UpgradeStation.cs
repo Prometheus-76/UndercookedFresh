@@ -21,7 +21,7 @@ public class UpgradeStation : InteractiveObject
     public override void Interact()
     {
         PlayerStats.gamePaused = true;
-        UpgradeStationHUD.showUpgradeHUD = true;
+        UpgradeStationHUD.showHUD = true;
         UserInterfaceHUD.showHUD = false;
 
         // Make the cursor visible and confine it to the window

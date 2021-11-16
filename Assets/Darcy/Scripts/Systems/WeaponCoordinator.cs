@@ -309,7 +309,7 @@ public class WeaponCoordinator : MonoBehaviour
     void SwapToWeapon(int weaponIndex)
     {
         // Do not allow another switch while currently switching weapons
-        if (switchingWeapons || unlockedGuns[weaponIndex] == false || weaponIndex == currentGunIndex || UpgradeStationHUD.showUpgradeHUD)
+        if (switchingWeapons || unlockedGuns[weaponIndex] == false || weaponIndex == currentGunIndex || UpgradeStationHUD.showHUD)
         {
             return;
         }

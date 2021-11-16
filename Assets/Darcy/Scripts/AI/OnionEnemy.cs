@@ -42,7 +42,7 @@ public class OnionEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth > 0 && isBurrowing == false)
+        if (currentHealth > 0 && isBurrowing == false && PlayerStats.isAlive)
         {
             // Calculate absolute and walking distances between enemy and player
             float absoluteDistanceToPlayer = Vector3.Distance(playerTransform.position, enemyTransform.position);
@@ -215,6 +215,14 @@ public class OnionEnemy : Enemy
             #endregion
 
             #endregion
+        }
+        else
+        {
+            if (enemyAgent.enabled)
+            {
+                enemyAgent.ResetPath();
+                enemyAgent.isStopped = true;
+            }
         }
     }
 

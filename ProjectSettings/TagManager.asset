@@ -6,6 +6,8 @@ TagManager:
   tags:
   - DamageNumberParent
   - Enemy
+  - UpgradeStation
+  - LoadingScreen
   layers:
   - Default
   - TransparentFX

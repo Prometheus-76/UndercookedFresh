@@ -31,7 +31,8 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector]
     public float currentRunTime { get; private set; }
-    private ulong currentScore;
+    [HideInInspector]
+    public ulong currentScore { get; private set; }
     [HideInInspector]
     public ulong currentFibre;
 
@@ -58,6 +59,17 @@ public class PlayerStats : MonoBehaviour
     private float interactTimer;
     private bool interactPresent;
 
+    public static bool isAlive;
+
+    [HideInInspector]
+    public int attemptCount;
+    [HideInInspector]
+    public int enemiesKilled;
+    [HideInInspector]
+    public int damageDealt;
+    [HideInInspector]
+    public int highscore;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +87,15 @@ public class PlayerStats : MonoBehaviour
 
         mainCameraTransform = Camera.main.GetComponent<Transform>();
         interactTimer = 0f;
+
+        isAlive = true;
+
+        #region Get Stats
+
+        attemptCount = PlayerPrefs.GetInt("AttemptCount", 0);
+        highscore = PlayerPrefs.GetInt("Highscore", 0);
+
+        #endregion
     }
 
     // Take damage
@@ -100,6 +121,13 @@ public class PlayerStats : MonoBehaviour
         immuneRegenerationTimer = timeBeforeRegeneration;
         regenerationTimer = 0f;
 
+        // If the player has run out of health
+        if (currentHealth <= 0 && isAlive)
+        {
+            Die();
+            CameraController.AddTrauma(1f);
+        }
+
         // Screenshake if sufficient damage is dealt in an instance
         float shakeTrauma = ((float)damageTaken / maxHealth);
         CameraController.AddTrauma(shakeTrauma * screenshakeDamageScaler);
@@ -107,7 +135,21 @@ public class PlayerStats : MonoBehaviour
 
     void Die()
     {
+        isAlive = false;
+        gamePaused = true;
 
+        ScoreScreenHUD.showHUD = true;
+        UserInterfaceHUD.showHUD = false;
+        UpgradeStationHUD.showHUD = false;
+        PauseMenuHUD.showHUD = false;
+
+        Cursor.lockState = CursorLockMode.None;
+
+        // Save stats
+        attemptCount += 1;
+        PlayerPrefs.SetInt("AttemptCount", attemptCount);
+        highscore = Mathf.RoundToInt(Mathf.Max(currentScore, highscore));
+        PlayerPrefs.SetInt("Highscore", highscore);
     }
 
     void Update()

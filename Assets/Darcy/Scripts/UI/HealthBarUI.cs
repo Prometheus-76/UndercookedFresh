@@ -141,10 +141,10 @@ public class HealthBarUI : MonoBehaviour
 
         #endregion
 
-        #region Fade All Grapple UI
+        #region Fade All Health Bar UI
 
         // Fade in/out based on various factors
-        if (Physics.Linecast(mainCameraTransform.position, canvasTransform.position, enemyScript.environmentLayers) == false && (damageLingerTimer > 0f || cameraForwardSimilarity >= minimumLookSimilarity) && enemyScript.currentHealth > 0)
+        if (Physics.Linecast(mainCameraTransform.position, canvasTransform.position, enemyScript.environmentLayers) == false && (damageLingerTimer > 0f || cameraForwardSimilarity >= minimumLookSimilarity) && enemyScript.currentHealth > 0 && PlayerStats.isAlive)
         {
             overallAlphaMultiplier += (Time.deltaTime / overallFadeTime);
         }

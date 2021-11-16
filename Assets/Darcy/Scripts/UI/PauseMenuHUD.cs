@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 // Author: Darcy Matheson
 // Purpose: Controls the pause menu HUD, including saving and loading the mouse sensitivity from memory (PlayerPrefs)
@@ -18,6 +19,8 @@ public class PauseMenuHUD : MonoBehaviour
 
     private NavigationAction desiredAction;
 
+    public static bool showHUD;
+
     public Canvas pauseMenuCanvas;
     public GameObject blurEffect;
 
@@ -28,33 +31,40 @@ public class PauseMenuHUD : MonoBehaviour
 
     public CameraController cameraController;
 
+    private SceneLoader sceneLoader;
+
     void Start()
     {
         // Display the saved sensitivity value on the slider, defaulting to 3.0
         sensitivitySlider.value = Mathf.RoundToInt(PlayerPrefs.GetFloat("MouseSensitivity", 3f) * 10f);
         
         desiredAction = NavigationAction.None;
+        showHUD = false;
+
+        sceneLoader = GameObject.FindGameObjectWithTag("LoadingScreen").GetComponent<SceneLoader>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // Pauses the game when escape is pressed
-        if (UpgradeStationHUD.showUpgradeHUD == false)
+        if (UpgradeStationHUD.showHUD == false && PlayerStats.isAlive)
         {
             if (Input.GetKeyDown(KeyCode.Escape) && PlayerStats.gamePaused == false)
             {
                 // Change paused state
                 PlayerStats.gamePaused = true;
+                showHUD = true;
             }
 
             // Adjust game behaviour accordingly
             Time.timeScale = (PlayerStats.gamePaused) ? 0f : 1f;
-            pauseMenuCanvas.enabled = PlayerStats.gamePaused;
             UserInterfaceHUD.showHUD = !PlayerStats.gamePaused;
             Cursor.lockState = (PlayerStats.gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
             blurEffect.SetActive(PlayerStats.gamePaused);
         }
+
+        pauseMenuCanvas.enabled = showHUD;
     }
 
     public void Resume()
@@ -66,6 +76,7 @@ public class PauseMenuHUD : MonoBehaviour
         pauseMenuCanvas.enabled = PlayerStats.gamePaused;
         UserInterfaceHUD.showHUD = !PlayerStats.gamePaused;
         Cursor.lockState = (PlayerStats.gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
+        showHUD = false;
     }
 
     public void AttemptRestartStage()
@@ -126,17 +137,16 @@ public class PauseMenuHUD : MonoBehaviour
 
     private void RestartStage()
     {
-        Debug.Log("Restarting...");
+        sceneLoader.LoadSceneWithProgress(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void ReturnToMenu()
     {
-        Debug.Log("Returning to menu...");
+
     }
 
     private void Quit()
     {
-        Debug.Log("Quitting...");
         Application.Quit();
     }
 }

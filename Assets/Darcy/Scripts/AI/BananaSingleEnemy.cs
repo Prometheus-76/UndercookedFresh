@@ -20,7 +20,7 @@ public class BananaSingleEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth > 0 && isBurrowing == false)
+        if (currentHealth > 0 && isBurrowing == false && PlayerStats.isAlive)
         {
             #region Behaviour Tree
 
@@ -63,6 +63,14 @@ public class BananaSingleEnemy : Enemy
             }
 
             #endregion
+        }
+        else
+        {
+            if (enemyAgent.enabled)
+            {
+                enemyAgent.ResetPath();
+                enemyAgent.isStopped = true;
+            }
         }
     }
 }

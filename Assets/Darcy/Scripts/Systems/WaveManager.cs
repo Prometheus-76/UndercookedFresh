@@ -49,6 +49,7 @@ public class WaveManager : MonoBehaviour
 
         waveProgress = 0f;
         waveNumber = 0;
+        eliminatedWaveEnemies = 0;
 
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
@@ -274,16 +275,13 @@ public class WaveManager : MonoBehaviour
             for (int i = 0; i < upgradeStationInstances.Count; i++)
             {
                 tempOrderList.Add(i);
-                Debug.Log(i);
             }
 
-            Debug.Log("-");
             // Bag randomiser for spawn order, does not account for closed off areas due to barriers
             while (tempOrderList.Count > 0)
             {
                 int index = Random.Range(0, tempOrderList.Count);
                 upgradeStationSpawnOrder.Add(tempOrderList[index]);
-                Debug.Log(tempOrderList[index]);
                 tempOrderList.RemoveAt(index);
             }
 

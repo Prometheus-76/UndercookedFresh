@@ -15,7 +15,7 @@ public class UpgradeStationHUD : MonoBehaviour
     public Canvas upgradeStationCanvas;
     public GameObject blurEffect;
     public TextMeshProUGUI currentFibreText;
-    public static bool showUpgradeHUD;
+    public static bool showHUD;
 
     private PlayerStats playerStats;
 
@@ -95,16 +95,16 @@ public class UpgradeStationHUD : MonoBehaviour
     void Start()
     {
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-        showUpgradeHUD = false;
+        showHUD = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        upgradeStationCanvas.enabled = showUpgradeHUD;
-        blurEffect.SetActive(showUpgradeHUD);
+        upgradeStationCanvas.enabled = showHUD;
+        blurEffect.SetActive(showHUD);
 
-        if (showUpgradeHUD)
+        if (showHUD)
         {
             RefreshUI();
             currentFibreText.text = playerStats.currentFibre + " <size=60%>fibre<size=100%><voffset=5> |";
@@ -258,7 +258,7 @@ public class UpgradeStationHUD : MonoBehaviour
 
     public void CloseUpgradeStation()
     {
-        showUpgradeHUD = false;
+        showHUD = false;
         UserInterfaceHUD.showHUD = true;
 
         // Make the cursor invisible and stop it from leaving the window
