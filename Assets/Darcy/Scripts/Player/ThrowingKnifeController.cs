@@ -4,50 +4,95 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // Author: Darcy Matheson
-// Purpose: Controls the movement of the knife ultimate, as well as other aspects like player healing on kill
+// Purpose: Controls the movement of the knife ultimate, as well as its other attributes like healing on kill
 
 public class ThrowingKnifeController : MonoBehaviour
 {
-    public float moveSpeed;
-    public float spinSpeed;
+    #region Variables
 
-    public int maxDamage;
+    #region Internal
+
+    private Vector3 lastBouncePosition;
+    public static bool isAirborn { get; private set; }
     private int damageDealt;
-    public int maxBounces;
     private int bounceCount;
-    public float throwDuration;
     private float airtimeTimer;
-
-    private float bounceDuration;
     private float bounceTimer;
+    private float bounceDuration;
+    private float halfTargetHeight;
+    private float lingerTimer;
+    private bool isStowing;
+    private bool isDrawing;
+    private bool isStowed;
+    private bool isFullyDrawn;
+    private float switchTimer;
 
-    public float throwDetectionRadius;
-    public float bounceDetectionRadius;
+    #endregion
 
-    public float minimumThrowSimilarity;
+    #region Parameters
 
-    public int healthPercentRestorePerKill;
+    #region Lifetime
+    [Header("Lifetime")]
 
+    [Tooltip("The maximum total damage the knife can deal in one use before expiring."), Range(1000, 1000000)]
+    public int maxDamage = 100000;
+    [Tooltip("The maximum total bounces the knife can perform in one use before expiring."), Range(10, 30)]
+    public int maxBounces = 20;
+    [Tooltip("The maximum length of time the knife can fly for in one use before expiring."), Range(10f, 30f)]
+    public float lifetimeDuration = 20f;
+    [Tooltip("The maximum bounce distance between targets."), Range(20f, 70f)]
+    public float bounceDetectionRadius = 30f;
+    #endregion
+
+    #region Speed
+    [Header("Speed")]
+
+    [Tooltip("How quickly the knife moves through the air."), Range(20f, 50f)]
+    public float moveSpeed = 30f;
+    [Tooltip("How quickly the knife rotates while flying through the air."), Range(2f, 6f)]
+    public float spinSpeed = 4f;
+    #endregion
+
+    #region Other
+    [Header("Other")]
+
+    [Tooltip("The maximum distance the knife can lock on to a target when first thrown."), Range(20f, 50f)]
+    public float throwDetectionRadius = 50f;
+    [Tooltip("How closely you are required to aim at your throw target for a lock on."), Range(0.4f, 0.9f)]
+    public float minimumThrowSimilarity = 0.8f;
+    [Tooltip("The percentage of the player's full health which is restored with each knife kill."), Range(1, 10)]
+    public int healthPercentRestorePerKill = 5;
+    #endregion
+
+    #region Draw / Stow
+    [Header("Draw / Stow")]
+
+    public Vector3 stowedPosition; // Default: (0f, -0.5f, -0.5f)
+    [Tooltip("How long it takes to full draw/stow the knife."), Range(0.3f, 1f)]
+    public float switchDuration = 0.3f;
+    [Tooltip("How long the knife lingers to let the trail dissipate before returning to the player's hand."), Range(1f, 3f)]
+    public float lingerDuration = 1f;
+    #endregion
+
+    #region Configuration
+    [Header("Configuration")]
+
+    [Tooltip("The layers which should block bouncing line of sight for the knife.")]
     public LayerMask wallLayers;
+    [Tooltip("The layer which all enemies are on.")]
     public LayerMask enemyLayers;
+    #endregion
+
+    #endregion
+
+    #region Components
+    [Header("Components")]
 
     public Transform holderTransform;
     public Transform pivotTransform;
     public GameObject knifeModel;
     private Transform currentTargetTransform;
-    private float halfTargetHeight;
     private Enemy currentTargetEnemy;
-
-    public Vector3 stowedPosition;
-    private bool isStowing;
-    private bool isDrawing;
-    private bool isStowed;
-    private bool isFullyDrawn;
-    public float switchDuration;
-    private float switchTimer;    
-    
-    public float lingerDuration;
-    private float lingerTimer;
 
     public TrailRenderer bladeTrail;
     public TrailRenderer handleTrail;
@@ -56,14 +101,16 @@ public class ThrowingKnifeController : MonoBehaviour
     private Transform mainCameraTransform;
     private Transform preferredThrowPoint;
 
-    private Vector3 lastBouncePosition;
-
     private PlayerStats playerStats;
 
-    public static bool isAirborn { get; private set; }
+    #endregion
+
+    #endregion
 
     private void Start()
     {
+        #region Initialisation
+
         isAirborn = false;
         damageDealt = 0;
         bounceCount = 0;
@@ -78,6 +125,8 @@ public class ThrowingKnifeController : MonoBehaviour
         knifeModel.SetActive(false);
 
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+
+        #endregion
     }
 
     void Update()
@@ -237,7 +286,7 @@ public class ThrowingKnifeController : MonoBehaviour
         if (isAirborn)
         {
             // Spin animation
-            pivotTransform.localRotation = Quaternion.Euler(spinSpeed * 360f * (throwDuration - airtimeTimer), 0f, 0f);
+            pivotTransform.localRotation = Quaternion.Euler(spinSpeed * 360f * (lifetimeDuration - airtimeTimer), 0f, 0f);
 
             airtimeTimer -= Time.deltaTime;
 
@@ -386,7 +435,7 @@ public class ThrowingKnifeController : MonoBehaviour
         }
 
         holderTransform.SetParent(null);
-        airtimeTimer = throwDuration;
+        airtimeTimer = lifetimeDuration;
         damageDealt = 0;
         bounceCount = 0;
 

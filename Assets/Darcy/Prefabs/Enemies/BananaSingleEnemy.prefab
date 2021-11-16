@@ -1401,7 +1401,7 @@ MonoBehaviour:
     m_Bits: 8192
   damageNumberPrefab: {fileID: 7903019438563849025, guid: be912b294e711944cb482b96603e2847, type: 3}
   attackInterval: 1
-  attackRange: 1
+  attackRange: 2
 --- !u!1 &308722273669979692
 GameObject:
   m_ObjectHideFlags: 0

@@ -113,6 +113,7 @@ public class Enemy : MonoBehaviour
             // Draw damage numbers
             GameObject damageNumberInstance = Instantiate<GameObject>(damageNumberPrefab, damageNumberParentTransform);
             damageNumberInstance.GetComponent<DamageNumber>().SetupDamageNumber(damageTaken.ToString(), position, (damage == expectedDamage));
+            playerStats.damageDealt += damageTaken;
         }
 
         // If the enemy has died
@@ -152,6 +153,7 @@ public class Enemy : MonoBehaviour
 
         playerStats.AddScore(baseScoreValue);
         playerStats.AddFibre(baseFibreValue);
+        playerStats.enemiesKilled += 1;
 
         Destroy(gameObject, 0.5f);
     }

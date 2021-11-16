@@ -9,15 +9,21 @@ public class RemovableWall : InteractiveObject
 {
     public void Start()
     {
+        #region Initialisation
+
         base.Configure();
+
+        #endregion
     }
 
+    // Return the cost of interacting with this object
     public override int GetFibreCost()
     {
         // Calculate the cost with difficulty scaling here
         return baseCost;
     }
 
+    // Interact with the object and perform its function
     public override void Interact()
     {
         Destroy(gameObject);
