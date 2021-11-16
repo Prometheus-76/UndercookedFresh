@@ -7,40 +7,66 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    #region Variables
+
+    #region Internal
+
     public static float waveProgress;
     public static int waveNumber;
-
-    public LayerMask spawnerLayer;
-    public LayerMask environmentLayers;
-    public LayerMask enemyLayer;
-    public int minSpawnDistance;
-    public int maxSpawnDistance;
-    private List<Transform> validSpawnPoints;
-    private List<GameObject> waveEnemies;
-
+    public static bool gameStarted { get; private set; }
+    [HideInInspector]
+    public bool waveActive;
     public static int eliminatedWaveEnemies;
     private int waveEnemyCount;
+    private int currentWaveCost;
+    private float intermissionStartTime;
+    private float waveStartTime;
 
-    public GameObject[] enemyPrefabs;
+    private List<Transform> validSpawnPoints;
+    private List<GameObject> waveEnemies;
     private List<GameObject> upgradeStationInstances;
     private List<int> upgradeStationSpawnOrder;
     private int lastSpawnLocation;
 
+    #endregion
+
+    #region Parameters
+
+    #region Setup
+    [Header("Setup")]
+
+    public GameObject[] enemyPrefabs;
+    public LayerMask spawnerLayer;
+    public LayerMask environmentLayers;
+    public LayerMask enemyLayer;
+
+    #endregion
+
+    #region Configuration
+    [Header("Configuration")]
+
+    public int minSpawnDistance;
+    public int maxSpawnDistance;
+    public int timeBetweenWaves;
     public float budgetInstancePercentAllowed;
     public int waveSpawnBudget;
     public int spawnBudgetIncreasePerWave;
-    private int currentWaveCost;
 
-    public static bool gameStarted { get; private set; }
-    public bool waveActive;
-    public int timeBetweenWaves;
-    private float intermissionStartTime;
-    private float waveStartTime;
+    #endregion
+
+    #endregion
+
+    #region Components
+    [Header("Components")]
 
     public Transform enemyParent;
     private Transform playerTransform;
     private Transform mainCameraTransform;
     private PlayerStats playerStats;
+
+    #endregion
+
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +88,7 @@ public class WaveManager : MonoBehaviour
         waveEnemies = new List<GameObject>();
         waveEnemyCount = 1;
 
+        // Find all upgrade stations in the map
         lastSpawnLocation = -1;
         GameObject[] upgradeStations = GameObject.FindGameObjectsWithTag("UpgradeStation");
         foreach (GameObject station in upgradeStations)
@@ -69,10 +96,10 @@ public class WaveManager : MonoBehaviour
             upgradeStationInstances.Add(station);
         }
 
-        #endregion
-
         gameStarted = false;
         waveActive = false;
+
+        #endregion
     }
 
     // Update is called once per frame
@@ -84,6 +111,8 @@ public class WaveManager : MonoBehaviour
             {
                 UpdateSpawnPoints();
 
+                #region Constrict List
+
                 // Shrink list to fit all enemies that are currently alive
                 for (int i = 0; i < waveEnemies.Count; i++)
                 {
@@ -93,6 +122,10 @@ public class WaveManager : MonoBehaviour
                         i -= 1;
                     }
                 }
+
+                #endregion
+
+                #region Spawn Enemies
 
                 // If the wave is currently occurring and there is a valid place to spawn an enemy
                 if (waveEnemies.Count > 0 && validSpawnPoints.Count > 0)
@@ -118,14 +151,18 @@ public class WaveManager : MonoBehaviour
                         SpawnEnemy();
                     }
                 }
+
+                #endregion
             }
 
+            // If all enemies in the wave have been eliminated
             if (eliminatedWaveEnemies >= waveEnemyCount && waveActive)
             {
                 waveActive = false;
                 WaveEnded();
             }
 
+            // If the intermission period has ended
             if (waveActive == false && playerStats.currentRunTime >= waveStartTime)
             {
                 NewWave();
@@ -155,6 +192,7 @@ public class WaveManager : MonoBehaviour
         #endregion
     }
 
+    // Updates the list of currently available spawn points at this position and rotation relative to the player
     void UpdateSpawnPoints()
     {
         validSpawnPoints.Clear();
@@ -165,6 +203,8 @@ public class WaveManager : MonoBehaviour
         // Add valid spawners to list
         for (int i = 0; i < spawnPointColliders.Length; i++)
         {
+            #region Check Spawner Validity
+
             Vector3 spawnerPosition = spawnPointColliders[i].transform.position;
 
             // If the spawn point is outside the minimum range
@@ -182,22 +222,28 @@ public class WaveManager : MonoBehaviour
                     }
                 }
             }
+
+            #endregion
         }
     }
 
+    // Selects the enemies for the upcoming wave given a spawn budget
     void ChooseWaveEnemies()
     {
         int bananaCount = enemyPrefabs[0].GetComponent<BananaBunchEnemy>().bananaCount;
 
         currentWaveCost = 0;
         waveEnemyCount = 0;
-        waveEnemies.Clear();
         eliminatedWaveEnemies = 0;
+        waveEnemies.Clear();
 
+        // Until the limit of this wave has been reached
         while (currentWaveCost < waveSpawnBudget)
         {
             // Add random enemy to distributed spawn list and update budget
-            int enemyIndex = Random.Range(0, 6);
+            int enemyIndex = Random.Range(0, 5);
+
+            #region Enemy Choice Distribution
 
             // Convert weighted randomness to flat keyed indices (0 - banana, 1 - strawberry, 2 - onion)
             switch (enemyIndex)
@@ -209,18 +255,17 @@ public class WaveManager : MonoBehaviour
                     enemyIndex = 0;
                     break;
                 case 2:
-                    enemyIndex = 0;
+                    enemyIndex = 1;
                     break;
                 case 3:
                     enemyIndex = 1;
                     break;
                 case 4:
-                    enemyIndex = 1;
-                    break;
-                case 5:
                     enemyIndex = 2;
                     break;
             }
+
+            #endregion
 
             // Sum all enemies in this wave
             waveEnemyCount += (enemyIndex == 0) ? bananaCount + 1 : 1;
@@ -233,6 +278,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    // Enables and positions an enemy if there is one available
     void SpawnEnemy()
     {
         // If there are enemies available to spawn in this wave
@@ -254,6 +300,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    // Called when all enemies in a given wave have died
     void WaveEnded()
     {
         // Set intermission period
@@ -303,6 +350,7 @@ public class WaveManager : MonoBehaviour
         #endregion
     }
 
+    // Starts a new wave
     void NewWave()
     {
         // Turn all upgrade stations off
@@ -316,6 +364,7 @@ public class WaveManager : MonoBehaviour
         ChooseWaveEnemies();
     }
 
+    // Starts the cycle of recurring waves
     public void StartWaveCycle()
     {
         waveNumber = 0;

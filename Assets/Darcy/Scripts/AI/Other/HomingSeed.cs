@@ -7,28 +7,74 @@ using UnityEngine;
 
 public class HomingSeed : MonoBehaviour
 {
-    public float steeringSpeed;
-    public float movementSpeed;
-    public float hitboxRadius;
-    public float attackRadius;
-    public float homingMinDistance;
-    public float maxLifetime;
-    public float modelTwistSpeed;
+    #region Variables
+
+    #region Internal
 
     private float lifetimeTimer;
     private int contactDamage;
     private bool isDestroyed;
 
+    #endregion
+
+    #region Parameters
+
+    #region Configuration
+    [Header("Configuration")]
+
     public LayerMask environmentLayers;
     public LayerMask playerLayer;
 
+    #endregion
+
+    #region Speed
+    [Header("Speed")]
+
+    [Tooltip("How aggressively the seed turns towards the player while homing."), Range(1f, 10f)]
+    public float steeringSpeed = 3f;
+    [Tooltip("How quickly the seed moves forward."), Range(10f, 50f)]
+    public float movementSpeed = 20f;
+    [Tooltip("How quickly the seed twists as it flies (purely visual effect)."), Range(60f, 360f)]
+    public float modelTwistSpeed = 100f;
+
+    #endregion
+
+    #region Distance
+    [Header("Distance")]
+
+    [Tooltip("The radius of the seed's hitbox when checking for environmental collisions."), Range(0.1f, 0.5f)]
+    public float hitboxRadius = 0.2f;
+    [Tooltip("The radius of the seed's hitbox when checking for collision with the player (attack range)."), Range(0.3f, 1f)]
+    public float attackRadius = 0.5f;
+    [Tooltip("The minimum distance the seed must be from the player before it is allowed to turn towards them (prevents orbiting and unavoidable behaviours)."), Range(3f, 8f)]
+    public float homingMinDistance = 5f;
+
+    #endregion
+
+    #region Duration
+    [Header("Duration")]
+
+    [Tooltip("The lifetime of the seed, it expires after this time if it hasn't already collided with something."), Range(2f, 5f)]
+    public float maxLifetime = 2f;
+
+    #endregion
+
+    #endregion
+
+    #region Components
+    [Header("Components")]
+
+    public Transform modelPivotTransform;
     private Quaternion targetRotation;
     private Transform seedTransform;
-    public Transform modelPivotTransform;
     private Transform playerTransform;
     private CapsuleCollider playerCollider;
     private PlayerStats playerStats;
     public GameObject seedModel;
+
+    #endregion
+
+    #endregion
 
     // Update is called once per frame
     void Update()
@@ -103,6 +149,7 @@ public class HomingSeed : MonoBehaviour
         isDestroyed = false;
     }
 
+    // Destroys the seed, first setting the model to inactive, waiting for the trail to end, then destroying the object
     void DestroySeed()
     {
         if (isDestroyed == false)

@@ -5,10 +5,29 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+// Author: Darcy Matheson
+// Purpose: Controls the score screen UI displayed to the player after death, at the end of a run
+
 public class ScoreScreenHUD : MonoBehaviour
 {
+    #region Variables
+
+    #region Internal
+
+    public static bool showHUD;
+    private PlayerStats playerStats;
+    private SceneLoader sceneLoader;
+
+    #endregion
+
+    #region General
+
     public Canvas scoreScreenCanvas;
     public GameObject blurEffect;
+
+    #endregion
+
+    #region Stats
 
     public TextMeshProUGUI attemptsText;
     public TextMeshProUGUI timeAliveText;
@@ -18,16 +37,20 @@ public class ScoreScreenHUD : MonoBehaviour
     public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI highScoreText;
 
-    public static bool showHUD;
-    private PlayerStats playerStats;
-    private SceneLoader sceneLoader;
+    #endregion
+
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        #region Intialisation
+
         showHUD = false;
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         sceneLoader = GameObject.FindGameObjectWithTag("LoadingScreen").GetComponent<SceneLoader>();
+
+        #endregion
     }
 
     // Update is called once per frame
@@ -35,9 +58,6 @@ public class ScoreScreenHUD : MonoBehaviour
     {
         if (showHUD)
         {
-            // Update HUD details
-            attemptsText.text = "<b>Attempt</b>\n#<size=150%>" + playerStats.attemptCount;
-
             #region Format Time
 
             // The exact time minus the closest floored whole value
@@ -54,6 +74,10 @@ public class ScoreScreenHUD : MonoBehaviour
 
             #endregion
 
+            #region Display Stats
+
+            attemptsText.text = "<b>Attempt</b>\n#<size=150%>" + playerStats.attemptCount;
+
             timeAliveText.text = "<b>Time Alive:</b><size=130%> " + hours.ToString("D2") + ":" + minutes.ToString("D2") + ":" + seconds.ToString("D2") + "." + decimalSeconds.ToString("D2");
             wavesCompletedText.text = "<b>Waves Completed:</b><size=130%> " + (WaveManager.waveNumber - 1).ToString("N0");
             enemiesKilledText.text = "<b>Enemies Killed:</b><size=130%> " + playerStats.enemiesKilled.ToString("N0");
@@ -61,12 +85,16 @@ public class ScoreScreenHUD : MonoBehaviour
 
             finalScoreText.text = "<b>Final Score:</b><size=120%> " + playerStats.currentScore.ToString("N0");
             highScoreText.text = "<b>High Score:</b><size=120%> " + playerStats.highscore.ToString("N0") + (((int)playerStats.currentScore == playerStats.highscore) ? " (NEW BEST!)" : "");
+
+            #endregion
         }
 
+        // Set score screen on/off
         scoreScreenCanvas.enabled = showHUD;
         blurEffect.SetActive(showHUD);
     }
 
+    // Reload the current scene
     public void RestartStage()
     {
         sceneLoader.LoadSceneWithProgress(SceneManager.GetActiveScene().buildIndex);

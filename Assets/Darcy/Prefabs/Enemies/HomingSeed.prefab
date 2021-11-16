@@ -968,18 +968,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14b263d3ef5020469eab264b807fd0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steeringSpeed: 3
-  movementSpeed: 20
-  hitboxRadius: 0.1
-  attackRadius: 0.5
-  homingMinDistance: 5
-  maxLifetime: 2
-  modelTwistSpeed: 100
   environmentLayers:
     serializedVersion: 2
     m_Bits: 33024
   playerLayer:
     serializedVersion: 2
     m_Bits: 8192
+  steeringSpeed: 3
+  movementSpeed: 20
+  modelTwistSpeed: 100
+  hitboxRadius: 0.2
+  attackRadius: 0.5
+  homingMinDistance: 5
+  maxLifetime: 2
   modelPivotTransform: {fileID: 3979673730726419799}
   seedModel: {fileID: 7067208035147273297}

@@ -74,6 +74,8 @@ public class HealthBarUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        #region Initialisation
+
         canvasTransform = GetComponent<RectTransform>();
         mainCameraTransform = Camera.main.transform;
         enemyScript = canvasTransform.parent.GetComponent<Enemy>();
@@ -85,6 +87,8 @@ public class HealthBarUI : MonoBehaviour
 
         // Assign the enemy's name
         enemyNameText.text = enemyScript.enemyName;
+
+        #endregion
     }
 
     // Update is called once per frame

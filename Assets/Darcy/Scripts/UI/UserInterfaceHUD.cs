@@ -9,6 +9,8 @@ using TMPro;
 
 public class UserInterfaceHUD : MonoBehaviour
 {
+    #region Variables
+
     #region General 
     [Header("General")]
 
@@ -114,9 +116,13 @@ public class UserInterfaceHUD : MonoBehaviour
 
     #endregion
 
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
+        #region Initialisation
+
         reloadProgress = 0f;
         equippedWeapon = -1;
 
@@ -124,6 +130,8 @@ public class UserInterfaceHUD : MonoBehaviour
         colourCodeHealthBar = ColorUtility.ToHtmlStringRGBA(healthProgressImage.color);
 
         showHUD = true;
+
+        #endregion
     }
 
     // Update is called once per frame

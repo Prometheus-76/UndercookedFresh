@@ -7,19 +7,28 @@ using UnityEngine;
 
 public class UpgradeStation : InteractiveObject
 {
+    // Start is called before the first frame update
     public void Start()
     {
+        #region Initialisation
+
+        // Default upgrade station to being disabled
         isInteractable = false;
+
+        #endregion
     }
 
+    // Return the cost of interacting with this object
     public override int GetFibreCost()
     {
         // Calculate the cost with difficulty scaling here
         return baseCost;
     }
 
+    // Interact with the object and perform its function
     public override void Interact()
     {
+        // Pause the game and show the upgrade HUD
         PlayerStats.gamePaused = true;
         UpgradeStationHUD.showHUD = true;
         UserInterfaceHUD.showHUD = false;

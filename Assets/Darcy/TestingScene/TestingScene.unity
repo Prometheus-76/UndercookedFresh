@@ -6211,11 +6211,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f0d6ae7b0f5114e8ffd7f55e38b4ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteractable: 0
   baseCost: 0
   difficultyScaling: 0
   interactDuration: 0
   interactPrompt: Unlock Throwing Knife
-  isInteractable: 0
   unlockItem: 3
   weaponCoordinator: {fileID: 634716515}
 --- !u!135 &494440062
@@ -7350,11 +7350,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e31a09d3114b3640a265ec32135fbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteractable: 0
   baseCost: 0
   difficultyScaling: 0
   interactDuration: 0
   interactPrompt: Use Upgrade Station
-  isInteractable: 0
 --- !u!65 &573978249
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45943,11 +45943,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f0d6ae7b0f5114e8ffd7f55e38b4ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteractable: 0
   baseCost: 0
   difficultyScaling: 0
   interactDuration: 0
   interactPrompt: Unlock Pepper Shotgun
-  isInteractable: 0
   unlockItem: 2
   weaponCoordinator: {fileID: 634716515}
 --- !u!135 &824025435
@@ -63193,11 +63193,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f0d6ae7b0f5114e8ffd7f55e38b4ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteractable: 0
   baseCost: 0
   difficultyScaling: 0
   interactDuration: 0
   interactPrompt: Unlock A-Salt Rifle
-  isInteractable: 0
   unlockItem: 1
   weaponCoordinator: {fileID: 634716515}
 --- !u!135 &1137978425
@@ -67917,7 +67917,6 @@ MonoBehaviour:
   navigationScreen: {fileID: 1809493381}
   confirmationScreen: {fileID: 1698037026}
   sensitivitySlider: {fileID: 1413502723}
-  cameraController: {fileID: 1982720996}
 --- !u!114 &1501105262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69649,11 +69648,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f0d6ae7b0f5114e8ffd7f55e38b4ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteractable: 0
   baseCost: 0
   difficultyScaling: 0
   interactDuration: 0
   interactPrompt: Unlock Grapple Mod
-  isInteractable: 0
   unlockItem: 4
   weaponCoordinator: {fileID: 634716515}
 --- !u!135 &1753794173
@@ -71833,7 +71832,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-27542
+  m_Name: pb_Mesh-26014
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -72694,17 +72693,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3313231880126348067, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
   m_PrefabInstance: {fileID: 3313231880492667072}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1982720996 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3313231880126348068, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
-  m_PrefabInstance: {fileID: 3313231880492667072}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a008b2ec8390e44831313d25f0f866, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1992342950
 GameObject:
   m_ObjectHideFlags: 0
@@ -72872,11 +72860,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e31a09d3114b3640a265ec32135fbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteractable: 0
   baseCost: 0
   difficultyScaling: 0
   interactDuration: 0
   interactPrompt: Use Upgrade Station
-  isInteractable: 0
 --- !u!65 &1992385996
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74096,11 +74084,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e31a09d3114b3640a265ec32135fbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteractable: 0
   baseCost: 0
   difficultyScaling: 0
   interactDuration: 0
   interactPrompt: Use Upgrade Station
-  isInteractable: 0
 --- !u!65 &2042982938
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -75119,7 +75107,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2110191091}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1501105262}
+        m_TargetAssemblyTypeName: ScoreScreenHUD, Assembly-CSharp
+        m_MethodName: RestartStage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2110191091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75629,6 +75629,10 @@ PrefabInstance:
       propertyPath: gunControllers.Array.data[2]
       value: 
       objectReference: {fileID: 474163893}
+    - target: {fileID: 2234785439003819446, guid: 8e0573df933f44146ac95ac61539ebbc, type: 3}
+      propertyPath: environmentLayers.m_Bits
+      value: 33024
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e0573df933f44146ac95ac61539ebbc, type: 3}
 --- !u!1001 &2282653199331306823
@@ -75713,6 +75717,14 @@ PrefabInstance:
       propertyPath: damageNumberParentTransform
       value: 
       objectReference: {fileID: 608099993}
+    - target: {fileID: 3313231879954538544, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
+      propertyPath: lifetimeDuration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3313231879954538544, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
+      propertyPath: healthPercentRestorePerKill
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3313231880126348066, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
       propertyPath: m_Name
       value: CameraHolder

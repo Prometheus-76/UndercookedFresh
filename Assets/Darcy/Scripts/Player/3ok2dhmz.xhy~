@@ -48,34 +48,25 @@ public class PlayerStats : MonoBehaviour
     #region Health and Regeneration
     [Header("Health and Regeneration")]
 
-    [Tooltip("How much health the player starts off with."), Range(50, 200)]
-    public int baseHealth = 100;
-    [Tooltip("How much more health the player gains with each upgrade."), Range(1f, 2f)]
-    public float healthMultiplierPerLevel = 1.2f;
-    [Tooltip("How long the player must go without taking damage before health regeneration can begin."), Range(5f, 30f)]
-    public float timeBeforeRegeneration = 10f;
-    [Tooltip("How much health the player gains every second while regenerating."), Range(0.1f, 1f)]
-    public float percentRegenerationPerSecond = 1f;
-    [Tooltip("How much fibre each health point costs to restore."), Range(0.1f, 1f)]
-    public float fibrePerHealthPoint = 0.2f;
-    [Tooltip("How much the first health upgrade costs."), Range(10, 50)]
-    public int healthUpgradeCostBase = 30;
-    [Tooltip("How much more each health upgrade costs than the previous one."), Range(1f, 2f)]
-    public float healthUpgradeCostMultiplierPerLevel = 1.3f;
-    [Tooltip("The player must be above this percent health for one-shot protection to be active."), Range(70, 99)]
-    public int maxOneShotProtectionThreshold = 90;
-    [Tooltip("The current health percent the player will be set to when one-shot protection activates."), Range(5, 30)]
-    public int minOneShotProtectionThreshold = 10;
+    public int baseHealth;
+    public float healthMultiplierPerLevel;
+    public float timeBeforeRegeneration;
+    public float percentRegenerationPerSecond;
+    public float fibrePerHealthPoint;
+    public int healthUpgradeCostBase;
+    public float healthUpgradeCostMultiplierPerLevel;
+    public int maxOneShotProtectionThreshold;
+    public int minOneShotProtectionThreshold;
 
     #endregion
 
     #region Difficulty
     [Header("Difficulty")]
 
-    [Tooltip("How much the waves completed contributes to the increase of difficulty."), Range(0.1f, 2f)]
-    public float difficultyWaveFactor = 0.5f;
-    [Tooltip("How much the time duration contributes to the increase of difficulty."), Range(0.1f, 2f)]
-    public float difficultyTimeFactor = 0.25f;
+    [Tooltip("How much the waves completed contributes to the increase of difficulty."), Range(2f, 6f)]
+    public float difficultyWaveFactor = 1.05f;
+    [Tooltip("How much the waves completed contributes to the increase of difficulty."), Range(2f, 6f)]
+    public float difficultyTimeFactor = 0.025f;
 
     #endregion
 
@@ -400,8 +391,8 @@ public class PlayerStats : MonoBehaviour
     {
         if (currentRunTime >= 0f && WaveManager.waveNumber > 0)
         {
-            float waveDifficulty = ((float)WaveManager.waveNumber * difficultyWaveFactor);
-            float timeDifficulty = (currentRunTime * (difficultyTimeFactor / 60f));
+            float waveDifficulty = ((float)WaveManager.waveNumber / 2f);
+            float timeDifficulty = (currentRunTime / (60f * 3f));
 
             difficultyLevel = waveDifficulty + timeDifficulty;
         }

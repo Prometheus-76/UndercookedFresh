@@ -7,21 +7,55 @@ using UnityEngine;
 
 public class BananaBunchEnemy : Enemy
 {
-    public int bananaCount;
-    public GameObject bananaPrefab;
+    #region Variables
+
+    #region Internal 
+
+    private float attackTimer;
     private GameObject[] bananas;
 
-    public float attackInterval;
-    private float attackTimer;
-    public float attackRange;
+    #endregion
+
+    #region Parameters
+
+    #region Setup
+    [Header("Setup")]
+
+    public GameObject bananaPrefab;
+
+    #endregion
+
+    #region Behaviours
+    [Header("Behaviours")]
+
+    [Tooltip("How many bananas emerge from this enemy upon death."), Range(1, 5)]
+    public int bananaCount = 3;
+    [Tooltip("The time between attacking the player (in seconds)."), Range(1f, 5f)]
+    public float attackInterval = 2f;
+    [Tooltip("How close to the player this enemy must be before attacking."), Range(1f, 3f)]
+    public float attackRange = 2f;
+
+    #endregion
+
+    #endregion
+
+    #region Components
 
     private Transform enemyHolderTransform;
-    
+
+    #endregion
+
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
+        #region Initialisation
+
         base.Configure();
         enemyHolderTransform = enemyTransform.parent;
+
+        // Mini enemy frontloaded pool
         bananas = new GameObject[bananaCount];
         for (int i = 0; i < bananaCount; i++)
         {
@@ -29,6 +63,8 @@ public class BananaBunchEnemy : Enemy
             bananas[i] = Instantiate<GameObject>(bananaPrefab, enemyTransform.position, Quaternion.identity, enemyTransform);
             bananas[i].SetActive(false);
         }
+
+        #endregion
     }
 
     // Update is called once per frame
@@ -88,6 +124,7 @@ public class BananaBunchEnemy : Enemy
         }
     }
 
+    // Override the death and spawn several single banana enemies
     public override void Die()
     {
         // Spawn the children in and change their parent
@@ -97,6 +134,7 @@ public class BananaBunchEnemy : Enemy
             bananas[i].transform.parent = enemyHolderTransform;
         }
 
+        // Kill the parent
         base.Die();
     }
 }

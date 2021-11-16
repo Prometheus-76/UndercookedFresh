@@ -300,6 +300,7 @@ public class WeaponCoordinator : MonoBehaviour
         }
     }
 
+    // Unlocks the knife ability
     public void UnlockKnife()
     {
         knifeUnlocked = true;
