@@ -263,13 +263,13 @@ public class SettingsMenu : MonoBehaviour
     #endregion
 
     #region V-Sync
-
-    #endregion
     public void VSyncDropdownUpdate()
     {
         vSyncTarget = vSyncDropdown.value;
         PlayerPrefs.SetInt("VSync", vSyncTarget);
     }
+    #endregion
+
     #endregion
 
     #region Audio
@@ -367,11 +367,3 @@ public class SettingsMenu : MonoBehaviour
 
     #endregion
 }
-
-/*
-public void Update()
-{
-    Target = Dropdown.value;
-    PlayerPrefs.SetInt("", Target);
-}
-*/
