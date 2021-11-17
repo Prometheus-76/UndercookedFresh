@@ -15,34 +15,32 @@ public class SceneController : MonoBehaviour
     public int gameSceneNumber = 1;
 
     //Loads game scene
-    //private SceneLoader sceneLoader;
+    private SceneLoader sceneLoader;
 
     void Start()
     {
-       //sceneLoader = GameObject.FindGameObjectWithTag("LoadingSceen").GetComponent<SceneLoader>;
+       sceneLoader = GameObject.FindGameObjectWithTag("LoadingScreen").GetComponent<SceneLoader>();
     }
 
     //Go to title screen scene
     public void TitleScreenScene()
-    {
-        SceneManager.LoadScene(titleScreenSceneNumber);
-        //sceneLoader.LoadSceneWithProgress(titleScreenSceneNumber);
+    { 
+        sceneLoader.LoadSceneWithProgress(titleScreenSceneNumber);
     }
     //Go to game screen scene
     public void GameScene()
     {
-        SceneManager.LoadScene(gameSceneNumber);
-        //sceneLoader.LoadSceneWithProgress(gameSceneNumber);
+        sceneLoader.LoadSceneWithProgress(gameSceneNumber);
     }
     //Go to next scene
     public void NextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        sceneLoader.LoadSceneWithProgress(SceneManager.GetActiveScene().buildIndex + 1);
     }
     //Go to previous scene
     public void PreviousScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        sceneLoader.LoadSceneWithProgress(SceneManager.GetActiveScene().buildIndex - 1);
     }
     //Quit/Close game
     public void QuitGame()
