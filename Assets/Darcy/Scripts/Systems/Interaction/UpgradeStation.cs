@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Author: Darcy Matheson
 // Purpose: Interactive object that allows the player to interact, summoning the upgrade/refill menu
 
 public class UpgradeStation : InteractiveObject
 {
+    private GameObject displayIcon;
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -14,8 +17,14 @@ public class UpgradeStation : InteractiveObject
 
         // Default upgrade station to being disabled
         isInteractable = false;
+        displayIcon = transform.GetChild(0).gameObject;
 
         #endregion
+    }
+
+    private void Update()
+    {
+        displayIcon.SetActive(isInteractable);
     }
 
     // Return the cost of interacting with this object
