@@ -75,12 +75,10 @@ public class SettingsMenu : MonoBehaviour
     #endregion
 
     #region Audio
-    [Header("Audio")]
-    //Audio variables - General
 
     #region Audio Master
-    //AudioMaster - "AudioLevelMaster"
-    [Header("Master Audio Default Value"), Range(0, 10)]
+    [Header("Audio Master")]
+    [Tooltip("Master Audio Default Value"), Range(0, 10)]
     public int audioMasterTarget = 8;
     [Tooltip("Slider For Master Audio")]
     public Slider audioMasterSlider;
@@ -89,8 +87,8 @@ public class SettingsMenu : MonoBehaviour
     #endregion
 
     #region Audio Music
-    //AudioMusic - "AudioLevelMusic"
-    [Header("Music Audio Default Value"), Range(0, 10)]
+    [Header("Audio Music")]
+    [Tooltip("Music Audio Default Value"), Range(0, 10)]
     public int audioMusicTarget = 10;
     [Tooltip("Slider For Music Audio")]
     public Slider audioMusicSlider;
@@ -99,8 +97,8 @@ public class SettingsMenu : MonoBehaviour
     #endregion
 
     #region Audio Sfx
-    //AudioSfx - "AudioSfx"
-    [Header("Sfx Audio Default Value"), Range(0, 10)]
+    [Header("Audio SFX")]
+    [Tooltip("Sfx Audio Default Value"), Range(0, 10)]
     public int audioSfxTarget = 10;
     [Tooltip("Slider For Sfx Audio")]
     public Slider audioSfxSlider;
@@ -115,7 +113,7 @@ public class SettingsMenu : MonoBehaviour
     #region Mouse Sensitivity
     [Header("Mouse Sensitivity")]
     //Mouse Sensitivity Variables - "MouseSensitivity"
-    [Tooltip("Mouse Sensitivity Default Value"), Range(0f, 10f)]
+    [Tooltip("Mouse Sensitivity Default Value")]
     public float mouseSensitivityTarget = 3f;
     [Tooltip("Slider For Mouse Sensitivity")]
     public Slider mouseSensitivitySlider;
@@ -161,23 +159,26 @@ public class SettingsMenu : MonoBehaviour
         #region Video
 
         #region Framerate
-        fpsTarget = PlayerPrefs.GetInt("RefreshRate", fpsTarget);
-        fpsDropdown.value = (fpsTarget);
+        //fpsTarget = PlayerPrefs.GetInt("RefreshRate", fpsTarget);
+        //fpsDropdown.value = fpsTarget;
         #endregion
 
         #region Window Mode
-        windowModeTarget = PlayerPrefs.GetInt("VSync", windowModeTarget);
+        windowModeTarget = PlayerPrefs.GetInt("WindowMode", windowModeTarget);
         windowModeDropdown.value = windowModeTarget;
+        windowModeDropdown.RefreshShownValue();
         #endregion
 
         #region Resolution
-        resolutionTarget = PlayerPrefs.GetInt("VSync", resolutionTarget);
+        resolutionTarget = PlayerPrefs.GetInt("Resolution", resolutionTarget);
         resolutionDropdown.value = resolutionTarget;
+        resolutionDropdown.RefreshShownValue();
         #endregion
 
         #region V-Sync
         vSyncTarget = PlayerPrefs.GetInt("VSync", vSyncTarget);
         vSyncDropdown.value = vSyncTarget;
+        vSyncDropdown.RefreshShownValue();
         #endregion
 
         #endregion
@@ -219,12 +220,12 @@ public class SettingsMenu : MonoBehaviour
         #endregion
 
         #region Head Bob
-        headbobTarget = PlayerPrefs.GetInt("UseHeadBob", headbobTarget);
+        headbobTarget = PlayerPrefs.GetInt("HeadBob", headbobTarget);
         headbobDropdown.value = headbobTarget;
         #endregion
 
         #region Crouch Toggle
-        crouchToggleTarget = PlayerPrefs.GetInt("Toggle");
+        crouchToggleTarget = PlayerPrefs.GetInt("CrouchToggle", crouchToggleTarget);
         crouchToggleDropdown.value = crouchToggleTarget;
         #endregion
 
@@ -284,7 +285,7 @@ public class SettingsMenu : MonoBehaviour
     }
     private void AudioMasterTextUpdate()
     {
-        audioMasterTMPText.text = audioMasterTarget.ToString();
+        //audioMasterTMPText.text = audioMasterTarget.ToString();
     }
     #endregion
 
@@ -298,7 +299,7 @@ public class SettingsMenu : MonoBehaviour
     }
     private void AudioMusicTextUpdate()
     {
-        audioMusicTMPText.text = audioMusicTarget.ToString();
+        //audioMusicTMPText.text = audioMusicTarget.ToString();
     }
     #endregion
 
@@ -312,7 +313,7 @@ public class SettingsMenu : MonoBehaviour
     }
     private void AudioSfxTextUpdate()
     {
-        audioSfxTMPText.text = audioSfxTarget.ToString();
+        //audioSfxTMPText.text = audioSfxTarget.ToString();
     }
     #endregion
 
@@ -321,7 +322,6 @@ public class SettingsMenu : MonoBehaviour
     #region Game
 
     #region Mouse Sensitivity
-    //Mouse Sensitivity
     public void MouseSensitivitySliderUpdate()
     {
         mouseSensitivityTarget = Mathf.Round(mouseSensitivitySlider.value * 10f) / 10f;
@@ -330,7 +330,7 @@ public class SettingsMenu : MonoBehaviour
     }
     private void MouseSensitivityTextUpdate()
     {
-        mouseSensitivityTMPText.text = mouseSensitivityTarget.ToString();
+        //mouseSensitivityTMPText.text = mouseSensitivityTarget.ToString();
     }
     #endregion
 
@@ -343,7 +343,7 @@ public class SettingsMenu : MonoBehaviour
     }
     public void ScreenshakeTextUpdate()
     {
-        screenshakeTMPText.text = mouseSensitivityTarget.ToString();
+        //screenshakeTMPText.text = mouseSensitivityTarget.ToString();
     }
     #endregion
 
@@ -356,7 +356,7 @@ public class SettingsMenu : MonoBehaviour
     #endregion
 
     #region Crouch Toggle
-    public void Update()
+    public void CrouchToggleDropdownUpdate()
     {
         crouchToggleTarget = crouchToggleDropdown.value;
         PlayerPrefs.SetInt("CrouchToggle", crouchToggleTarget);
