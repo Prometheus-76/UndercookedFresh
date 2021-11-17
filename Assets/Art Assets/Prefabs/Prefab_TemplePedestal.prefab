@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 296195030424102856}
   - component: {fileID: 2592028871389532930}
   m_Layer: 0
-  m_Name: Object_TemplePedestal
+  m_Name: Prefab_TemplePedestal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ebebda826d07a82458dc1a97367ffd5a, type: 2}
+  - {fileID: 2100000, guid: 1d7fb9df7f7af064eb9dde8c65802b58, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

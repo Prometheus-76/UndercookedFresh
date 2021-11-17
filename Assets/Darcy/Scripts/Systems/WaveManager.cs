@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // Author: Darcy Matheson
 // Purpose: Responsible for spawning and tracking enemies and kills, as well as the spawn budget
@@ -272,7 +273,7 @@ public class WaveManager : MonoBehaviour
             currentWaveCost += enemyPrefabs[enemyIndex].GetComponent<Enemy>().spawnCost;
 
             // Spawn enemy, disable it and add to the list
-            GameObject enemyInstance = Instantiate<GameObject>(enemyPrefabs[enemyIndex], Vector3.zero, Quaternion.identity, enemyParent);
+            GameObject enemyInstance = Instantiate<GameObject>(enemyPrefabs[enemyIndex], new Vector3(90f, 6f, 88f), Quaternion.identity, enemyParent);
             waveEnemies.Add(enemyInstance);
             enemyInstance.SetActive(false);
         }
@@ -292,8 +293,13 @@ public class WaveManager : MonoBehaviour
                 if (waveEnemies[i].activeInHierarchy == false)
                 {
                     // Spawn the enemy
-                    waveEnemies[i].transform.position = validSpawnPoints[spawnPoint].position;
-                    waveEnemies[i].SetActive(true);
+                    //waveEnemies[i].transform.position = validSpawnPoints[spawnPoint].position;
+                    //NavMeshAgent agent = waveEnemies[i].gameObject.GetComponent<NavMeshAgent>();
+                    if (NavMesh.SamplePosition(validSpawnPoints[spawnPoint].position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+                    {
+                        waveEnemies[i].transform.position = hit.position;
+                        waveEnemies[i].SetActive(true);
+                    }
                     break;
                 }
             }
