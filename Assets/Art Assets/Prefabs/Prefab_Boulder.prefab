@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3467074452784833706}
   - component: {fileID: 1727537901752979552}
   m_Layer: 0
-  m_Name: Object_Boulder
+  m_Name: Prefab_Boulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +39,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 934935497571905973}
-  m_Mesh: {fileID: 4296510867945101175, guid: 63aeb11e55c46254bb277dfe6a62c87a, type: 3}
+  m_Mesh: {fileID: 4296510867945101175, guid: 4f25c3d0cfb86de4e96aa5b8ee294381, type: 3}
 --- !u!23 &1727537901752979552
 MeshRenderer:
   m_ObjectHideFlags: 0
