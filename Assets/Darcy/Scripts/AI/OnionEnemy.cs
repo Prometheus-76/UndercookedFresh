@@ -8,28 +8,70 @@ using UnityEngine.AI;
 
 public class OnionEnemy : Enemy
 {
+    #region Variables
+
+    #region Internal
+
     private NavMeshPath pathToPlayer;
-
-    public float chargeRange;
-    public float chargeSpeed;
-    public float chargeDuration;
     private float chargeTimer;
-    public float chargeTurningSpeed;
-    private Quaternion targetRotation;
-
-    public float stunDuration;
     private float stunTimer;
-
-    public float windupTurningSpeed;
-    public float windupDuration;
     private float windupTimer;
-
-    public int outerLayerDefense;
-    public int innerLayerDefense;
-    public int outerLayerPercentage;
-    public int innerLayerPercentage;
-
+    private Quaternion targetRotation;
     private int currentLayer;
+
+    #endregion
+
+    #region Parameters
+
+    #region Distance
+    [Header("Distance")]
+
+    [Tooltip("How far away the onion can begin charging at the player."), Range(20f, 60f)]
+    public float chargeRange = 60f;
+
+    #endregion
+
+    #region Duration
+    [Header("Duration")]
+
+    [Tooltip("How long the onion charges at the player for before stopping."), Range(2f, 10f)]
+    public float chargeDuration = 3f;
+    [Tooltip("How long the onion is stunned for after running into a wall."), Range(1f, 5f)]
+    public float stunDuration = 3f;
+    [Tooltip("How long it takes for the onion to begin a charge while winding up."), Range(1f, 3f)]
+    public float windupDuration = 2f;
+
+    #endregion
+
+    #region Speed
+    [Header("Speed")]
+
+    [Tooltip("How fast the onion moves while charging at the player."), Range(10f, 30f)]
+    public float chargeSpeed = 20f;
+    [Tooltip("How fast the onion turns towards the player while charging."), Range(0.2f, 1f)]
+    public float chargeTurningSpeed = 0.5f;
+    [Tooltip("How fast the onion aims at the player while winding up."), Range(1f, 5f)]
+    public float windupTurningSpeed = 3f;
+
+    #endregion
+
+    #region Armour
+    [Header("Armour")]
+
+    [Tooltip("How much damage is negated by the outer layer of armour."), Range(50, 90)]
+    public int outerLayerDefense = 60;
+    [Tooltip("How much damage is negated by the inner layer of armour."), Range(30, 50)]
+    public int innerLayerDefense = 40;
+    [Tooltip("Where on the health bar the outer layer of armour starts on the enemy."), Range(70, 90)]
+    public int outerLayerPercentage = 80;
+    [Tooltip("Where on the health bar the inner layer of armour starts on the enemy."), Range(20, 60)]
+    public int innerLayerPercentage = 50;
+
+    #endregion
+
+    #endregion
+
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +84,7 @@ public class OnionEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth > 0 && isBurrowing == false)
+        if (currentHealth > 0 && isBurrowing == false && PlayerStats.isAlive)
         {
             // Calculate absolute and walking distances between enemy and player
             float absoluteDistanceToPlayer = Vector3.Distance(playerTransform.position, enemyTransform.position);
@@ -215,6 +257,14 @@ public class OnionEnemy : Enemy
             #endregion
 
             #endregion
+        }
+        else
+        {
+            if (enemyAgent.enabled)
+            {
+                enemyAgent.ResetPath();
+                enemyAgent.isStopped = true;
+            }
         }
     }
 

@@ -9,13 +9,15 @@ using TMPro;
 
 public class UpgradeStationHUD : MonoBehaviour
 {
+    #region Variables
+
     #region General
     [Header("General")]
 
     public Canvas upgradeStationCanvas;
     public GameObject blurEffect;
     public TextMeshProUGUI currentFibreText;
-    public static bool showUpgradeHUD;
+    public static bool showHUD;
 
     private PlayerStats playerStats;
 
@@ -91,22 +93,31 @@ public class UpgradeStationHUD : MonoBehaviour
 
     #endregion
 
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
+        #region Initialisation
+
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-        showUpgradeHUD = false;
+        showHUD = false;
+
+        #endregion
     }
 
     // Update is called once per frame
     void Update()
     {
-        upgradeStationCanvas.enabled = showUpgradeHUD;
-        blurEffect.SetActive(showUpgradeHUD);
+        // Turn on/off effect
+        upgradeStationCanvas.enabled = showHUD;
+        blurEffect.SetActive(showHUD);
 
-        if (showUpgradeHUD)
+        if (showHUD)
         {
             RefreshUI();
+
+            // Display the player's current fibre
             currentFibreText.text = playerStats.currentFibre + " <size=60%>fibre<size=100%><voffset=5> |";
 
             #region Health
@@ -172,12 +183,19 @@ public class UpgradeStationHUD : MonoBehaviour
         }
     }
 
+    // Calculate all required values for fibre cost, upgrades and current stats
     public void RefreshUI()
     {
+        #region Health
+
         currentHealth = playerStats.currentHealth;
         maxHealth = playerStats.maxHealth;
         newMaxHealth = playerStats.CalculateHealthUpgrade();
         healthUpgradeCost = playerStats.CalculateHealthUpgradeCost();
+
+        #endregion
+
+        #region Pepper Shotgun
 
         pepperShotgunCurrentDamage = pepperShotgunController.scaledDamagePerBullet;
         pepperShotgunNextDamage = pepperShotgunController.CalculateUpgradeDamage();
@@ -188,6 +206,10 @@ public class UpgradeStationHUD : MonoBehaviour
         pepperShotgunRefillCost = Mathf.CeilToInt((pepperShotgunMaxAmmo - pepperShotgunCurrentAmmo) * pepperShotgunController.costPerBullet);
         pepperShotgunRefillCost += Mathf.CeilToInt(pepperShotgunRefillCost * (playerStats.difficultyLevel / 5f));
 
+        #endregion
+
+        #region A-Salt Rifle
+
         aSaltRifleCurrentDamage = aSaltRifleController.scaledDamagePerBullet;
         aSaltRifleNextDamage = aSaltRifleController.CalculateUpgradeDamage();
         aSaltRifleLevel = aSaltRifleController.gunUpgradeLevel;
@@ -197,14 +219,22 @@ public class UpgradeStationHUD : MonoBehaviour
         aSaltRifleRefillCost = Mathf.CeilToInt(Mathf.CeilToInt((aSaltRifleMaxAmmo - aSaltRifleCurrentAmmo) * aSaltRifleController.costPerBullet));
         aSaltRifleRefillCost += Mathf.CeilToInt(aSaltRifleRefillCost * (playerStats.difficultyLevel / 5f));
 
+        #endregion
+
+        #region Microwave Gun
+
         microwaveGunCurrentDamage = microwaveGunController.scaledDamagePerBullet;
         microwaveGunNextDamage = microwaveGunController.CalculateUpgradeDamage();
         microwaveGunLevel = microwaveGunController.gunUpgradeLevel;
         microwaveGunUpgradeCost = microwaveGunController.CalculateWeaponUpgradeCost();
+
+        #endregion
     }
 
+    // Return weapon ammo to full and subtract equivalent fibre 
     public void RefillAmmo(int weaponIndex)
     {
+        // Determine weapon script and the cost of refilling this weapon
         GunController weaponScript = null;
         int ammoCost = 0;
         switch (weaponIndex)
@@ -235,6 +265,7 @@ public class UpgradeStationHUD : MonoBehaviour
         }
     }
 
+    // Return health to full and subtract equivalent fibre 
     public void RefillHealth()
     {
         int missingHealth = 0;
@@ -258,11 +289,12 @@ public class UpgradeStationHUD : MonoBehaviour
 
     public void CloseUpgradeStation()
     {
-        showUpgradeHUD = false;
+        // Resume normal gameplay
+        showHUD = false;
         UserInterfaceHUD.showHUD = true;
+        PlayerStats.gamePaused = false;
 
         // Make the cursor invisible and stop it from leaving the window
         Cursor.lockState = CursorLockMode.Locked;
-        PlayerStats.gamePaused = false;
     }
 }

@@ -7,6 +7,10 @@ using UnityEngine;
 
 public class UnlockItem : InteractiveObject
 {
+    #region Variables
+
+    #region Internal
+
     public enum ItemType
     {
         MicrowaveGun,
@@ -16,27 +20,50 @@ public class UnlockItem : InteractiveObject
         GrappleAbility
     }
 
+    #endregion
+
+    #region Configuration
+    [Header("Configuration")]
+
     public ItemType unlockItem;
+
+    #endregion
+
+    #region Components
+    [Header("Components")]
+
     public WeaponCoordinator weaponCoordinator;
     private Movement playerMovement;
     private WaveManager waveManager;
 
+    #endregion
+
+    #endregion
+
     private void Start()
     {
+        #region Initialisation
+
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
         waveManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<WaveManager>();
 
         base.Configure();
+
+        #endregion
     }
 
+    // Return the cost of interacting with this object
     public override int GetFibreCost()
     {
         // Calculate the cost with difficulty scaling here
         return baseCost;
     }
 
+    // Interact with the object and perform its function
     public override void Interact()
     {
+        #region Unlock Item Type
+
         switch (unlockItem)
         {
             case ItemType.MicrowaveGun:
@@ -56,6 +83,8 @@ public class UnlockItem : InteractiveObject
                 playerMovement.UnlockGrapple();
                 break;
         }
+
+        #endregion
 
         Destroy(gameObject);
     }

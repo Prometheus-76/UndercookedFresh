@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 // Author: Darcy Matheson
 // Purpose: Controls the pause menu HUD, including saving and loading the mouse sensitivity from memory (PlayerPrefs)
 
 public class PauseMenuHUD : MonoBehaviour
 {
+    #region Variables
+
+    #region Internal
+
     private enum NavigationAction
     {
         None,
@@ -17,6 +22,11 @@ public class PauseMenuHUD : MonoBehaviour
     }
 
     private NavigationAction desiredAction;
+    public static bool showHUD;
+
+    #endregion
+
+    #region General
 
     public Canvas pauseMenuCanvas;
     public GameObject blurEffect;
@@ -26,37 +36,53 @@ public class PauseMenuHUD : MonoBehaviour
 
     public Slider sensitivitySlider;
 
-    public CameraController cameraController;
+    private CameraController cameraController;
+    private SceneLoader sceneLoader;
+
+    #endregion
+
+    #endregion
 
     void Start()
     {
-        // Display the saved sensitivity value on the slider, defaulting to 3.0
-        sensitivitySlider.value = Mathf.RoundToInt(PlayerPrefs.GetFloat("MouseSensitivity", 3f) * 10f);
-        
+        #region Initialisation
+
         desiredAction = NavigationAction.None;
+        cameraController = Camera.main.transform.parent.GetComponent<CameraController>();
+        sceneLoader = GameObject.FindGameObjectWithTag("LoadingScreen").GetComponent<SceneLoader>();
+        showHUD = false;
+
+        // Display the saved sensitivity value on the slider, defaulting to 3.0
+        sensitivitySlider.value = Mathf.CeilToInt(PlayerPrefs.GetFloat("MouseSensitivity", 3f) * 10f);
+
+        #endregion
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Pauses the game when escape is pressed
-        if (UpgradeStationHUD.showUpgradeHUD == false)
+        // Only allow access to the pause menu when the player is alive and not in the upgrade station
+        if (UpgradeStationHUD.showHUD == false && PlayerStats.isAlive)
         {
+            // Pauses the game when escape is pressed
             if (Input.GetKeyDown(KeyCode.Escape) && PlayerStats.gamePaused == false)
             {
                 // Change paused state
                 PlayerStats.gamePaused = true;
+                showHUD = true;
             }
 
             // Adjust game behaviour accordingly
             Time.timeScale = (PlayerStats.gamePaused) ? 0f : 1f;
-            pauseMenuCanvas.enabled = PlayerStats.gamePaused;
             UserInterfaceHUD.showHUD = !PlayerStats.gamePaused;
             Cursor.lockState = (PlayerStats.gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
             blurEffect.SetActive(PlayerStats.gamePaused);
         }
+
+        pauseMenuCanvas.enabled = showHUD;
     }
 
+    // Resume the game and close the pause menu
     public void Resume()
     {
         PlayerStats.gamePaused = false;
@@ -66,8 +92,12 @@ public class PauseMenuHUD : MonoBehaviour
         pauseMenuCanvas.enabled = PlayerStats.gamePaused;
         UserInterfaceHUD.showHUD = !PlayerStats.gamePaused;
         Cursor.lockState = (PlayerStats.gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
+        showHUD = false;
     }
 
+    #region Navigation Buttons
+
+    // Select restart option and navigate to confirmation menu
     public void AttemptRestartStage()
     {
         desiredAction = NavigationAction.RestartRun;
@@ -76,6 +106,7 @@ public class PauseMenuHUD : MonoBehaviour
         confirmationScreen.SetActive(true);
     }
 
+    // Select return to menu option and navigate to confirmation menu
     public void AttemptReturnToMenu()
     {
         desiredAction = NavigationAction.ExitToMenu;
@@ -84,6 +115,7 @@ public class PauseMenuHUD : MonoBehaviour
         confirmationScreen.SetActive(true);
     }
 
+    // Select quit option and navigate to confirmation menu
     public void AttemptQuit()
     {
         desiredAction = NavigationAction.QuitGame;
@@ -92,17 +124,14 @@ public class PauseMenuHUD : MonoBehaviour
         confirmationScreen.SetActive(true);
     }
 
-    // Called on Slider.ValueChanged()
-    public void UpdateSensitivity()
-    {
-        // Update the mouse sensitivity
-        cameraController.mouseSensitivity = sensitivitySlider.value / 10f;
-        PlayerPrefs.SetFloat("MouseSensitivity", sensitivitySlider.value / 10f);
-    }
+    #endregion
 
-    // When the player presses the confirm button
+    #region Action Validation
+
+    // Called when the player selects "Yes" in the confirmation screen of the pause menu
     public void ConfirmAction()
     {
+        // Based on previous selection, perform action chosen
         switch (desiredAction)
         {
             case NavigationAction.RestartRun:
@@ -117,26 +146,44 @@ public class PauseMenuHUD : MonoBehaviour
         }
     }
 
+    // Called when the player selects "No" in the confirmation screen of the pause menu
     public void DenyAction()
     {
+        // Return to pause menu origin
         desiredAction = NavigationAction.None;
         navigationScreen.SetActive(true);
         confirmationScreen.SetActive(false);
     }
 
+    #endregion
+
+    #region Perform Action
+
+    // Reload the current scene
     private void RestartStage()
     {
-        Debug.Log("Restarting...");
+        sceneLoader.LoadSceneWithProgress(SceneManager.GetActiveScene().buildIndex);
     }
 
+    // Return to the main menu
     private void ReturnToMenu()
     {
-        Debug.Log("Returning to menu...");
+
     }
 
+    // Close the game
     private void Quit()
     {
-        Debug.Log("Quitting...");
         Application.Quit();
+    }
+
+    #endregion
+
+    // Called on Slider.ValueChanged()
+    public void UpdateSensitivity()
+    {
+        // Update the mouse sensitivity
+        cameraController.mouseSensitivity = sensitivitySlider.value / 10f;
+        PlayerPrefs.SetFloat("MouseSensitivity", sensitivitySlider.value / 10f);
     }
 }

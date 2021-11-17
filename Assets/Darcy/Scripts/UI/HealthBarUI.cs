@@ -74,6 +74,8 @@ public class HealthBarUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        #region Initialisation
+
         canvasTransform = GetComponent<RectTransform>();
         mainCameraTransform = Camera.main.transform;
         enemyScript = canvasTransform.parent.GetComponent<Enemy>();
@@ -85,6 +87,8 @@ public class HealthBarUI : MonoBehaviour
 
         // Assign the enemy's name
         enemyNameText.text = enemyScript.enemyName;
+
+        #endregion
     }
 
     // Update is called once per frame
@@ -141,10 +145,10 @@ public class HealthBarUI : MonoBehaviour
 
         #endregion
 
-        #region Fade All Grapple UI
+        #region Fade All Health Bar UI
 
         // Fade in/out based on various factors
-        if (Physics.Linecast(mainCameraTransform.position, canvasTransform.position, enemyScript.environmentLayers) == false && (damageLingerTimer > 0f || cameraForwardSimilarity >= minimumLookSimilarity) && enemyScript.currentHealth > 0)
+        if (Physics.Linecast(mainCameraTransform.position, canvasTransform.position, enemyScript.environmentLayers) == false && (damageLingerTimer > 0f || cameraForwardSimilarity >= minimumLookSimilarity) && enemyScript.currentHealth > 0 && PlayerStats.isAlive)
         {
             overallAlphaMultiplier += (Time.deltaTime / overallFadeTime);
         }

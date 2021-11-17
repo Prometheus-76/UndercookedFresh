@@ -6,6 +6,9 @@ TagManager:
   tags:
   - DamageNumberParent
   - Enemy
+  - UpgradeStation
+  - LoadingScreen
+  - EVIL
   layers:
   - Default
   - TransparentFX
@@ -23,7 +26,7 @@ TagManager:
   - Player
   - SpawnPoint
   - Environment
-  - 
+  - Interactive
   - 
   - 
   - 
