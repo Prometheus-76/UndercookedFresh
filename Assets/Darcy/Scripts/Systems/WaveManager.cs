@@ -18,7 +18,7 @@ public class WaveManager : MonoBehaviour
     [HideInInspector]
     public bool waveActive;
     public static int eliminatedWaveEnemies;
-    private int waveEnemyCount;
+    public static int waveEnemyCount { get; private set; }
     private int currentWaveCost;
     private float intermissionStartTime;
     private float waveStartTime;
@@ -76,6 +76,7 @@ public class WaveManager : MonoBehaviour
         waveNumber = 0;
         gameStarted = false;
         eliminatedWaveEnemies = 0;
+        waveEnemyCount = 1;
     }
 
     // Start is called before the first frame update
@@ -92,7 +93,6 @@ public class WaveManager : MonoBehaviour
 
         validSpawnPoints = new List<Transform>();
         waveEnemies = new List<GameObject>();
-        waveEnemyCount = 1;
 
         // Find all upgrade stations in the map
         lastSpawnLocation = -1;
@@ -297,13 +297,13 @@ public class WaveManager : MonoBehaviour
                 if (waveEnemies[i].activeInHierarchy == false)
                 {
                     // Spawn the enemy
-                    //waveEnemies[i].transform.position = validSpawnPoints[spawnPoint].position;
-                    //NavMeshAgent agent = waveEnemies[i].gameObject.GetComponent<NavMeshAgent>();
                     if (NavMesh.SamplePosition(validSpawnPoints[spawnPoint].position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
                     {
                         waveEnemies[i].transform.position = hit.position;
+                        waveEnemies[i].GetComponent<Enemy>().isBurrowing = false;
                         waveEnemies[i].SetActive(true);
                     }
+
                     break;
                 }
             }

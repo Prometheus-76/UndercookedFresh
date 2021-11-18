@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UpgradeStation : InteractiveObject
 {
-    private GameObject displayIcon;
+    private WaypointUI waypointScript;
 
     // Start is called before the first frame update
     public void Start()
@@ -17,14 +17,14 @@ public class UpgradeStation : InteractiveObject
 
         // Default upgrade station to being disabled
         isInteractable = false;
-        displayIcon = transform.GetChild(0).gameObject;
+        waypointScript = GetComponentInChildren<WaypointUI>();
 
         #endregion
     }
 
     private void Update()
     {
-        displayIcon.SetActive(isInteractable);
+        waypointScript.isActivated = isInteractable;
     }
 
     // Return the cost of interacting with this object

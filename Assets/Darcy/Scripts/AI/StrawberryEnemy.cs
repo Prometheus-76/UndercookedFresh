@@ -60,6 +60,11 @@ public class StrawberryEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
+        if (currentHealth > 0)
+        {
+            base.CheckDistanceValidity();
+        }
+
         if (currentHealth > 0 && isBurrowing == false && PlayerStats.isAlive)
         {
             // Calculate absolute and walking distances between enemy and player

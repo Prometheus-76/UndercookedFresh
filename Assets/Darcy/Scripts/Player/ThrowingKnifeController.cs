@@ -14,10 +14,10 @@ public class ThrowingKnifeController : MonoBehaviour
 
     private Vector3 lastBouncePosition;
     public static bool isAirborn { get; private set; }
-    private int damageDealt;
+    public static int maxBounces;
     private int bounceCount;
-    private float airtimeTimer;
     private float bounceTimer;
+    private float airtimeTimer;
     private float bounceDuration;
     private float halfTargetHeight;
     private float lingerTimer;
@@ -34,12 +34,8 @@ public class ThrowingKnifeController : MonoBehaviour
     #region Lifetime
     [Header("Lifetime")]
 
-    [Tooltip("The maximum total damage the knife can deal in one use before expiring."), Range(1000, 1000000)]
-    public int maxDamage = 100000;
-    [Tooltip("The maximum total bounces the knife can perform in one use before expiring."), Range(10, 30)]
-    public int maxBounces = 20;
-    [Tooltip("The maximum length of time the knife can fly for in one use before expiring."), Range(10f, 30f)]
-    public float lifetimeDuration = 20f;
+    [Tooltip("The maximum number of enemies in the wave the knife is able to eliminate (scales with wave size)."), Range(0f, 1f)]
+    public float waveKillPotential = 0.3f;
     [Tooltip("The maximum bounce distance between targets."), Range(20f, 70f)]
     public float bounceDetectionRadius = 30f;
     #endregion
@@ -111,13 +107,13 @@ public class ThrowingKnifeController : MonoBehaviour
     {
         // Static assignment
         isAirborn = false;
+        maxBounces = 0;
     }
 
     private void Start()
     {
         #region Initialisation
 
-        damageDealt = 0;
         bounceCount = 0;
 
         mainCameraTransform = Camera.main.transform;
@@ -291,9 +287,9 @@ public class ThrowingKnifeController : MonoBehaviour
         if (isAirborn)
         {
             // Spin animation
-            pivotTransform.localRotation = Quaternion.Euler(spinSpeed * 360f * (lifetimeDuration - airtimeTimer), 0f, 0f);
+            pivotTransform.localRotation = Quaternion.Euler(spinSpeed * 360f * (airtimeTimer), 0f, 0f);
 
-            airtimeTimer -= Time.deltaTime;
+            airtimeTimer += Time.deltaTime;
 
             if (currentTargetTransform == null || currentTargetEnemy == null || currentTargetEnemy.currentHealth <= 0f)
             {
@@ -369,20 +365,19 @@ public class ThrowingKnifeController : MonoBehaviour
                 if (progress <= 0f)
                 {
                     // Execute target
-                    damageDealt += currentTargetEnemy.currentHealth;
                     bounceCount += 1;
                     int damageToDeal = currentTargetEnemy.currentHealth;
                     currentTargetEnemy.TakeDamage(damageToDeal, damageToDeal, currentTargetTransform.position + (Vector3.up * halfTargetHeight), true);
                     playerStats.currentHealth += Mathf.CeilToInt((playerStats.maxHealth / 100f) * healthPercentRestorePerKill);
+                    playerStats.currentHealth = Mathf.Clamp(playerStats.currentHealth, 0, playerStats.maxHealth);
 
                     currentTargetTransform = null;
                     currentTargetEnemy = null;
                 }
             }
 
-            // Compare time, bounce count and damage
-            // If any conditions are met, end throw
-            if (airtimeTimer <= 0f || bounceCount >= maxBounces || damageDealt >= maxDamage)
+            // Compare bounce count, if it exceeds the kill limit, end the throw
+            if (bounceCount >= maxBounces)
             {
                 StopBouncing();
             }
@@ -439,10 +434,10 @@ public class ThrowingKnifeController : MonoBehaviour
             return;
         }
 
+        maxBounces = Mathf.RoundToInt((float)WaveManager.waveEnemyCount * waveKillPotential);
         holderTransform.SetParent(null);
-        airtimeTimer = lifetimeDuration;
-        damageDealt = 0;
         bounceCount = 0;
+        airtimeTimer = 0f;
 
         // Switch from held to airborn
         isAirborn = true;
@@ -470,13 +465,12 @@ public class ThrowingKnifeController : MonoBehaviour
             return;
         }
 
-        airtimeTimer = 0f;
         isAirborn = false;
-        damageDealt = 0;
         bounceCount = 0;
 
         currentTargetTransform = null;
         currentTargetEnemy = null;
+        airtimeTimer = 0f;
 
         lingerTimer = lingerDuration;
 
