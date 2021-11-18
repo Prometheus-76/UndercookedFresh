@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WaypointUI : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class WaypointUI : MonoBehaviour
 
     private float overallAlphaMultiplier;
     private float iconBaseAlpha;
+    [HideInInspector]
+    public bool isActivated;
 
     #endregion
 
@@ -30,6 +33,7 @@ public class WaypointUI : MonoBehaviour
 
     private RectTransform canvasTransform;
     private Image iconImage;
+    private TextMeshProUGUI distanceText;
     private Transform mainCameraTransform;
 
     #endregion
@@ -43,9 +47,13 @@ public class WaypointUI : MonoBehaviour
 
         canvasTransform = GetComponent<RectTransform>();
         iconImage = GetComponentInChildren<Image>();
+        distanceText = GetComponentInChildren<TextMeshProUGUI>();
         mainCameraTransform = Camera.main.GetComponent<Transform>();
         overallAlphaMultiplier = 0f;
         iconBaseAlpha = iconImage.color.a;
+        iconImage.color = Color.clear;
+        distanceText.color = Color.clear;
+        isActivated = false;
 
         #endregion
     }
@@ -56,9 +64,9 @@ public class WaypointUI : MonoBehaviour
         // Calculate distance between the main camera and this waypoint
         float distanceToCamera = Vector3.Distance(canvasTransform.position, mainCameraTransform.position);
 
-        #region Fade All Waypoint UI
+        #region Update Waypoint UI
 
-        if (distanceToCamera > fadeMinDistance)
+        if (distanceToCamera > fadeMinDistance && isActivated)
         {
             overallAlphaMultiplier += (Time.deltaTime / overallFadeTime);
         }
@@ -73,20 +81,23 @@ public class WaypointUI : MonoBehaviour
         // Calculate new colours with fade multiplier
         Color newColour = Color.white;
 
-        newColour = iconImage.color;
         newColour.a = iconBaseAlpha * overallAlphaMultiplier;
         iconImage.color = newColour;
+
+        // Set text
+        distanceText.text = Mathf.FloorToInt(distanceToCamera / 2f) + "m";
+        distanceText.color = newColour;
 
         #endregion
 
         #region Orientation and Scaling Relative To Camera
 
         // Rotate towards camera
-        Quaternion rotationToCamera = Quaternion.LookRotation(mainCameraTransform.position - canvasTransform.position);
+        Quaternion rotationToCamera = Quaternion.LookRotation(canvasTransform.position - mainCameraTransform.position);
         canvasTransform.rotation = rotationToCamera;
 
         // Scale with distance
-        canvasTransform.localScale = Vector3.one * (distanceToCamera / scaleRate);
+        canvasTransform.localScale = Vector3.one * (Mathf.Pow(distanceToCamera, 1.1f) / scaleRate);
 
         #endregion
     }

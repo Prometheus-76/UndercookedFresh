@@ -20,6 +20,8 @@ public class UnlockItem : InteractiveObject
         GrappleAbility
     }
 
+    private PlayerStats playerStats;
+
     #endregion
 
     #region Configuration
@@ -45,6 +47,7 @@ public class UnlockItem : InteractiveObject
         #region Initialisation
 
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
+        playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         waveManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<WaveManager>();
 
         base.Configure();
@@ -78,6 +81,7 @@ public class UnlockItem : InteractiveObject
                 break;
             case ItemType.ThrowingKnife:
                 weaponCoordinator.UnlockKnife();
+                //playerStats.AddUltimateCharge(100f);
                 break;
             case ItemType.GrappleAbility:
                 playerMovement.UnlockGrapple();
