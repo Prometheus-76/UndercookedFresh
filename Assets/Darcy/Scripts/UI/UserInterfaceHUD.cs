@@ -118,18 +118,38 @@ public class UserInterfaceHUD : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        showHUD = true;
+        reloadProgress = 0f;
+        equippedWeapon = -1;
+        waveProgress = 0f;
+        intermissionProgress = 0f;
+        waveNumber = 1;
+        intermissionDuration = 0;
+        playerCurrentHealth = 100;
+        playerMaxHealth = 100;
+        ammoInMagazine = 0;
+        ammoInMagazine = 0;
+        equippedWeapon = -1;
+        ultimateCharge = 0f;
+        currentRunDuration = 0f;
+        currentScore = 0;
+        currentFibre = 0;
+        interactProgress = 0f;
+        interactCost = 0;
+        interactPrompt = "";
+        interactPresent = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         #region Initialisation
 
-        reloadProgress = 0f;
-        equippedWeapon = -1;
-
         // Grab the colour of the health bar and automatically use it for text
         colourCodeHealthBar = ColorUtility.ToHtmlStringRGBA(healthProgressImage.color);
-
-        showHUD = true;
 
         #endregion
     }

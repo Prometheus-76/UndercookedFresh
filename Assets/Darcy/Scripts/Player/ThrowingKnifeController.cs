@@ -107,11 +107,16 @@ public class ThrowingKnifeController : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        isAirborn = false;
+    }
+
     private void Start()
     {
         #region Initialisation
 
-        isAirborn = false;
         damageDealt = 0;
         bounceCount = 0;
 

@@ -69,14 +69,19 @@ public class WaveManager : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        waveProgress = 0f;
+        waveNumber = 0;
+        gameStarted = false;
+        eliminatedWaveEnemies = 0;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         #region Initialisation
-
-        waveProgress = 0f;
-        waveNumber = 0;
-        eliminatedWaveEnemies = 0;
 
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
@@ -97,7 +102,6 @@ public class WaveManager : MonoBehaviour
             upgradeStationInstances.Add(station);
         }
 
-        gameStarted = false;
         waveActive = false;
 
         #endregion

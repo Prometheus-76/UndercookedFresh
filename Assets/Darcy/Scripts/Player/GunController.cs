@@ -347,7 +347,7 @@ public class GunController : MonoBehaviour
                 if (shootingAudioSource.isPlaying)
                 {
                     // Lower volume over time
-                    shootingAudioSource.volume -= loopingVolumeDropoffRate * Time.deltaTime;
+                    shootingAudioSource.volume -= loopingVolumeDropoffRate * Time.unscaledDeltaTime;
 
                     // If gun is silent, stop playing
                     if (shootingAudioSource.volume <= 0f)
