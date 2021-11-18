@@ -298,6 +298,19 @@ public class Movement : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        applyingGravity = false;
+        isGrounded = false;
+        isSprinting = false;
+        isCrouching = false;
+        isMantling = false;
+        isSliding = false;
+        isGrappling = false;
+        grappleUnlocked = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -310,8 +323,6 @@ public class Movement : MonoBehaviour
 
         standardHeight = playerCollider.height;
         headPointHeight = headPointTransform.localPosition.y;
-
-        grappleUnlocked = false;
 
         overrideVelocity = Vector3.zero;
 

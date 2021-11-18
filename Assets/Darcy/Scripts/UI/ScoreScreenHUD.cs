@@ -41,12 +41,17 @@ public class ScoreScreenHUD : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        showHUD = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         #region Intialisation
 
-        showHUD = false;
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         sceneLoader = GameObject.FindGameObjectWithTag("LoadingScreen").GetComponent<SceneLoader>();
 

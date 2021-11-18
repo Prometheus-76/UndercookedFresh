@@ -116,6 +116,14 @@ public class PlayerStats : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        gamePaused = false;
+        allowUltimateGeneration = true;
+        isAlive = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -127,16 +135,10 @@ public class PlayerStats : MonoBehaviour
         currentScore = 0;
         currentFibre = 0;
 
-        gamePaused = false;
-
         playerLevel = 1;
-
-        allowUltimateGeneration = true;
 
         mainCameraTransform = Camera.main.GetComponent<Transform>();
         interactTimer = 0f;
-
-        isAlive = true;
 
         #endregion
 

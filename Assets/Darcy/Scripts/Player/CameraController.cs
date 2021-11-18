@@ -97,6 +97,12 @@ public class CameraController : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        traumaLevel = 0f;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
