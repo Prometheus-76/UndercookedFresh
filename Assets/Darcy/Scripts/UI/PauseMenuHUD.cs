@@ -43,18 +43,22 @@ public class PauseMenuHUD : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        showHUD = false;
+    }
+
     void Start()
     {
         #region Initialisation
 
-        // Display the saved sensitivity value on the slider, defaulting to 3.0
-        sensitivitySlider.value = Mathf.RoundToInt(PlayerPrefs.GetFloat("MouseSensitivity", 3f) * 10f);
-        
         desiredAction = NavigationAction.None;
-        showHUD = false;
-
         cameraController = Camera.main.transform.parent.GetComponent<CameraController>();
         sceneLoader = GameObject.FindGameObjectWithTag("LoadingScreen").GetComponent<SceneLoader>();
+
+        // Display the saved sensitivity value on the slider, defaulting to 3.0
+        sensitivitySlider.value = Mathf.CeilToInt(PlayerPrefs.GetFloat("MouseSensitivity", 3f) * 10f);
 
         #endregion
     }

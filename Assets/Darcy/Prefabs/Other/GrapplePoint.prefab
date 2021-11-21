@@ -226,7 +226,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   environmentLayers:
     serializedVersion: 2
-    m_Bits: 33024
+    m_Bits: 1073774848
   playerMovement: {fileID: 0}
   canvasTransform: {fileID: 5318272810666425415}
   pointSelectedImage: {fileID: 5318272811578558105}

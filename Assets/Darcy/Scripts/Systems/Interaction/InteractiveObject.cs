@@ -19,9 +19,11 @@ public class InteractiveObject : MonoBehaviour
     #region Configuration
     [Header("Configuration")]
 
+    [Tooltip("The unscaled cost of interacting with this object."), Range(0, 100)]
     public int baseCost;
-    public float difficultyScaling;
+    [Tooltip("The time it takes to interact with this object (in seconds)."), Range(0f, 3f)]
     public float interactDuration;
+    [Tooltip("The prompt that appears when looking at this object, automatically adds on \"(keybind)\".")]
     public string interactPrompt;
 
     #endregion

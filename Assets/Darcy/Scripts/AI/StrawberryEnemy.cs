@@ -16,11 +16,12 @@ public class StrawberryEnemy : Enemy
     private int shotsFired;
     private float burstTimer;
     private bool isAttacking;
+    private Quaternion targetRotation;
 
     #endregion
 
     #region Parameters
-    [Header("Attack Parameters")]
+    [Header("Configuration")]
 
     [Tooltip("The time (in seconds) between firing each shot."), Range(0.5f, 3f)]
     public float timeBetweenShots;
@@ -33,6 +34,9 @@ public class StrawberryEnemy : Enemy
 
     [Tooltip("The distance the enemy starts attacking the player."), Range(10f, 100f)]
     public float attackRange;
+
+    [Tooltip("The speed at which this enemy turns to face the player."), Range(1f, 5f)]
+    public float turningSpeed;
     #endregion
 
     #region Components
@@ -56,6 +60,11 @@ public class StrawberryEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
+        if (currentHealth > 0)
+        {
+            base.CheckDistanceValidity();
+        }
+
         if (currentHealth > 0 && isBurrowing == false && PlayerStats.isAlive)
         {
             // Calculate absolute and walking distances between enemy and player
@@ -71,6 +80,12 @@ public class StrawberryEnemy : Enemy
                 enemyAgent.isStopped = true;
 
                 burstTimer -= Time.deltaTime;
+
+                // Slowly rotate towards the player
+                Vector3 lookDirection = playerTransform.position - enemyTransform.position;
+                lookDirection.y = 0f;
+                targetRotation = Quaternion.LookRotation(lookDirection);
+                enemyTransform.rotation = Quaternion.Lerp(enemyTransform.rotation, targetRotation, Time.deltaTime * turningSpeed);
 
                 // Continue attacking the player
                 if (isAttacking && burstTimer < 0f && shotsFired < shotsPerBurst)

@@ -95,13 +95,20 @@ public class UpgradeStationHUD : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        showHUD = false;
+        currentHealth = 100;
+        maxHealth = 100;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         #region Initialisation
 
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-        showHUD = false;
 
         #endregion
     }

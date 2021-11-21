@@ -72,6 +72,13 @@ public class WeaponCoordinator : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        switchingWeapons = false;
+        knifeUnlocked = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

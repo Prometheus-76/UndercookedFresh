@@ -12,7 +12,6 @@ public class OnionEnemy : Enemy
 
     #region Internal
 
-    private NavMeshPath pathToPlayer;
     private float chargeTimer;
     private float stunTimer;
     private float windupTimer;
@@ -77,19 +76,23 @@ public class OnionEnemy : Enemy
     void Start()
     {
         base.Configure();
-        pathToPlayer = new NavMeshPath();
         currentLayer = 2;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (currentHealth > 0)
+        {
+            base.CheckDistanceValidity();
+        }
+
         if (currentHealth > 0 && isBurrowing == false && PlayerStats.isAlive)
         {
             // Calculate absolute and walking distances between enemy and player
             float absoluteDistanceToPlayer = Vector3.Distance(playerTransform.position, enemyTransform.position);
-            enemyAgent.CalculatePath(playerTransform.position, pathToPlayer);
-            float traversalDistanceToPlayer = CalculatePathLength(pathToPlayer);
+            enemyAgent.CalculatePath(playerTransform.position, enemyPath);
+            float traversalDistanceToPlayer = CalculatePathLength(enemyPath);
 
             // Assign current armour layer
             currentLayer = RemainingArmourLayers();
@@ -195,7 +198,15 @@ public class OnionEnemy : Enemy
                 // Start aiming if within range and line of sight
                 if (traversalDistanceToPlayer <= chargeRange)
                 {
-                    windupTimer = windupDuration;
+                    NavMeshHit node;
+                    NavMesh.FindClosestEdge(playerTransform.position, out node, NavMesh.AllAreas);
+
+                    // If the player is off the navmesh, allow windup without strict projected line of sight
+                    if (Mathf.Abs(absoluteDistanceToPlayer - traversalDistanceToPlayer) <= 0.1f && (node.distance >= 0.01f && Mathf.Abs(absoluteDistanceToPlayer - traversalDistanceToPlayer) >= 1f) == false)
+                    {
+                        // Begin windup
+                        windupTimer = windupDuration;
+                    }
                 }
 
                 #endregion
@@ -203,19 +214,19 @@ public class OnionEnemy : Enemy
 
             #region Interrupt Aim
 
-            // If the path to the player is not a straight line
-            if (windupTimer > 0f)
-            {
-                NavMeshHit node;
-                NavMesh.FindClosestEdge(playerTransform.position, out node, NavMesh.AllAreas);
+            //// If the path to the player is not a straight line
+            //if (windupTimer > 0f)
+            //{
+            //    NavMeshHit node;
+            //    NavMesh.FindClosestEdge(playerTransform.position, out node, NavMesh.AllAreas);
 
-                // If the player is off the navmesh, allow charges without strict projected line of sight
-                if (Mathf.Abs(absoluteDistanceToPlayer - traversalDistanceToPlayer) > 0.1f && (node.distance < 0.01f && Mathf.Abs(absoluteDistanceToPlayer - traversalDistanceToPlayer) < 1f) == false)
-                {
-                    // Interrupt attack charging
-                    windupTimer = 0f;
-                }
-            }
+            //    // If the player is off the navmesh, allow charges without strict projected line of sight
+            //    if (Mathf.Abs(absoluteDistanceToPlayer - traversalDistanceToPlayer) > 0.1f && (node.distance < 0.01f && Mathf.Abs(absoluteDistanceToPlayer - traversalDistanceToPlayer) < 1f) == false)
+            //    {
+            //        // Interrupt attack charging
+            //        windupTimer = 0f;
+            //    }
+            //}
 
             #endregion
 

@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - UpgradeStation
   - LoadingScreen
+  - EVIL
   layers:
   - Default
   - TransparentFX

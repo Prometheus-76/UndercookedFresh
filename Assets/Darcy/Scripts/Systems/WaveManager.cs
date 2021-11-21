@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // Author: Darcy Matheson
 // Purpose: Responsible for spawning and tracking enemies and kills, as well as the spawn budget
@@ -17,7 +18,7 @@ public class WaveManager : MonoBehaviour
     [HideInInspector]
     public bool waveActive;
     public static int eliminatedWaveEnemies;
-    private int waveEnemyCount;
+    public static int waveEnemyCount { get; private set; }
     private int currentWaveCost;
     private float intermissionStartTime;
     private float waveStartTime;
@@ -68,14 +69,20 @@ public class WaveManager : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        waveProgress = 0f;
+        waveNumber = 0;
+        gameStarted = false;
+        eliminatedWaveEnemies = 0;
+        waveEnemyCount = 1;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         #region Initialisation
-
-        waveProgress = 0f;
-        waveNumber = 0;
-        eliminatedWaveEnemies = 0;
 
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
@@ -86,7 +93,6 @@ public class WaveManager : MonoBehaviour
 
         validSpawnPoints = new List<Transform>();
         waveEnemies = new List<GameObject>();
-        waveEnemyCount = 1;
 
         // Find all upgrade stations in the map
         lastSpawnLocation = -1;
@@ -96,7 +102,6 @@ public class WaveManager : MonoBehaviour
             upgradeStationInstances.Add(station);
         }
 
-        gameStarted = false;
         waveActive = false;
 
         #endregion
@@ -272,7 +277,7 @@ public class WaveManager : MonoBehaviour
             currentWaveCost += enemyPrefabs[enemyIndex].GetComponent<Enemy>().spawnCost;
 
             // Spawn enemy, disable it and add to the list
-            GameObject enemyInstance = Instantiate<GameObject>(enemyPrefabs[enemyIndex], Vector3.zero, Quaternion.identity, enemyParent);
+            GameObject enemyInstance = Instantiate<GameObject>(enemyPrefabs[enemyIndex], new Vector3(90f, 6f, 88f), Quaternion.identity, enemyParent);
             waveEnemies.Add(enemyInstance);
             enemyInstance.SetActive(false);
         }
@@ -292,8 +297,13 @@ public class WaveManager : MonoBehaviour
                 if (waveEnemies[i].activeInHierarchy == false)
                 {
                     // Spawn the enemy
-                    waveEnemies[i].transform.position = validSpawnPoints[spawnPoint].position;
-                    waveEnemies[i].SetActive(true);
+                    if (NavMesh.SamplePosition(validSpawnPoints[spawnPoint].position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+                    {
+                        waveEnemies[i].transform.position = hit.position;
+                        waveEnemies[i].GetComponent<Enemy>().isBurrowing = false;
+                        waveEnemies[i].SetActive(true);
+                    }
+
                     break;
                 }
             }

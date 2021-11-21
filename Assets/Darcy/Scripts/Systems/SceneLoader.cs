@@ -50,6 +50,7 @@ public class SceneLoader : MonoBehaviour
 
             // Smooth bar fill, at least 1 second to allow a smooth transition
             loadingBar.fillAmount += Mathf.Min(0.01f, loadProgress - loadingBar.fillAmount);
+
             loadingProgressText.text = Mathf.FloorToInt(loadingBar.fillAmount * 100f) + "<size=80%>%";
 
             yield return new WaitForSecondsRealtime(0.01f);
