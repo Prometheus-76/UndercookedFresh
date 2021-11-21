@@ -7,20 +7,45 @@ using UnityEngine;
 
 public class BananaSingleEnemy : Enemy
 {
-    public float attackInterval;
+    #region Variables
+
+    #region Internal
+
     private float attackTimer;
-    public float attackRange;
+
+    #endregion
+
+    #region Parameters
+    [Header("Parameters")]
+
+    [Tooltip("The time between attacking the player (in seconds)."), Range(1f, 5f)]
+    public float attackInterval = 1f;
+    [Tooltip("How close to the player this enemy must be before attacking."), Range(1f, 3f)]
+    public float attackRange = 2f;
+
+    #endregion
+
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        #region Initialisation
+
         base.Configure();
+
+        #endregion
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth > 0 && isBurrowing == false)
+        if (currentHealth > 0)
+        {
+            base.CheckDistanceValidity();
+        }
+
+        if (currentHealth > 0 && isBurrowing == false && PlayerStats.isAlive)
         {
             #region Behaviour Tree
 
@@ -63,6 +88,14 @@ public class BananaSingleEnemy : Enemy
             }
 
             #endregion
+        }
+        else
+        {
+            if (enemyAgent.enabled)
+            {
+                enemyAgent.ResetPath();
+                enemyAgent.isStopped = true;
+            }
         }
     }
 }

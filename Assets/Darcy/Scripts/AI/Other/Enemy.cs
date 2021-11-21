@@ -15,8 +15,9 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public int currentHealth;
 
-    [HideInInspector]
     public bool isBurrowing;
+
+    protected NavMeshPath enemyPath;
 
     #endregion
 
@@ -86,6 +87,9 @@ public class Enemy : MonoBehaviour
         enemyCollider = GetComponent<CapsuleCollider>();
         damageNumberParentTransform = GameObject.FindGameObjectWithTag("DamageNumberParent").GetComponent<Transform>();
 
+        // Create path variable
+        enemyPath = new NavMeshPath();
+
         // Set health and damage
         maxHealth = baseMaxHealth + Mathf.FloorToInt(baseMaxHealth * (playerStats.difficultyLevel * healthScaler));
         currentHealth = maxHealth;
@@ -113,6 +117,7 @@ public class Enemy : MonoBehaviour
             // Draw damage numbers
             GameObject damageNumberInstance = Instantiate<GameObject>(damageNumberPrefab, damageNumberParentTransform);
             damageNumberInstance.GetComponent<DamageNumber>().SetupDamageNumber(damageTaken.ToString(), position, (damage == expectedDamage));
+            playerStats.damageDealt += damageTaken;
         }
 
         // If the enemy has died
@@ -124,11 +129,13 @@ public class Enemy : MonoBehaviour
 
     protected float CalculatePathLength(NavMeshPath path)
     {
-        float length = 0f;
+        float length = -1f;
 
         // If the path exists and it has multiple nodes
         if ((path.status != NavMeshPathStatus.PathInvalid) && (path.corners.Length > 1))
         {
+            length = 0f;
+
             // For each node in the path, do pythagorus theorum to find distance between one node and the next
             for (int i = 0; i < path.corners.Length - 1; i++)
             {
@@ -152,7 +159,19 @@ public class Enemy : MonoBehaviour
 
         playerStats.AddScore(baseScoreValue);
         playerStats.AddFibre(baseFibreValue);
+        playerStats.enemiesKilled += 1;
 
         Destroy(gameObject, 0.5f);
+    }
+
+    protected void CheckDistanceValidity()
+    {
+        Vector3 playerMeshPosition;
+        //enemyAgent.CalculatePath(playerTransform.position, enemyPath);
+        float traversalDistanceToPlayer = CalculatePathLength(enemyPath);
+        if (traversalDistanceToPlayer == -1f || traversalDistanceToPlayer > despawnDistance)
+        {
+            //isBurrowing = true;
+        }
     }
 }

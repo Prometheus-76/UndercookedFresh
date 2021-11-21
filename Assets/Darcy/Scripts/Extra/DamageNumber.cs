@@ -74,6 +74,7 @@ public class DamageNumber : MonoBehaviour
 
     #endregion
 
+    // Start is called before the first frame update
     private void Start()
     {
         #region Initialisation
@@ -86,6 +87,7 @@ public class DamageNumber : MonoBehaviour
         #endregion
     }
 
+    // LateUpdate is called after Update
     private void LateUpdate()
     {
         // Calculate distance between the main camera and this grapple point
@@ -149,6 +151,7 @@ public class DamageNumber : MonoBehaviour
         #endregion
     }
 
+    // Initialise the number
     public void SetupDamageNumber(string damageValue, Vector3 hitPoint, bool criticalHit)
     {
         damageText.text = damageValue;
@@ -163,6 +166,7 @@ public class DamageNumber : MonoBehaviour
         isCritical = criticalHit;
     }
 
+    // Movement curve function
     float EaseOut(float time)
     {
         float result = 0f;
@@ -173,6 +177,7 @@ public class DamageNumber : MonoBehaviour
         return result;
     }
 
+    // Pulsating curve function
     float CosWave(float time)
     {
         float result = 0f;

@@ -72,6 +72,13 @@ public class WeaponCoordinator : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        // Static assignment
+        switchingWeapons = false;
+        knifeUnlocked = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -300,6 +307,7 @@ public class WeaponCoordinator : MonoBehaviour
         }
     }
 
+    // Unlocks the knife ability
     public void UnlockKnife()
     {
         knifeUnlocked = true;
@@ -309,7 +317,7 @@ public class WeaponCoordinator : MonoBehaviour
     void SwapToWeapon(int weaponIndex)
     {
         // Do not allow another switch while currently switching weapons
-        if (switchingWeapons || unlockedGuns[weaponIndex] == false || weaponIndex == currentGunIndex || UpgradeStationHUD.showUpgradeHUD)
+        if (switchingWeapons || unlockedGuns[weaponIndex] == false || weaponIndex == currentGunIndex || UpgradeStationHUD.showHUD)
         {
             return;
         }

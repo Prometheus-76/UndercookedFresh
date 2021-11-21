@@ -7,74 +7,147 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public float screenshakeDamageScaler;
-    public int baseHealth;
+    #region Variables
+
+    #region Internal
+
+    [HideInInspector]
+    public float currentRunTime { get; private set; }
+    [HideInInspector]
+    public ulong currentScore { get; private set; }
+    [HideInInspector]
+    public ulong currentFibre;
     [HideInInspector]
     public int maxHealth;
     [HideInInspector]
     public int currentHealth;
-    public float healthMultiplierPerLevel;
-    public float timeBeforeRegeneration;
     private float immuneRegenerationTimer;
-    public float percentRegenerationPerSecond;
     private float regenerationTimer;
-    public float fibrePerHealthPoint;
-
-    public int healthUpgradeCostBase;
-    public float healthUpgradeCostMultiplierPerLevel;
-
-    public int maxOneShotProtectionThreshold;
-    public int minOneShotProtectionThreshold;
-
     private float ultimateCharge;
-    public float passiveUltimateChargeRate;
-
-    [HideInInspector]
-    public float currentRunTime { get; private set; }
-    private ulong currentScore;
-    [HideInInspector]
-    public ulong currentFibre;
-
-    public float difficultyWaveFactor;
-    public float difficultyTimeFactor;
     public float difficultyLevel { get; private set; }
+    [HideInInspector]
+    public int playerLevel;
+    public static bool gamePaused;
+    public static bool allowUltimateGeneration;
+    private float interactTimer;
+    private bool interactPresent;
+    public static bool isAlive;
+    [HideInInspector]
+    public int attemptCount;
+    [HideInInspector]
+    public int enemiesKilled;
+    [HideInInspector]
+    public int damageDealt;
+    [HideInInspector]
+    public int highscore;
 
-    public float interactRange;
+    #endregion
+
+    #region Parameters
+
+    #region Health and Regeneration
+    [Header("Health and Regeneration")]
+
+    [Tooltip("How much health the player starts off with."), Range(50, 200)]
+    public int baseHealth = 100;
+    [Tooltip("How much more health the player gains with each upgrade."), Range(1f, 2f)]
+    public float healthMultiplierPerLevel = 1.2f;
+    [Tooltip("How long the player must go without taking damage before health regeneration can begin."), Range(5f, 30f)]
+    public float timeBeforeRegeneration = 10f;
+    [Tooltip("How much health the player gains every second while regenerating."), Range(0.1f, 1f)]
+    public float percentRegenerationPerSecond = 1f;
+    [Tooltip("How much fibre each health point costs to restore."), Range(0.1f, 1f)]
+    public float fibrePerHealthPoint = 0.2f;
+    [Tooltip("How much the first health upgrade costs."), Range(10, 50)]
+    public int healthUpgradeCostBase = 30;
+    [Tooltip("How much more each health upgrade costs than the previous one."), Range(1f, 2f)]
+    public float healthUpgradeCostMultiplierPerLevel = 1.3f;
+    [Tooltip("The player must be above this percent health for one-shot protection to be active."), Range(70, 99)]
+    public int maxOneShotProtectionThreshold = 90;
+    [Tooltip("The current health percent the player will be set to when one-shot protection activates."), Range(5, 30)]
+    public int minOneShotProtectionThreshold = 10;
+
+    #endregion
+
+    #region Difficulty
+    [Header("Difficulty")]
+
+    [Tooltip("How much the waves completed contributes to the increase of difficulty."), Range(0.1f, 2f)]
+    public float difficultyWaveFactor = 0.5f;
+    [Tooltip("How much the time duration contributes to the increase of difficulty."), Range(0.1f, 2f)]
+    public float difficultyTimeFactor = 0.25f;
+
+    #endregion
+
+    #region Other
+    [Header("Other")]
+
+    [Tooltip("How quickly the ultimate charges up without dealing damage."), Range(0.001f, 0.01f)]
+    public float passiveUltimateChargeRate = 0.002f;
+    [Tooltip("How much screenshake is given based on the damage taken relative to maximum health (higher = more for less damage)."), Range(1f, 10f)]
+    public float screenshakeDamageScaler = 3f;
+
+    #endregion
+
+    #region Interaction
+    [Header("Interaction")]
+
+    [Tooltip("How close the player must be to an interactive object to use it."), Range(2f, 6f)]
+    public float interactRange = 4f;
+    [Tooltip("The layer which interactive objects are on.")]
     public LayerMask interactiveLayer;
+    [Tooltip("The layers which can interrupt the line of sight to an interactive object.")]
     public LayerMask environmentLayers;
+
+    #endregion
+
+    #endregion
+
+    #region Components
+    [Header("Components")]
 
     public Movement playerMovement;
     public GunController[] gunControllers;
 
-    [HideInInspector]
-    public int playerLevel;
-
-    public static bool gamePaused;
-
-    public static bool allowUltimateGeneration;
     private Transform mainCameraTransform;
     private InteractiveObject currentInteraction;
 
-    private float interactTimer;
-    private bool interactPresent;
+    #endregion
+
+    #endregion
+
+    private void Awake()
+    {
+        // Static assignment
+        gamePaused = false;
+        allowUltimateGeneration = true;
+        isAlive = true;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        #region Initialisation
+
         maxHealth = baseHealth;
         currentHealth = maxHealth;
 
         currentScore = 0;
         currentFibre = 0;
 
-        gamePaused = false;
-
         playerLevel = 1;
-
-        allowUltimateGeneration = true;
 
         mainCameraTransform = Camera.main.GetComponent<Transform>();
         interactTimer = 0f;
+
+        #endregion
+
+        #region Get Stats
+
+        attemptCount = PlayerPrefs.GetInt("AttemptCount", 0);
+        highscore = PlayerPrefs.GetInt("Highscore", 0);
+
+        #endregion
     }
 
     // Take damage
@@ -100,6 +173,13 @@ public class PlayerStats : MonoBehaviour
         immuneRegenerationTimer = timeBeforeRegeneration;
         regenerationTimer = 0f;
 
+        // If the player has run out of health
+        if (currentHealth <= 0 && isAlive)
+        {
+            Die();
+            CameraController.AddTrauma(1f);
+        }
+
         // Screenshake if sufficient damage is dealt in an instance
         float shakeTrauma = ((float)damageTaken / maxHealth);
         CameraController.AddTrauma(shakeTrauma * screenshakeDamageScaler);
@@ -107,7 +187,21 @@ public class PlayerStats : MonoBehaviour
 
     void Die()
     {
+        isAlive = false;
+        gamePaused = true;
 
+        ScoreScreenHUD.showHUD = true;
+        UserInterfaceHUD.showHUD = false;
+        UpgradeStationHUD.showHUD = false;
+        PauseMenuHUD.showHUD = false;
+
+        Cursor.lockState = CursorLockMode.None;
+
+        // Save stats
+        attemptCount += 1;
+        PlayerPrefs.SetInt("AttemptCount", attemptCount);
+        highscore = Mathf.RoundToInt(Mathf.Max(currentScore, highscore));
+        PlayerPrefs.SetInt("Highscore", highscore);
     }
 
     void Update()
@@ -308,8 +402,8 @@ public class PlayerStats : MonoBehaviour
     {
         if (currentRunTime >= 0f && WaveManager.waveNumber > 0)
         {
-            float waveDifficulty = ((float)WaveManager.waveNumber / 2f);
-            float timeDifficulty = (currentRunTime / (60f * 3f));
+            float waveDifficulty = ((float)WaveManager.waveNumber * difficultyWaveFactor);
+            float timeDifficulty = (currentRunTime * (difficultyTimeFactor / 60f));
 
             difficultyLevel = waveDifficulty + timeDifficulty;
         }

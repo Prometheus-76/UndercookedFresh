@@ -7,22 +7,39 @@ using UnityEngine;
 
 public class ItemTurntable : MonoBehaviour
 {
-    public float verticalDistance;
-    public float verticalSpeed;
-    public float rotationSpeed;
+    #region Variables
+
+    #region Internal
 
     private Transform itemTransform;
     private Vector3 startPosition;
     private float currentRotation;
     private float seed;
 
+    #endregion
+
+    #region Configuration
+    [Header("Configuration")]
+
+    public float verticalDistance;
+    public float verticalSpeed;
+    public float rotationSpeed;
+
+    #endregion
+
+    #endregion
+
     private void Start()
     {
+        #region Initialisation
+
         itemTransform = GetComponent<Transform>();
         startPosition = itemTransform.position;
         currentRotation = 0f;
 
         seed = Random.Range(0f, 10f);
+
+        #endregion
     }
 
     // Update is called once per frame

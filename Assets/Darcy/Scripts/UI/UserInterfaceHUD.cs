@@ -9,6 +9,8 @@ using TMPro;
 
 public class UserInterfaceHUD : MonoBehaviour
 {
+    #region Variables
+
     #region General 
     [Header("General")]
 
@@ -70,7 +72,7 @@ public class UserInterfaceHUD : MonoBehaviour
     public static int ammoInReserves;
     public static int equippedWeapon;
     #endregion
-
+    
     #region Ultimate Ability
     [Header("Ultimate Ability")]
 
@@ -114,16 +116,42 @@ public class UserInterfaceHUD : MonoBehaviour
 
     #endregion
 
+    #endregion
+
+    private void Awake()
+    {
+        // Static assignment
+        showHUD = true;
+        reloadProgress = 0f;
+        equippedWeapon = -1;
+        waveProgress = 0f;
+        intermissionProgress = 0f;
+        waveNumber = 1;
+        intermissionDuration = 0;
+        playerCurrentHealth = 100;
+        playerMaxHealth = 100;
+        ammoInMagazine = 0;
+        ammoInMagazine = 0;
+        equippedWeapon = -1;
+        ultimateCharge = 0f;
+        currentRunDuration = 0f;
+        currentScore = 0;
+        currentFibre = 0;
+        interactProgress = 0f;
+        interactCost = 0;
+        interactPrompt = "";
+        interactPresent = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        reloadProgress = 0f;
-        equippedWeapon = -1;
+        #region Initialisation
 
         // Grab the colour of the health bar and automatically use it for text
         colourCodeHealthBar = ColorUtility.ToHtmlStringRGBA(healthProgressImage.color);
 
-        showHUD = true;
+        #endregion
     }
 
     // Update is called once per frame
