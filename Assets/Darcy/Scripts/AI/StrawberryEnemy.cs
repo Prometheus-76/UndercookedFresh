@@ -160,6 +160,25 @@ public class StrawberryEnemy : Enemy
                 enemyAgent.ResetPath();
                 enemyAgent.isStopped = true;
             }
+
+            if (isBurrowing)
+            {
+                // Burrowing animation
+                float scale = enemyTransform.localScale.x;
+                scale -= Time.deltaTime * 0.5f;
+                scale = Mathf.Clamp01(scale);
+                enemyTransform.localScale = Vector3.one * scale;
+                enemyTransform.Rotate(Vector3.up * Time.deltaTime * 360f, Space.Self);
+
+                // The animation has completed
+                if (scale <= 0f)
+                {
+                    Configure();
+                    this.gameObject.SetActive(false);
+                    enemyTransform.localScale = Vector3.one;
+                    enemyTransform.rotation = Quaternion.identity;
+                }
+            }
         }
     }
 }

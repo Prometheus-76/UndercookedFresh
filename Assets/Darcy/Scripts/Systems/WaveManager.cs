@@ -24,7 +24,8 @@ public class WaveManager : MonoBehaviour
     private float waveStartTime;
 
     private List<Transform> validSpawnPoints;
-    private List<GameObject> waveEnemies;
+    [HideInInspector]
+    public static List<GameObject> waveEnemies;
     private List<GameObject> upgradeStationInstances;
     private List<int> upgradeStationSpawnOrder;
     private int lastSpawnLocation;
@@ -140,6 +141,20 @@ public class WaveManager : MonoBehaviour
                     int remainingEnemies = 0;
                     for (int i = 0; i < waveEnemies.Count; i++)
                     {
+                        // If the enemy is a single banana
+                        if (waveEnemies[i].GetComponent<BananaSingleEnemy>() != null && waveEnemies[i].activeSelf == false)
+                        {
+                            // Spawn the enemy
+                            if (NavMesh.SamplePosition(validSpawnPoints[Random.Range(0, validSpawnPoints.Count)].position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+                            {
+                                waveEnemies[i].transform.position = hit.position;
+                                waveEnemies[i].GetComponent<Enemy>().isBurrowing = false;
+                                waveEnemies[i].SetActive(true);
+                            }
+
+                            break;
+                        }
+
                         if (waveEnemies[i].activeInHierarchy)
                         {
                             currentActiveEnemyCost += waveEnemies[i].GetComponent<Enemy>().spawnCost;
