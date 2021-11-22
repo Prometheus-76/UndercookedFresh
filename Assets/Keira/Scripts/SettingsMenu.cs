@@ -44,13 +44,6 @@ public class SettingsMenu : MonoBehaviour
 
     #region Video
 
-    #region Framerate
-    [Header("Framerate")]
-    [Tooltip("Drop Down For Refreshrate")]
-    public TMP_Dropdown fpsDropdown;
-    private int fpsTarget = 2;
-    #endregion
-
     #region Window Mode
     [Header("Window Mode")]
     [Tooltip("Drop Down For Window Mode")]
@@ -65,7 +58,14 @@ public class SettingsMenu : MonoBehaviour
     private int resolutionTarget = 2;
     #endregion
 
-    #region V-Sync
+    #region Framerate
+    [Header("Framerate")]
+    [Tooltip("Drop Down For Refreshrate")]
+    public TMP_Dropdown fpsDropdown;
+    private int fpsTarget = 2;
+    #endregion
+
+    #region V Sync
     [Header("V-Sync")]
     [Tooltip("Drop Down For V-Sync False/True")]
     public TMP_Dropdown vSyncDropdown;
@@ -158,11 +158,6 @@ public class SettingsMenu : MonoBehaviour
 
         #region Video
 
-        #region Framerate
-        //fpsTarget = PlayerPrefs.GetInt("RefreshRate", fpsTarget);
-        //fpsDropdown.value = fpsTarget;
-        #endregion
-
         #region Window Mode
         windowModeTarget = PlayerPrefs.GetInt("WindowMode", windowModeTarget);
         windowModeDropdown.value = windowModeTarget;
@@ -173,6 +168,11 @@ public class SettingsMenu : MonoBehaviour
         resolutionTarget = PlayerPrefs.GetInt("Resolution", resolutionTarget);
         resolutionDropdown.value = resolutionTarget;
         resolutionDropdown.RefreshShownValue();
+        #endregion
+
+        #region Framerate
+        fpsTarget = PlayerPrefs.GetInt("RefreshRate", fpsTarget);
+        fpsDropdown.value = fpsTarget;
         #endregion
 
         #region V-Sync
@@ -239,14 +239,6 @@ public class SettingsMenu : MonoBehaviour
 
     #region Video
 
-    #region Framerate
-    public void FramerateDropdownUpdate()
-    {
-        fpsTarget = fpsDropdown.value;
-        PlayerPrefs.SetInt("RefreshRate", fpsTarget);
-    }
-    #endregion
-
     #region Window Mode
     public void WindowModeDropdownUpdate()
     {
@@ -260,6 +252,14 @@ public class SettingsMenu : MonoBehaviour
     {
         resolutionTarget = resolutionDropdown.value;
         PlayerPrefs.SetInt("Resolution", resolutionTarget);
+    }
+    #endregion
+
+    #region Framerate
+    public void FramerateDropdownUpdate()
+    {
+        fpsTarget = fpsDropdown.value;
+        PlayerPrefs.SetInt("RefreshRate", fpsTarget);
     }
     #endregion
 
@@ -285,7 +285,7 @@ public class SettingsMenu : MonoBehaviour
     }
     private void AudioMasterTextUpdate()
     {
-        //audioMasterTMPText.text = audioMasterTarget.ToString();
+        audioMasterTMPText.text = audioMasterTarget.ToString();
     }
     #endregion
 
@@ -299,7 +299,7 @@ public class SettingsMenu : MonoBehaviour
     }
     private void AudioMusicTextUpdate()
     {
-        //audioMusicTMPText.text = audioMusicTarget.ToString();
+        audioMusicTMPText.text = audioMusicTarget.ToString();
     }
     #endregion
 
@@ -313,7 +313,7 @@ public class SettingsMenu : MonoBehaviour
     }
     private void AudioSfxTextUpdate()
     {
-        //audioSfxTMPText.text = audioSfxTarget.ToString();
+        audioSfxTMPText.text = audioSfxTarget.ToString();
     }
     #endregion
 
@@ -330,7 +330,7 @@ public class SettingsMenu : MonoBehaviour
     }
     private void MouseSensitivityTextUpdate()
     {
-        //mouseSensitivityTMPText.text = mouseSensitivityTarget.ToString();
+        mouseSensitivityTMPText.text = mouseSensitivityTarget.ToString();
     }
     #endregion
 
@@ -343,12 +343,12 @@ public class SettingsMenu : MonoBehaviour
     }
     public void ScreenshakeTextUpdate()
     {
-        //screenshakeTMPText.text = mouseSensitivityTarget.ToString();
+        screenshakeTMPText.text = screenshakeTarget.ToString();
     }
     #endregion
 
     #region Head Bob
-    public void HeadbobUpdate()
+    public void HeadbobDropdownUpdate()
     {
         headbobTarget = headbobDropdown.value;
         PlayerPrefs.SetInt("HeadBob", headbobTarget);
