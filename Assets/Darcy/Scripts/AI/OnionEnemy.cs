@@ -245,6 +245,10 @@ public class OnionEnemy : Enemy
 
                     // Damage the player
                     playerStats.TakeDamage(scaledDamage);
+
+                    // Set the damage direction indicator
+                    UserInterfaceHUD.damageFlashTimer = UserInterfaceHUD.damageFlashDuration;
+                    UserInterfaceHUD.damageOrigin = enemyTransform.position;
                 }
 
                 // Try to find the closest edge on the NavMesh
@@ -344,6 +348,11 @@ public class OnionEnemy : Enemy
             // Draw damage numbers
             GameObject damageNumberInstance = Instantiate<GameObject>(damageNumberPrefab, damageNumberParentTransform);
             damageNumberInstance.GetComponent<DamageNumber>().SetupDamageNumber(damageTaken.ToString(), position, (damage == expectedDamage));
+
+            playerStats.damageDealt += damageTaken;
+
+            // Show hit marker
+            UserInterfaceHUD.hitMarkerFadeTimer = UserInterfaceHUD.hitMarkerFadeDuration;
         }
 
         // If the enemy has died

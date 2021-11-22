@@ -110,6 +110,10 @@ public class BananaBunchEnemy : Enemy
                     attackTimer = attackInterval;
                     playerStats.TakeDamage(scaledDamage);
 
+                    // Set the damage direction indicator
+                    UserInterfaceHUD.damageFlashTimer = UserInterfaceHUD.damageFlashDuration;
+                    UserInterfaceHUD.damageOrigin = enemyTransform.position;
+
                     enemyAgent.isStopped = true;
                     enemyAgent.ResetPath();
                 }

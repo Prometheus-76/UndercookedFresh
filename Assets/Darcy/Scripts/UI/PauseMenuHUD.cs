@@ -58,7 +58,7 @@ public class PauseMenuHUD : MonoBehaviour
         sceneLoader = GameObject.FindGameObjectWithTag("LoadingScreen").GetComponent<SceneLoader>();
 
         // Display the saved sensitivity value on the slider, defaulting to 3.0
-        sensitivitySlider.value = Mathf.CeilToInt(PlayerPrefs.GetFloat("MouseSensitivity", 3f) * 10f);
+        sensitivitySlider.value = Mathf.CeilToInt(PlayerPrefs.GetFloat("MouseSensitivity", 2.5f) * 10f);
 
         #endregion
     }

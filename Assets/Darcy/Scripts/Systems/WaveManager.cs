@@ -16,7 +16,7 @@ public class WaveManager : MonoBehaviour
     public static int waveNumber;
     public static bool gameStarted { get; private set; }
     [HideInInspector]
-    public bool waveActive;
+    public static bool waveActive;
     public static int eliminatedWaveEnemies;
     public static int waveEnemyCount { get; private set; }
     private int currentWaveCost;
@@ -78,6 +78,7 @@ public class WaveManager : MonoBehaviour
         gameStarted = false;
         eliminatedWaveEnemies = 0;
         waveEnemyCount = 1;
+        waveActive = false;
     }
 
     // Start is called before the first frame update

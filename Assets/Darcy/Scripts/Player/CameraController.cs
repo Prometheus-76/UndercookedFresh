@@ -140,7 +140,16 @@ public class CameraController : MonoBehaviour
 
         // Calculate position to follow player from
         Vector3 followPosition = (headTransform.position - holderTransform.position) * followStrength * Time.deltaTime;
-        followPosition += holderTransform.position;
+
+        // If the follow would overshoot the target on this frame (occurs at low FPS)
+        if (followPosition.magnitude > Vector3.Distance(headTransform.position, holderTransform.position))
+        {
+            followPosition = headTransform.position;
+        }
+        else
+        {
+            followPosition += holderTransform.position;
+        }
 
         #region Camera Motion Effects
 

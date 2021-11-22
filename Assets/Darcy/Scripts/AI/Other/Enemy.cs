@@ -123,7 +123,11 @@ public class Enemy : MonoBehaviour
             // Draw damage numbers
             GameObject damageNumberInstance = Instantiate<GameObject>(damageNumberPrefab, damageNumberParentTransform);
             damageNumberInstance.GetComponent<DamageNumber>().SetupDamageNumber(damageTaken.ToString(), position, (damage == expectedDamage));
+
             playerStats.damageDealt += damageTaken;
+
+            // Show hit marker
+            UserInterfaceHUD.hitMarkerFadeTimer = UserInterfaceHUD.hitMarkerFadeDuration;
         }
 
         // If the enemy has died
