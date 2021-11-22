@@ -60654,6 +60654,10 @@ PrefabInstance:
       propertyPath: damageNumberParentTransform
       value: 
       objectReference: {fileID: 608099993}
+    - target: {fileID: 3313231879694256316, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
+      propertyPath: maximumPenetrationCount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3313231880126348066, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
       propertyPath: m_Name
       value: CameraHolder
