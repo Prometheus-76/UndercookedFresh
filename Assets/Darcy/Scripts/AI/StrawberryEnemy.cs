@@ -99,7 +99,7 @@ public class StrawberryEnemy : Enemy
 
                         // Fire shot
                         HomingSeed seed = Instantiate(seedPrefab, enemyTransform.position + (Vector3.up * (enemyAgent.height / 2f)), Quaternion.identity).GetComponent<HomingSeed>();
-                        seed.SetupSeed(scaledDamage);
+                        seed.SetupSeed(scaledDamage, enemyTransform.position);
 
                         // Setup next action
                         if (shotsFired < shotsPerBurst)

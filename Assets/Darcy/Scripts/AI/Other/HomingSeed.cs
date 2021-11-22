@@ -15,6 +15,8 @@ public class HomingSeed : MonoBehaviour
     private int contactDamage;
     private bool isDestroyed;
 
+    private Vector3 shotOrigin;
+
     #endregion
 
     #region Parameters
@@ -118,6 +120,11 @@ public class HomingSeed : MonoBehaviour
             {
                 // The seed has collided with the player
                 playerStats.TakeDamage(contactDamage);
+
+                // Set the damage direction indicator
+                UserInterfaceHUD.damageFlashTimer = UserInterfaceHUD.damageFlashDuration;
+                UserInterfaceHUD.damageOrigin = shotOrigin;
+
                 DestroySeed();
             }
 
@@ -130,7 +137,7 @@ public class HomingSeed : MonoBehaviour
     }
 
     // Called after the seed is instantiated
-    public void SetupSeed(int damage)
+    public void SetupSeed(int damage, Vector3 origin)
     {
         // Initialisation
         seedTransform = GetComponent<Transform>();
@@ -147,6 +154,9 @@ public class HomingSeed : MonoBehaviour
         // Set damage per hit
         contactDamage = damage;
         isDestroyed = false;
+
+        // Assign parent position when shot was fired
+        shotOrigin = origin;
     }
 
     // Destroys the seed, first setting the model to inactive, waiting for the trail to end, then destroying the object

@@ -51,6 +51,9 @@ public class HealthBarUI : MonoBehaviour
 
     [Tooltip("The time it takes for the bar to fade in/out."), Range(0.1f, 1f)]
     public float overallFadeTime = 0.2f;
+
+    [Tooltip("The layers which block this health bar from appearing in-game.")]
+    public LayerMask environmentLayers;
     #endregion
 
     #endregion
@@ -148,7 +151,7 @@ public class HealthBarUI : MonoBehaviour
         #region Fade All Health Bar UI
 
         // Fade in/out based on various factors
-        if (Physics.Linecast(mainCameraTransform.position, canvasTransform.position, enemyScript.environmentLayers) == false && (damageLingerTimer > 0f || cameraForwardSimilarity >= minimumLookSimilarity) && enemyScript.currentHealth > 0 && PlayerStats.isAlive)
+        if (Physics.Linecast(mainCameraTransform.position, canvasTransform.position, environmentLayers) == false && (damageLingerTimer > 0f || cameraForwardSimilarity >= minimumLookSimilarity) && enemyScript.currentHealth > 0 && PlayerStats.isAlive)
         {
             overallAlphaMultiplier += (Time.deltaTime / overallFadeTime);
         }
