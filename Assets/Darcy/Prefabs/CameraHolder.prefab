@@ -280,9 +280,9 @@ MonoBehaviour:
   recoilEffectTime: 0.1
   recoilRecoveryTime: 0.2
   cameraRecoil: {x: 0.02, y: 0.02}
-  reloadSound: {fileID: 8300000, guid: 76468334b3757d74bad3ffbb90002407, type: 3}
+  reloadSound: {fileID: 8300000, guid: 4702fc17031c7d64dadc93016bd7500c, type: 3}
   firingSounds:
-  - {fileID: 8300000, guid: b723fb0e47fb284408cdb6b19937eff5, type: 3}
+  - {fileID: 8300000, guid: 26b99ce7b47698b4fab2e5c23927707d, type: 3}
   loopFiringSound: 1
   loopingVolumeDropoffRate: 5
   pitchAmmoDepletion: 1
@@ -429,7 +429,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
