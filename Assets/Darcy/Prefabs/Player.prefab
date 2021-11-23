@@ -96,7 +96,7 @@ MonoBehaviour:
   groundCheckDistance: 0.1
   groundCheckCooldown: 0.1
   gravityAcceleration: 40
-  jumpHeight: 3
+  jumpHeight: 2
   jumpInputBufferDepth: 20
   groundContactBufferDepth: 30
   magnetismStrengthCoefficient: 3

@@ -226,6 +226,12 @@ public class CameraController : MonoBehaviour
         #endregion
     }
 
+    // Resets the rotation to the neutral starting rotation
+    public void ResetRotation()
+    {
+        lookRotation = Vector2.zero;
+    }
+
     // Sets up a new recoil for the camera
     public void AddRecoil(float maxX, float maxY)
     {
