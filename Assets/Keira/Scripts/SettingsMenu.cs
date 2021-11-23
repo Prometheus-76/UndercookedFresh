@@ -65,8 +65,8 @@ public class SettingsMenu : MonoBehaviour
 
     #region V Sync
     [Header("V-Sync")]
-    [Tooltip("Drop Down For V-Sync False/True")]
-    public TMP_Dropdown vSyncDropdown;
+    [Tooltip("Drop Down For V-Sync Toggle")]
+    public Toggle vSyncToggle;
     private int vSyncTarget = 1;
     #endregion
 
@@ -132,8 +132,8 @@ public class SettingsMenu : MonoBehaviour
 
     #region Head Bob
     [Header("Head Bob")]
-    [Tooltip("Drop Down For Head Bob False/True")]
-    public TMP_Dropdown headbobDropdown;
+    [Tooltip("Drop Down For Head Bob Toggle")]
+    public Toggle headbobToggle;
     private int headbobTarget = 1;
     #endregion
 
@@ -175,8 +175,7 @@ public class SettingsMenu : MonoBehaviour
 
         #region V-Sync
         vSyncTarget = PlayerPrefs.GetInt("VSync", vSyncTarget);
-        vSyncDropdown.value = vSyncTarget;
-        vSyncDropdown.RefreshShownValue();
+        vSyncToggle.isOn = (vSyncTarget == 1) ? true : false;
         #endregion
 
         #endregion
@@ -219,7 +218,7 @@ public class SettingsMenu : MonoBehaviour
 
         #region Head Bob
         headbobTarget = PlayerPrefs.GetInt("HeadBob", headbobTarget);
-        headbobDropdown.value = headbobTarget;
+        headbobToggle.isOn = (headbobTarget == 1) ? true : false;
         #endregion
 
         #region Crouch Toggle
@@ -262,9 +261,9 @@ public class SettingsMenu : MonoBehaviour
     #endregion
 
     #region V-Sync
-    public void VSyncDropdownUpdate()
+    public void VSyncToggleUpdate()
     {
-        vSyncTarget = vSyncDropdown.value;
+        vSyncTarget = vSyncToggle.isOn ? 1 : 0;
         PlayerPrefs.SetInt("VSync", vSyncTarget);
     }
     #endregion
@@ -346,9 +345,9 @@ public class SettingsMenu : MonoBehaviour
     #endregion
 
     #region Head Bob
-    public void HeadbobDropdownUpdate()
+    public void HeadbobToggleUpdate()
     {
-        headbobTarget = headbobDropdown.value;
+        headbobTarget = headbobToggle.isOn ? 1 : 0;
         PlayerPrefs.SetInt("HeadBob", headbobTarget);
     }
     #endregion
