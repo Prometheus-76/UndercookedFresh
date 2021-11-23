@@ -21,18 +21,41 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Boulder
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: f6c7a35f590dc88498cf47195558594f, type: 3}
   m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_2F2CD906:
+        m_Texture: {fileID: 2800000, guid: 6227f12ac308ba249975479434aed618, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_313D0BB8:
+        m_Texture: {fileID: 2800000, guid: f7aaa53fa8b5cb54d82c088dc88695fc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_C5901D7E:
+        m_Texture: {fileID: 2800000, guid: 83b156ce4ce05b840a3e33fa837c4dc2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_C9F4520B:
+        m_Texture: {fileID: 2800000, guid: 80a4123f131b0744ab38a7ce8eb7efa2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_CD7AD50:
+        m_Texture: {fileID: 2800000, guid: aa72e02d5e0d6464d97ecb77c71bf2ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_F8C637BE:
+        m_Texture: {fileID: 2800000, guid: 1eee25fc4079df74ea649aa08d3b862a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 1eee25fc4079df74ea649aa08d3b862a, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -62,6 +85,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_96EF94BA: 1
+    - Vector1_AC030F6E: 2
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
