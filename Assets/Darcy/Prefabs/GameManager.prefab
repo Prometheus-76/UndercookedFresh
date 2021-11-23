@@ -43,6 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d2c8666f615014c984adfc7739c41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 5129630843410315884, guid: 6890b2eb18c6b144ea6108bed7e6458e, type: 3}
+  - {fileID: 2331913275626563161, guid: 1d14d1f3b6cef674da74b061dc492c0b, type: 3}
+  - {fileID: 489591401299646711, guid: 41b92f74c1ef0e84dad19b7a9ff74456, type: 3}
   spawnerLayer:
     serializedVersion: 2
     m_Bits: 16384
@@ -52,15 +56,10 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4096
-  minSpawnDistance: 10
+  minSpawnDistance: 20
   maxSpawnDistance: 100
-  enemyPrefabs:
-  - {fileID: 5129630843410315884, guid: 6890b2eb18c6b144ea6108bed7e6458e, type: 3}
-  - {fileID: 2331913275626563161, guid: 1d14d1f3b6cef674da74b061dc492c0b, type: 3}
-  - {fileID: 489591401299646711, guid: 41b92f74c1ef0e84dad19b7a9ff74456, type: 3}
+  timeBetweenWaves: 30
   budgetInstancePercentAllowed: 0.3
   waveSpawnBudget: 20
   spawnBudgetIncreasePerWave: 10
-  waveActive: 0
-  timeBetweenWaves: 20
   enemyParent: {fileID: 0}

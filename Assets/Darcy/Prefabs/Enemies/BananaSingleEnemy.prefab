@@ -511,6 +511,9 @@ MonoBehaviour:
   minimumLookSimilarity: 0.8
   damageLingerDuration: 3
   overallFadeTime: 0.2
+  environmentLayers:
+    serializedVersion: 2
+    m_Bits: 33024
   currentFillImage: {fileID: 308722273057564360}
   delayedFillImage: {fileID: 308722273073537048}
   borderImage: {fileID: 308722273115226131}

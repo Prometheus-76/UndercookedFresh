@@ -44,5 +44,6 @@ public class UpgradeStation : InteractiveObject
 
         // Make the cursor visible and confine it to the window
         Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 }

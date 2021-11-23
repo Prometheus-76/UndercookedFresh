@@ -70,17 +70,18 @@ public class PauseMenuHUD : MonoBehaviour
         if (UpgradeStationHUD.showHUD == false && PlayerStats.isAlive)
         {
             // Pauses the game when escape is pressed
-            if (Input.GetKeyDown(KeyCode.Escape) && PlayerStats.gamePaused == false)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 // Change paused state
-                PlayerStats.gamePaused = true;
-                showHUD = true;
+                PlayerStats.gamePaused = !PlayerStats.gamePaused;
+                showHUD = PlayerStats.gamePaused;
             }
 
             // Adjust game behaviour accordingly
             Time.timeScale = (PlayerStats.gamePaused) ? 0f : 1f;
             UserInterfaceHUD.showHUD = !PlayerStats.gamePaused;
             Cursor.lockState = (PlayerStats.gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = (PlayerStats.gamePaused);
             blurEffect.SetActive(PlayerStats.gamePaused);
         }
 

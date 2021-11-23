@@ -108,8 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e99f3792795d0549a19e0cd90284faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseCost: 10
-  difficultyScaling: 0
-  interactDuration: 2
-  interactPrompt: Deconstruct Barrier
   isInteractable: 0
+  baseCost: 10
+  interactDuration: 1
+  interactPrompt: Deconstruct Barrier
