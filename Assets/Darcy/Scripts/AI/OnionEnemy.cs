@@ -245,6 +245,10 @@ public class OnionEnemy : Enemy
 
                     // Damage the player
                     playerStats.TakeDamage(scaledDamage);
+
+                    // Set the damage direction indicator
+                    UserInterfaceHUD.damageFlashTimer = UserInterfaceHUD.damageFlashDuration;
+                    UserInterfaceHUD.damageOrigin = enemyTransform.position;
                 }
 
                 // Try to find the closest edge on the NavMesh
@@ -276,12 +280,34 @@ public class OnionEnemy : Enemy
                 enemyAgent.ResetPath();
                 enemyAgent.isStopped = true;
             }
+
+            if (isBurrowing)
+            {
+                // Burrowing animation
+                float scale = enemyTransform.localScale.x;
+                scale -= Time.deltaTime * 0.5f;
+                scale = Mathf.Clamp01(scale);
+                enemyTransform.localScale = Vector3.one * scale;
+                enemyTransform.Rotate(Vector3.up * Time.deltaTime * 360f, Space.Self);
+
+                // The animation has completed
+                if (scale <= 0f)
+                {
+                    Configure();
+                    this.gameObject.SetActive(false);
+                    enemyTransform.localScale = Vector3.one;
+                    enemyTransform.rotation = Quaternion.identity;
+                }
+            }
         }
     }
 
     // Responsible for removing health from the enemy and spawning damage numbers when damage is dealt
     public override void TakeDamage(int damage, int expectedDamage, Vector3 position, bool ignoreArmour)
     {
+        if (isBurrowing)
+            return;
+
         int startingHealth = currentHealth;
 
         int damageTaken = 0;
@@ -322,6 +348,11 @@ public class OnionEnemy : Enemy
             // Draw damage numbers
             GameObject damageNumberInstance = Instantiate<GameObject>(damageNumberPrefab, damageNumberParentTransform);
             damageNumberInstance.GetComponent<DamageNumber>().SetupDamageNumber(damageTaken.ToString(), position, (damage == expectedDamage));
+
+            playerStats.damageDealt += damageTaken;
+
+            // Show hit marker
+            UserInterfaceHUD.hitMarkerFadeTimer = UserInterfaceHUD.hitMarkerFadeDuration;
         }
 
         // If the enemy has died

@@ -14,10 +14,12 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector]
     public int currentHealth;
-
+    [HideInInspector]
     public bool isBurrowing;
 
     protected NavMeshPath enemyPath;
+
+    private float pathCheckTimer;
 
     #endregion
 
@@ -97,11 +99,15 @@ public class Enemy : MonoBehaviour
 
         // Default values
         isBurrowing = false;
+        pathCheckTimer = 3f;
     }
 
     // Responsible for removing health from the enemy and spawning damage numbers when damage is dealt
     public virtual void TakeDamage(int damage, int expectedDamage, Vector3 position, bool ignoreArmour)
     {
+        if (isBurrowing)
+            return;
+
         int startingHealth = currentHealth;
 
         // Determine the damage the enemy will take, cut it off if it brings them below 0
@@ -117,7 +123,11 @@ public class Enemy : MonoBehaviour
             // Draw damage numbers
             GameObject damageNumberInstance = Instantiate<GameObject>(damageNumberPrefab, damageNumberParentTransform);
             damageNumberInstance.GetComponent<DamageNumber>().SetupDamageNumber(damageTaken.ToString(), position, (damage == expectedDamage));
+
             playerStats.damageDealt += damageTaken;
+
+            // Show hit marker
+            UserInterfaceHUD.hitMarkerFadeTimer = UserInterfaceHUD.hitMarkerFadeDuration;
         }
 
         // If the enemy has died
@@ -166,12 +176,29 @@ public class Enemy : MonoBehaviour
 
     protected void CheckDistanceValidity()
     {
-        Vector3 playerMeshPosition;
-        //enemyAgent.CalculatePath(playerTransform.position, enemyPath);
+        if (isBurrowing)
+            return;
+
+        enemyAgent.CalculatePath(playerTransform.position, enemyPath);
         float traversalDistanceToPlayer = CalculatePathLength(enemyPath);
-        if (traversalDistanceToPlayer == -1f || traversalDistanceToPlayer > despawnDistance)
+        float absoluteDistanceToPlayer = Vector3.Distance(playerTransform.position, enemyTransform.position);
+        //if ((traversalDistanceToPlayer == -1f || traversalDistanceToPlayer > despawnDistance || (enemyPath.corners.Length > 1 && enemyPath.status != NavMeshPathStatus.PathComplete)))
+        
+        if (absoluteDistanceToPlayer > despawnDistance || traversalDistanceToPlayer > despawnDistance)
         {
-            //isBurrowing = true;
+            // The path is invalid
+            pathCheckTimer -= Time.deltaTime;
+        }
+        else
+        {
+            // The path is valid
+            pathCheckTimer = 3f;
+        }
+        
+        if (pathCheckTimer < 0f)
+        {
+            // The path has been invalid for more than the maximum duration
+            isBurrowing = true;
         }
     }
 }

@@ -6,18 +6,16 @@ using TMPro;
 
 //Script Author: Keira
 
+
 /*
 PlayerPref keys
 
 Sliders - 
 
-"MouseSensitivity"     - Sensitivity of mouse   - Type: Float | Range: 1 - 5  | Default: 3   | Displayed as: 1 - 5 float
+"MouseSensitivity"     - Sensitivity of mouse   - Type: Float | Range: 0.1 - 5  | Default: 2.5   | Displayed as: 0.1 - 5 float
 "AudioLevelMaster"     - Master Audio           - Type: Float | Range: 0 - 1  | Default: 0.8 | Displayed as: 0 - 10 int
 "AudioLevelMusic"      - Music Audio            - Type: Float | Range: 0 - 1  | Default: 1   | Displayed as: 0 - 10 int
 "AudioLevelSfx"        - Sfx Audio              - Type: Float | Range: 0 - 1  | Default: 1   | Displayed as: 0 - 10 int
-
-To add/edit
-
 "ScreenshakeIntensity" - Screenshake            - Type: Int   | Range: 0 - 10 | Default: 10  | Displayed as: 0 - 10 int
 
 Toggles: -                                      - Type: Int   | Range: 0 or 1 | Default: Varies 
@@ -114,7 +112,7 @@ public class SettingsMenu : MonoBehaviour
     [Header("Mouse Sensitivity")]
     //Mouse Sensitivity Variables - "MouseSensitivity"
     [Tooltip("Mouse Sensitivity Default Value")]
-    public float mouseSensitivityTarget = 3f;
+    public float mouseSensitivityTarget = 2.5f;
     [Tooltip("Slider For Mouse Sensitivity")]
     public Slider mouseSensitivitySlider;
     [Tooltip("TextMeshPro Input Field For Mouse Sensitivity")]

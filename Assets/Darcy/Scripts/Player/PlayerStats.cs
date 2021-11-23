@@ -212,33 +212,42 @@ public class PlayerStats : MonoBehaviour
             // If the game has started (due to picking up the first weapon)
             if (WaveManager.gameStarted)
             {
-                currentRunTime += Time.deltaTime;
-
-                // Allow passive ultimate charge
-                AddUltimateCharge(Time.deltaTime * passiveUltimateChargeRate * 100f);
-
-                if (currentHealth > 0)
+                if (WaveManager.waveActive)
                 {
-                    if (immuneRegenerationTimer > 0f)
-                    {
-                        immuneRegenerationTimer -= Time.deltaTime;
-                    }
-                    else
-                    {
-                        immuneRegenerationTimer = 0f;
+                    // Add unscaled time
+                    currentRunTime += Time.deltaTime;
+                    
+                    // Allow passive ultimate charge
+                    AddUltimateCharge(Time.deltaTime * passiveUltimateChargeRate * 100f);
 
-                        if (regenerationTimer < 0f)
+                    // Passive health regeneration
+                    if (currentHealth > 0)
+                    {
+                        if (immuneRegenerationTimer > 0f)
                         {
-                            // Add some health
-                            int regeneratedHealth = Mathf.Min(Mathf.CeilToInt((percentRegenerationPerSecond / 100f) * maxHealth), maxHealth - currentHealth);
-                            currentHealth += regeneratedHealth;
-                            regenerationTimer = 1f;
+                            immuneRegenerationTimer -= Time.deltaTime;
                         }
                         else
                         {
-                            regenerationTimer -= Time.deltaTime;
+                            immuneRegenerationTimer = 0f;
+
+                            if (regenerationTimer < 0f)
+                            {
+                                // Add some health
+                                int regeneratedHealth = Mathf.Min(Mathf.CeilToInt((percentRegenerationPerSecond / 100f) * maxHealth), maxHealth - currentHealth);
+                                currentHealth += regeneratedHealth;
+                                regenerationTimer = 1f;
+                            }
+                            else
+                            {
+                                regenerationTimer -= Time.deltaTime;
+                            }
                         }
                     }
+                }
+                else
+                {
+                    currentRunTime += Time.deltaTime * (Input.GetKey(KeyCode.Tab) ? 20f : 1f);
                 }
             }
 
@@ -260,6 +269,8 @@ public class PlayerStats : MonoBehaviour
                         break;
                     }
                 }
+                
+                #region Raycast To Interact
 
                 if (interactHit.transform != null && aimingAtColliderInProximity && Physics.Linecast(mainCameraTransform.position, interactHit.point, environmentLayers) == false)
                 {
@@ -289,6 +300,46 @@ public class PlayerStats : MonoBehaviour
                         }                        
                     }
                 }
+
+                #endregion
+
+                #region Overlap To Interact
+
+                if (aimingAtColliderInProximity == false)
+                {
+                    Collider[] interactsOverlapping = Physics.OverlapSphere(mainCameraTransform.position, 0.4f, interactiveLayer);
+
+                    if(interactsOverlapping.Length > 0)
+                    {
+                        // Cache interactive object script
+                        currentInteraction = interactsOverlapping[0].transform.gameObject.GetComponent<InteractiveObject>();
+
+                        if (currentInteraction.isInteractable)
+                        {
+                            // Display interact info
+                            interactPresent = true;
+
+                            if (Input.GetKeyDown(KeyCode.E) && (ulong)currentInteraction.GetFibreCost() <= currentFibre)
+                            {
+                                // Start interaction timer
+                                if (currentInteraction != null)
+                                {
+                                    interactTimer = currentInteraction.interactDuration;
+
+                                    // If interact is instant
+                                    if (interactTimer <= 0f)
+                                    {
+                                        currentInteraction.Interact();
+                                        currentFibre -= (ulong)currentInteraction.GetFibreCost();
+                                        interactTimer = 0f;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                #endregion
             }
 
             // Progress timer
@@ -310,7 +361,7 @@ public class PlayerStats : MonoBehaviour
                 interactTimer = 0f;
             }
 
-        #endregion
+            #endregion
         }
 
         #region Update UI
@@ -326,6 +377,7 @@ public class PlayerStats : MonoBehaviour
         UserInterfaceHUD.currentFibre = currentFibre;
 
         UserInterfaceHUD.interactPresent = interactPresent;
+        UserInterfaceHUD.interactHasDuration = (currentInteraction != null && currentInteraction.interactDuration > 0f);
         
         if (interactPresent && currentInteraction != null)
         {

@@ -58,7 +58,7 @@ public class PauseMenuHUD : MonoBehaviour
         sceneLoader = GameObject.FindGameObjectWithTag("LoadingScreen").GetComponent<SceneLoader>();
 
         // Display the saved sensitivity value on the slider, defaulting to 3.0
-        sensitivitySlider.value = Mathf.CeilToInt(PlayerPrefs.GetFloat("MouseSensitivity", 3f) * 10f);
+        sensitivitySlider.value = Mathf.CeilToInt(PlayerPrefs.GetFloat("MouseSensitivity", 2.5f) * 10f);
 
         #endregion
     }
@@ -70,17 +70,18 @@ public class PauseMenuHUD : MonoBehaviour
         if (UpgradeStationHUD.showHUD == false && PlayerStats.isAlive)
         {
             // Pauses the game when escape is pressed
-            if (Input.GetKeyDown(KeyCode.Escape) && PlayerStats.gamePaused == false)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 // Change paused state
-                PlayerStats.gamePaused = true;
-                showHUD = true;
+                PlayerStats.gamePaused = !PlayerStats.gamePaused;
+                showHUD = PlayerStats.gamePaused;
             }
 
             // Adjust game behaviour accordingly
             Time.timeScale = (PlayerStats.gamePaused) ? 0f : 1f;
             UserInterfaceHUD.showHUD = !PlayerStats.gamePaused;
             Cursor.lockState = (PlayerStats.gamePaused) ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = (PlayerStats.gamePaused);
             blurEffect.SetActive(PlayerStats.gamePaused);
         }
 

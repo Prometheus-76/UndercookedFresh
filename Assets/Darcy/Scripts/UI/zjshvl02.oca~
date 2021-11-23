@@ -27,10 +27,6 @@ public class UserInterfaceHUD : MonoBehaviour
     public Image microwaveGunReticleImage;
     public Image aSaltRifleReticleImage;
     public Image pepperShotgunReticleImage;
-    public Image hitMarkerImage;
-
-    public static float hitMarkerFadeTimer;
-    public static float hitMarkerFadeDuration { get; private set; } // Assigned in Awake
     #endregion
 
     #region Reloading
@@ -48,15 +44,11 @@ public class UserInterfaceHUD : MonoBehaviour
     public Image waveProgressImage;
     public TextMeshProUGUI waveStatusText;
     public TextMeshProUGUI waveProgressText;
-    public TextMeshProUGUI skipPromptText;
-    public TextMeshProUGUI waveTransitionText;
 
     public static float waveProgress; // The progress of the current wave
     public static float intermissionProgress; // The progress of the current intermission
     public static int waveNumber; // The number of the current wave
     public static int intermissionDuration; // The length in seconds of the intermission
-    public static float waveChangeEffectDuration { get; private set; } // Set in Awake
-    public static float waveChangeEffectTimer;
     #endregion
 
     #region Player Health
@@ -123,7 +115,6 @@ public class UserInterfaceHUD : MonoBehaviour
     public static int interactCost;
     public static string interactPrompt;
     public static bool interactPresent;
-    public static bool interactHasDuration;
 
     #endregion
 
@@ -148,16 +139,12 @@ public class UserInterfaceHUD : MonoBehaviour
     {
         // Static assignment
         showHUD = true;
-        hitMarkerFadeDuration = 0.3f;
-        hitMarkerFadeTimer = 0f;
         reloadProgress = 0f;
         equippedWeapon = -1;
         waveProgress = 0f;
         intermissionProgress = 0f;
         waveNumber = 1;
         intermissionDuration = 0;
-        waveChangeEffectDuration = 3f;
-        waveChangeEffectTimer = 0f;
         playerCurrentHealth = 100;
         playerMaxHealth = 100;
         ammoInMagazine = 0;
@@ -171,9 +158,8 @@ public class UserInterfaceHUD : MonoBehaviour
         interactCost = 0;
         interactPrompt = "";
         interactPresent = false;
-        interactHasDuration = false;
         damageOrigin = Vector3.zero;
-        damageFlashDuration = 1.5f;
+        damageFlashDuration = 2f;
         damageFlashTimer = 0f;
     }
 
@@ -185,6 +171,7 @@ public class UserInterfaceHUD : MonoBehaviour
         // Grab the colour of the health bar and automatically use it for text
         colourCodeHealthBar = ColorUtility.ToHtmlStringRGBA(healthProgressImage.color);
 
+        damageFlashDuration = 2f;
         indicatorTargetRotation = Quaternion.identity;
 
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -203,28 +190,6 @@ public class UserInterfaceHUD : MonoBehaviour
 
         if (showHUD)
         {
-            #region Hit Marker
-
-            if (hitMarkerFadeTimer > 0f)
-            {
-                // Fade in/out
-                float fadeProgress = (hitMarkerFadeTimer / hitMarkerFadeDuration);
-                Color hitMarkerColour = Color.white;
-                hitMarkerColour.a = HitMarkerFade(fadeProgress) * 0.7f;
-                hitMarkerImage.color = hitMarkerColour;
-                hitMarkerFadeTimer -= Time.deltaTime;
-
-                // Turn the hit marker on
-                hitMarkerImage.enabled = true;
-            }
-            else
-            {
-                // Turn the hit marker off as it isn't being used
-                hitMarkerImage.enabled = false;
-            }
-
-            #endregion
-
             #region Reload Progress
 
             // If the weapon is reloading
@@ -234,7 +199,6 @@ public class UserInterfaceHUD : MonoBehaviour
                 microwaveGunReticleImage.enabled = false;
                 aSaltRifleReticleImage.enabled = false;
                 pepperShotgunReticleImage.enabled = false;
-                hitMarkerFadeTimer = 0f;
 
                 // Show reload progress
                 reloadProgressImage.enabled = true;
@@ -250,11 +214,6 @@ public class UserInterfaceHUD : MonoBehaviour
                     // Show reticle
                     switch (equippedWeapon)
                     {
-                        case -1:
-                            microwaveGunReticleImage.enabled = true;
-                            aSaltRifleReticleImage.enabled = false;
-                            pepperShotgunReticleImage.enabled = false;
-                            break;
                         case 0:
                             microwaveGunReticleImage.enabled = true;
                             aSaltRifleReticleImage.enabled = false;
@@ -289,33 +248,6 @@ public class UserInterfaceHUD : MonoBehaviour
 
             #region Wave Counter and Progress
 
-            skipPromptText.enabled = (WaveManager.waveActive == false && WaveManager.gameStarted);
-
-            // Set the wave complete / wave starting text prompts
-            if (waveChangeEffectTimer > 0f)
-            {
-                // Calculate opacity
-                float progress = Mathf.Clamp01(waveChangeEffectTimer / waveChangeEffectDuration);
-                float textAlpha = WaveChangeEffectCurve(progress);
-                Color textColour = Color.white;
-                textColour.a = textAlpha;
-
-                // Set text based on circumstance
-                waveTransitionText.text = (WaveManager.waveActive == true) ? ("Stage " + WaveManager.waveNumber) : ("Stage " + WaveManager.waveNumber + " Complete!");
-                waveTransitionText.color = textColour;
-
-                // Turn the text on
-                waveTransitionText.enabled = true;
-                waveChangeEffectTimer -= Time.deltaTime;
-            }
-            else
-            {
-                // Turn the text off
-                waveChangeEffectTimer = 0f;
-                waveTransitionText.enabled = false;
-            }
-
-            // Set the wave progress bar and relevant text
             if (intermissionProgress <= 0)
             {
                 waveProgressImage.fillAmount = Mathf.Clamp01(waveProgress);
@@ -520,7 +452,7 @@ public class UserInterfaceHUD : MonoBehaviour
             {
                 // Show interact text
                 interactPromptText.enabled = true;
-                interactPromptText.text = interactPrompt + " (" + (interactHasDuration ? "Hold " : "") + KeyCode.E.ToString().ToLower() + ")";
+                interactPromptText.text = interactPrompt + " (" + KeyCode.E.ToString().ToLower() + ")";
 
                 if (interactCost > 0)
                 {
@@ -542,6 +474,9 @@ public class UserInterfaceHUD : MonoBehaviour
 
             #region Hazards
 
+            damageFlashTimer = 1f;
+            damageOrigin = Vector3.one;
+
             if (damageFlashTimer > 0f)
             {
                 // Which way is the player facing?
@@ -558,7 +493,7 @@ public class UserInterfaceHUD : MonoBehaviour
 
                 // How close is the player to looking at the damage?
                 float lookHazardDot = Vector3.Dot(playerForward, globalDamageDirection);
-                lookHazardDot = 1f - (2f * (Mathf.Acos(lookHazardDot)) / Mathf.PI); // Map circular Dot() to linear angle delta
+                lookHazardDot = 1f - (2f * (Mathf.Acos(lookHazardDot)) / Mathf.PI);
                 float rotationAngleDegrees = ((1f - lookHazardDot) / 2f) * 180f;
 
                 // Account for left/right in dot product magnitude (1 is on the right (default), -1 is on the left)
@@ -566,18 +501,9 @@ public class UserInterfaceHUD : MonoBehaviour
                 rotationAngleDegrees *= -hazardSide;
 
                 // Slowly rotate towards the hazard source
-                rotationAngleDegrees = (float.IsNaN(rotationAngleDegrees)) ? 0f : rotationAngleDegrees; // Prevent stupid quaternion witchcraft
-                indicatorTargetRotation = Mathf.Approximately(rotationAngleDegrees, 0f) ? Quaternion.identity : Quaternion.Euler(0f, 0f, rotationAngleDegrees);
-                directionalIndicatorTransform.localRotation = Quaternion.Lerp(directionalIndicatorTransform.localRotation, indicatorTargetRotation, Time.deltaTime * 15f);
+                indicatorTargetRotation = (rotationAngleDegrees == 0f || rotationAngleDegrees == 180f) ? Quaternion.identity : Quaternion.Euler(0f, 0f, rotationAngleDegrees);
+                directionalIndicatorTransform.localRotation = Quaternion.Lerp(directionalIndicatorTransform.localRotation, indicatorTargetRotation, Time.deltaTime * 10f);
 
-                // Fade in/out
-                float fadeProgress = (damageFlashTimer / damageFlashDuration);
-                Color indicatorColour = Color.white;
-                indicatorColour.a = DamageIndicatorFade(fadeProgress);
-                directionalIndicatorImage.color = indicatorColour;
-                damageFlashTimer -= Time.deltaTime;
-
-                // Turn the indicator on
                 directionalIndicatorImage.enabled = true;
             }
             else
@@ -588,55 +514,5 @@ public class UserInterfaceHUD : MonoBehaviour
 
             #endregion
         }
-    }
-
-    // Used by the damage indicator to control the opacity over time
-    float DamageIndicatorFade(float progress)
-    {
-        float result = 0f;
-
-        if (progress < 0.25f)
-        {
-            result = 16f * Mathf.Pow(progress, 2f);
-        }
-        else
-        {
-            result = 1f;
-        }
-
-        result = Mathf.Clamp01(result);
-        return result;
-    }
-
-    // Used by the hit marker to control the opacity over time
-    float HitMarkerFade(float progress)
-    {
-        float result = 0f;
-
-        result = Mathf.Pow(progress, 2f);
-
-        result = Mathf.Clamp01(result);
-        return result;
-    }
-
-    // Ease in/out from 0 - 1 and back, linger for roughly half the total duration between transitions
-    public float WaveChangeEffectCurve(float progress)
-    {
-        float result = 0f;
-
-        if (progress > 0.8f)
-        {
-            result = 1f - (25f * Mathf.Pow(progress - 0.8f, 2f));
-        }
-        else if (progress < 0.25f)
-        {
-            result = 1f - (16f * Mathf.Pow(progress - 0.25f, 2f));
-        }
-        else
-        {
-            result = 1f;
-        }
-
-        return result;
     }
 }

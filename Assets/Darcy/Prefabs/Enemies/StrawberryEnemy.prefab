@@ -361,6 +361,9 @@ MonoBehaviour:
   minimumLookSimilarity: 0.8
   damageLingerDuration: 3
   overallFadeTime: 0.2
+  environmentLayers:
+    serializedVersion: 2
+    m_Bits: 33024
   currentFillImage: {fileID: 2331913274084460408}
   delayedFillImage: {fileID: 2331913275011237318}
   borderImage: {fileID: 2331913275572659087}
@@ -605,7 +608,7 @@ MonoBehaviour:
   baseMaxHealth: 600
   maxHealth: 0
   baseDamage: 8
-  despawnDistance: 250
+  despawnDistance: 125
   spawnCost: 6
   damageScaler: 0.1
   healthScaler: 0.2

@@ -16,7 +16,7 @@ public class WaveManager : MonoBehaviour
     public static int waveNumber;
     public static bool gameStarted { get; private set; }
     [HideInInspector]
-    public bool waveActive;
+    public static bool waveActive;
     public static int eliminatedWaveEnemies;
     public static int waveEnemyCount { get; private set; }
     private int currentWaveCost;
@@ -24,7 +24,8 @@ public class WaveManager : MonoBehaviour
     private float waveStartTime;
 
     private List<Transform> validSpawnPoints;
-    private List<GameObject> waveEnemies;
+    [HideInInspector]
+    public static List<GameObject> waveEnemies;
     private List<GameObject> upgradeStationInstances;
     private List<int> upgradeStationSpawnOrder;
     private int lastSpawnLocation;
@@ -77,6 +78,7 @@ public class WaveManager : MonoBehaviour
         gameStarted = false;
         eliminatedWaveEnemies = 0;
         waveEnemyCount = 1;
+        waveActive = false;
     }
 
     // Start is called before the first frame update
@@ -101,8 +103,6 @@ public class WaveManager : MonoBehaviour
         {
             upgradeStationInstances.Add(station);
         }
-
-        waveActive = false;
 
         #endregion
     }
@@ -140,6 +140,20 @@ public class WaveManager : MonoBehaviour
                     int remainingEnemies = 0;
                     for (int i = 0; i < waveEnemies.Count; i++)
                     {
+                        // If the enemy is a single banana
+                        if (waveEnemies[i].GetComponent<BananaSingleEnemy>() != null && waveEnemies[i].activeSelf == false)
+                        {
+                            // Spawn the enemy
+                            if (NavMesh.SamplePosition(validSpawnPoints[Random.Range(0, validSpawnPoints.Count)].position, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+                            {
+                                waveEnemies[i].transform.position = hit.position;
+                                waveEnemies[i].GetComponent<Enemy>().isBurrowing = false;
+                                waveEnemies[i].SetActive(true);
+                            }
+
+                            break;
+                        }
+
                         if (waveEnemies[i].activeInHierarchy)
                         {
                             currentActiveEnemyCost += waveEnemies[i].GetComponent<Enemy>().spawnCost;
@@ -358,6 +372,9 @@ public class WaveManager : MonoBehaviour
         }
 
         #endregion
+
+        // Set wave complete UI pop-up
+        UserInterfaceHUD.waveChangeEffectTimer = UserInterfaceHUD.waveChangeEffectDuration;
     }
 
     // Starts a new wave
@@ -372,6 +389,9 @@ public class WaveManager : MonoBehaviour
         waveNumber += 1;
         waveActive = true;
         ChooseWaveEnemies();
+
+        // Set wave starting UI pop-up
+        UserInterfaceHUD.waveChangeEffectTimer = UserInterfaceHUD.waveChangeEffectDuration;
     }
 
     // Starts the cycle of recurring waves
