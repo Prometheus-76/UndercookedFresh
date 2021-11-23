@@ -216,7 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   environmentLayers:
     serializedVersion: 2
-    m_Bits: 1073774848
+    m_Bits: 33024
   playerLayer:
     serializedVersion: 2
     m_Bits: 8192

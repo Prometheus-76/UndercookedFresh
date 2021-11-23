@@ -610,7 +610,7 @@ MonoBehaviour:
   baseDamage: 8
   despawnDistance: 125
   spawnCost: 6
-  damageScaler: 0.1
+  damageScaler: 0.2
   healthScaler: 0.2
   baseScoreValue: 20
   baseFibreValue: 5

@@ -174,7 +174,7 @@ public class PauseMenuHUD : MonoBehaviour
     // Return to the main menu
     private void ReturnToMenu()
     {
-
+        sceneLoader.LoadSceneWithProgress(0);
     }
 
     // Close the game
