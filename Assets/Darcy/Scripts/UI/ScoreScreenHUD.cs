@@ -100,6 +100,7 @@ public class ScoreScreenHUD : MonoBehaviour
         
         if (showHUD)
         {
+            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
     }

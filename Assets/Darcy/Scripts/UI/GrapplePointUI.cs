@@ -74,6 +74,13 @@ public class GrapplePointUI : MonoBehaviour
         progressUnderlayBaseAlpha = progressUnderlayImage.color.a;
         fadeUnderlayBaseAlpha = fadeUnderlayImage.color.a;
 
+        pointSelectedImage.enabled = false;
+        radialProgressImage.enabled = false;
+        progressUnderlayImage.enabled = false;
+        fadeUnderlayImage.enabled = false;
+        overallAlphaMultiplier = 0f;
+        highlightAlphaMultiplier = 0f;
+
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
 
         #endregion
@@ -190,5 +197,10 @@ public class GrapplePointUI : MonoBehaviour
         canvasTransform.localScale = Vector3.one * Mathf.Clamp((distanceToCamera / scaleRate), minimumScale, Mathf.Infinity);
 
         #endregion
+
+        pointSelectedImage.enabled = true;
+        radialProgressImage.enabled = true;
+        progressUnderlayImage.enabled = true;
+        fadeUnderlayImage.enabled = true;
     }
 }

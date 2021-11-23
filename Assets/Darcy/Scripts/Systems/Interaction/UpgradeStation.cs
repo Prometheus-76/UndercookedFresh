@@ -10,6 +10,9 @@ public class UpgradeStation : InteractiveObject
 {
     private WaypointUI waypointScript;
 
+    public GameObject inactiveModel;
+    public GameObject activeModel;
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -25,6 +28,8 @@ public class UpgradeStation : InteractiveObject
     private void Update()
     {
         waypointScript.isActivated = isInteractable;
+        inactiveModel.SetActive(!isInteractable);
+        activeModel.SetActive(isInteractable);
     }
 
     // Return the cost of interacting with this object
@@ -43,7 +48,7 @@ public class UpgradeStation : InteractiveObject
         UserInterfaceHUD.showHUD = false;
 
         // Make the cursor visible and confine it to the window
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 }
