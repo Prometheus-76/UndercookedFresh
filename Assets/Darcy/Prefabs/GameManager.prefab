@@ -56,10 +56,10 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4096
-  minSpawnDistance: 20
-  maxSpawnDistance: 100
+  minSpawnDistance: 15
+  maxSpawnDistance: 50
   timeBetweenWaves: 30
-  budgetInstancePercentAllowed: 0.3
+  budgetInstancePercentAllowed: 0.4
   waveSpawnBudget: 20
   spawnBudgetIncreasePerWave: 10
   enemyParent: {fileID: 0}

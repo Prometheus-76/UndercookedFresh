@@ -608,7 +608,7 @@ MonoBehaviour:
   baseMaxHealth: 200
   maxHealth: 0
   baseDamage: 5
-  despawnDistance: 125
+  despawnDistance: 60
   spawnCost: 0
   damageScaler: 0.2
   healthScaler: 0.2

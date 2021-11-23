@@ -91,6 +91,28 @@ public class HealthBarUI : MonoBehaviour
         // Assign the enemy's name
         enemyNameText.text = enemyScript.enemyName;
 
+        // Make health bar invisible on spawn
+        Color newColour = Color.white;
+
+        newColour.a = 0f;
+        currentFillImage.color = newColour;
+
+        newColour = delayedFillImage.color;
+        newColour.a = 0f;
+        delayedFillImage.color = newColour;
+
+        newColour = borderImage.color;
+        newColour.a = 0f;
+        borderImage.color = newColour;
+
+        newColour = backgroundImage.color;
+        newColour.a = 0f;
+        backgroundImage.color = newColour;
+
+        newColour = enemyNameText.color;
+        newColour.a = 0f;
+        enemyNameText.color = newColour;
+
         #endregion
     }
 

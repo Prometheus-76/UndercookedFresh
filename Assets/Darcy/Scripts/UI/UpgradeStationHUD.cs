@@ -301,7 +301,7 @@ public class UpgradeStationHUD : MonoBehaviour
     public void RefillHealth()
     {
         // Purchase ammo and refill weapon
-        if ((ulong)healthRefillCost <= playerStats.currentFibre)
+        if ((ulong)healthRefillCost <= playerStats.currentFibre && healthRefillCost > 0)
         {
             playerStats.currentFibre -= (ulong)healthRefillCost;
             playerStats.currentHealth += healthRefillAmount;

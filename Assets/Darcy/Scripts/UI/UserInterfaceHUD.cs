@@ -301,7 +301,7 @@ public class UserInterfaceHUD : MonoBehaviour
                 textColour.a = textAlpha;
 
                 // Set text based on circumstance
-                waveTransitionText.text = (WaveManager.waveActive == true) ? ("Stage " + WaveManager.waveNumber) : ("Stage " + WaveManager.waveNumber + " Complete!");
+                waveTransitionText.text = (WaveManager.waveActive == true) ? ("<b>Stage " + WaveManager.waveNumber) : ("<b>Stage " + WaveManager.waveNumber + " Complete!\n<size=40%></b>Upgrade Station Activated");
                 waveTransitionText.color = textColour;
 
                 // Turn the text on
@@ -572,7 +572,7 @@ public class UserInterfaceHUD : MonoBehaviour
 
                 // Fade in/out
                 float fadeProgress = (damageFlashTimer / damageFlashDuration);
-                Color indicatorColour = Color.white;
+                Color indicatorColour = directionalIndicatorImage.color;
                 indicatorColour.a = DamageIndicatorFade(fadeProgress);
                 directionalIndicatorImage.color = indicatorColour;
                 damageFlashTimer -= Time.deltaTime;

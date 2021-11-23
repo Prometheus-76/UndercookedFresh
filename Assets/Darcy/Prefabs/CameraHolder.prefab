@@ -252,7 +252,7 @@ MonoBehaviour:
   weaponType: 0
   bulletInteractionLayers:
     serializedVersion: 2
-    m_Bits: 4352
+    m_Bits: 37120
   swapTime: 0.15
   grappleRotationSpeed: 12
   piercingBullets: 1
@@ -429,7 +429,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -866,7 +866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5516bd6db251134ca4d411d51739776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveKillPotential: 0.5
+  waveKillPotential: 0.4
   bounceDetectionRadius: 30
   moveSpeed: 30
   spinSpeed: 4
@@ -878,7 +878,7 @@ MonoBehaviour:
   lingerDuration: 1
   wallLayers:
     serializedVersion: 2
-    m_Bits: 1073774848
+    m_Bits: 33024
   enemyLayers:
     serializedVersion: 2
     m_Bits: 4096
@@ -1065,7 +1065,7 @@ MonoBehaviour:
   weaponType: 2
   bulletInteractionLayers:
     serializedVersion: 2
-    m_Bits: 4352
+    m_Bits: 37120
   swapTime: 0.25
   grappleRotationSpeed: 3
   piercingBullets: 0
@@ -2048,7 +2048,7 @@ MonoBehaviour:
   weaponType: 1
   bulletInteractionLayers:
     serializedVersion: 2
-    m_Bits: 4352
+    m_Bits: 37120
   swapTime: 0.2
   grappleRotationSpeed: 8
   piercingBullets: 0

@@ -26,6 +26,8 @@ public class WaypointUI : MonoBehaviour
     public float fadeMinDistance = 10f;
     [Tooltip("The time it takes to fade in/out."), Range(0.1f, 0.5f)]
     public float overallFadeTime = 0.2f;
+    [Tooltip("The layers which can block this waypoint, causing it to appear within min range.")]
+    public LayerMask environmentLayers;
 
     #endregion
 
@@ -63,10 +65,11 @@ public class WaypointUI : MonoBehaviour
     {
         // Calculate distance between the main camera and this waypoint
         float distanceToCamera = Vector3.Distance(canvasTransform.position, mainCameraTransform.position);
+        bool isVisible = Physics.Linecast(canvasTransform.position, mainCameraTransform.position, environmentLayers) == false;
 
         #region Update Waypoint UI
 
-        if (distanceToCamera > fadeMinDistance && isActivated)
+        if ((distanceToCamera > fadeMinDistance || (distanceToCamera <= fadeMinDistance && isVisible == false)) && isActivated)
         {
             overallAlphaMultiplier += (Time.deltaTime / overallFadeTime);
         }

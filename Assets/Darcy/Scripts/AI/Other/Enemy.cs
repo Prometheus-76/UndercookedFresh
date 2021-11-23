@@ -99,7 +99,7 @@ public class Enemy : MonoBehaviour
 
         // Default values
         isBurrowing = false;
-        pathCheckTimer = 3f;
+        pathCheckTimer = 5f;
     }
 
     // Responsible for removing health from the enemy and spawning damage numbers when damage is dealt
@@ -179,12 +179,9 @@ public class Enemy : MonoBehaviour
         if (isBurrowing)
             return;
 
-        enemyAgent.CalculatePath(playerTransform.position, enemyPath);
-        float traversalDistanceToPlayer = CalculatePathLength(enemyPath);
         float absoluteDistanceToPlayer = Vector3.Distance(playerTransform.position, enemyTransform.position);
-        //if ((traversalDistanceToPlayer == -1f || traversalDistanceToPlayer > despawnDistance || (enemyPath.corners.Length > 1 && enemyPath.status != NavMeshPathStatus.PathComplete)))
         
-        if (absoluteDistanceToPlayer > despawnDistance || traversalDistanceToPlayer > despawnDistance)
+        if ((absoluteDistanceToPlayer > despawnDistance || (enemyPath.corners.Length > 1 && enemyPath.status != NavMeshPathStatus.PathComplete)))
         {
             // The path is invalid
             pathCheckTimer -= Time.deltaTime;
@@ -192,7 +189,7 @@ public class Enemy : MonoBehaviour
         else
         {
             // The path is valid
-            pathCheckTimer = 3f;
+            pathCheckTimer = 5f;
         }
         
         if (pathCheckTimer < 0f)
