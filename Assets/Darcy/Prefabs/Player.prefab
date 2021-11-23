@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMoveSpeed: 6
   groundAcceleration: 50
-  airAcceleration: 10
+  airAcceleration: 8
   directionChangeCoefficient: 3
   maxWalkingSlopeLimit: 45
   sprintMoveSpeedCoefficient: 2
