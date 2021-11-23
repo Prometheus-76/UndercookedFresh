@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8820991146383822361}
   - component: {fileID: 6741470826362714835}
   m_Layer: 0
-  m_Name: Prefab_StrawberryProjectile
+  m_Name: Object_StrawberryProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4e450c354754f8f488256ffa855e72a1, type: 2}
+  - {fileID: 2100000, guid: f22d4f2a006f24545ad4c0f03d24b7e0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
