@@ -60435,10 +60435,6 @@ PrefabInstance:
       propertyPath: enemyParent
       value: 
       objectReference: {fileID: 1759673862}
-    - target: {fileID: 1533979780033568542, guid: d5a15d8b650dc7e419a550358eb3a725, type: 3}
-      propertyPath: timeBetweenWaves
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 1533979780033568543, guid: d5a15d8b650dc7e419a550358eb3a725, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -60564,10 +60560,6 @@ PrefabInstance:
       propertyPath: gunControllers.Array.data[2]
       value: 
       objectReference: {fileID: 474163893}
-    - target: {fileID: 2234785439003819446, guid: 8e0573df933f44146ac95ac61539ebbc, type: 3}
-      propertyPath: environmentLayers.m_Bits
-      value: 33024
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e0573df933f44146ac95ac61539ebbc, type: 3}
 --- !u!1001 &2282653199331306823
@@ -60654,10 +60646,6 @@ PrefabInstance:
       propertyPath: damageNumberParentTransform
       value: 
       objectReference: {fileID: 608099993}
-    - target: {fileID: 3313231879694256316, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
-      propertyPath: maximumPenetrationCount
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3313231880126348066, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
       propertyPath: m_Name
       value: CameraHolder
@@ -60734,10 +60722,6 @@ PrefabInstance:
       propertyPath: damageNumberParentTransform
       value: 
       objectReference: {fileID: 608099993}
-    - target: {fileID: 7576793464116800287, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
 --- !u!1001 &3797604819175996234
@@ -60795,10 +60779,6 @@ PrefabInstance:
       propertyPath: weaponCoordinator
       value: 
       objectReference: {fileID: 634716515}
-    - target: {fileID: 3797604817709621452, guid: bdf1877831588824d8c9617d90d76585, type: 3}
-      propertyPath: interactDuration
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3797604817709621455, guid: bdf1877831588824d8c9617d90d76585, type: 3}
       propertyPath: m_Name
       value: WeaponUnlock1
@@ -60974,10 +60954,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8245374944010033100, guid: 62bb52b307a389a4caecfb9a512ad089, type: 3}
-      propertyPath: interactDuration
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8245374944010033101, guid: 62bb52b307a389a4caecfb9a512ad089, type: 3}
       propertyPath: m_Name
       value: DestroyableWall
@@ -60991,10 +60967,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2306999610319078475, guid: 389ab223755e1d642ab6b1ba003985e3, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9021833308045979875, guid: 389ab223755e1d642ab6b1ba003985e3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

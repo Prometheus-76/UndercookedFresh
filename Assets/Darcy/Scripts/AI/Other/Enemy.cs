@@ -181,8 +181,10 @@ public class Enemy : MonoBehaviour
 
         enemyAgent.CalculatePath(playerTransform.position, enemyPath);
         float traversalDistanceToPlayer = CalculatePathLength(enemyPath);
-        //float absoluteDistanceToPlayer = Vector3.Distance(enemyTransform.position, playerTransform.position);
-        if ((traversalDistanceToPlayer == -1f || traversalDistanceToPlayer > despawnDistance || (enemyPath.corners.Length > 1 && enemyPath.status != NavMeshPathStatus.PathComplete)))
+        float absoluteDistanceToPlayer = Vector3.Distance(playerTransform.position, enemyTransform.position);
+        //if ((traversalDistanceToPlayer == -1f || traversalDistanceToPlayer > despawnDistance || (enemyPath.corners.Length > 1 && enemyPath.status != NavMeshPathStatus.PathComplete)))
+        
+        if (absoluteDistanceToPlayer > despawnDistance || traversalDistanceToPlayer > despawnDistance)
         {
             // The path is invalid
             pathCheckTimer -= Time.deltaTime;

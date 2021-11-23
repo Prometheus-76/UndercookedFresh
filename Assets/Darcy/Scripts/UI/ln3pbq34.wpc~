@@ -49,13 +49,12 @@ public class UserInterfaceHUD : MonoBehaviour
     public TextMeshProUGUI waveStatusText;
     public TextMeshProUGUI waveProgressText;
     public TextMeshProUGUI skipPromptText;
-    public TextMeshProUGUI waveTransitionText;
 
     public static float waveProgress; // The progress of the current wave
     public static float intermissionProgress; // The progress of the current intermission
     public static int waveNumber; // The number of the current wave
     public static int intermissionDuration; // The length in seconds of the intermission
-    public static float waveChangeEffectDuration { get; private set; } // Set in Awake
+    public static float waveChangeEffectDuration;
     public static float waveChangeEffectTimer;
     #endregion
 
@@ -156,8 +155,6 @@ public class UserInterfaceHUD : MonoBehaviour
         intermissionProgress = 0f;
         waveNumber = 1;
         intermissionDuration = 0;
-        waveChangeEffectDuration = 3f;
-        waveChangeEffectTimer = 0f;
         playerCurrentHealth = 100;
         playerMaxHealth = 100;
         ammoInMagazine = 0;
@@ -291,31 +288,6 @@ public class UserInterfaceHUD : MonoBehaviour
 
             skipPromptText.enabled = (WaveManager.waveActive == false && WaveManager.gameStarted);
 
-            // Set the wave complete / wave starting text prompts
-            if (waveChangeEffectTimer > 0f)
-            {
-                // Calculate opacity
-                float progress = Mathf.Clamp01(waveChangeEffectTimer / waveChangeEffectDuration);
-                float textAlpha = WaveChangeEffectCurve(progress);
-                Color textColour = Color.white;
-                textColour.a = textAlpha;
-
-                // Set text based on circumstance
-                waveTransitionText.text = (WaveManager.waveActive == true) ? ("Stage " + WaveManager.waveNumber) : ("Stage " + WaveManager.waveNumber + " Complete!");
-                waveTransitionText.color = textColour;
-
-                // Turn the text on
-                waveTransitionText.enabled = true;
-                waveChangeEffectTimer -= Time.deltaTime;
-            }
-            else
-            {
-                // Turn the text off
-                waveChangeEffectTimer = 0f;
-                waveTransitionText.enabled = false;
-            }
-
-            // Set the wave progress bar and relevant text
             if (intermissionProgress <= 0)
             {
                 waveProgressImage.fillAmount = Mathf.Clamp01(waveProgress);
@@ -558,7 +530,7 @@ public class UserInterfaceHUD : MonoBehaviour
 
                 // How close is the player to looking at the damage?
                 float lookHazardDot = Vector3.Dot(playerForward, globalDamageDirection);
-                lookHazardDot = 1f - (2f * (Mathf.Acos(lookHazardDot)) / Mathf.PI); // Map circular Dot() to linear angle delta
+                lookHazardDot = 1f - (2f * (Mathf.Acos(lookHazardDot)) / Mathf.PI);
                 float rotationAngleDegrees = ((1f - lookHazardDot) / 2f) * 180f;
 
                 // Account for left/right in dot product magnitude (1 is on the right (default), -1 is on the left)
@@ -566,7 +538,6 @@ public class UserInterfaceHUD : MonoBehaviour
                 rotationAngleDegrees *= -hazardSide;
 
                 // Slowly rotate towards the hazard source
-                rotationAngleDegrees = (float.IsNaN(rotationAngleDegrees)) ? 0f : rotationAngleDegrees; // Prevent stupid quaternion witchcraft
                 indicatorTargetRotation = Mathf.Approximately(rotationAngleDegrees, 0f) ? Quaternion.identity : Quaternion.Euler(0f, 0f, rotationAngleDegrees);
                 directionalIndicatorTransform.localRotation = Quaternion.Lerp(directionalIndicatorTransform.localRotation, indicatorTargetRotation, Time.deltaTime * 15f);
 
@@ -616,27 +587,6 @@ public class UserInterfaceHUD : MonoBehaviour
         result = Mathf.Pow(progress, 2f);
 
         result = Mathf.Clamp01(result);
-        return result;
-    }
-
-    // Ease in/out from 0 - 1 and back, linger for roughly half the total duration between transitions
-    public float WaveChangeEffectCurve(float progress)
-    {
-        float result = 0f;
-
-        if (progress > 0.8f)
-        {
-            result = 1f - (25f * Mathf.Pow(progress - 0.8f, 2f));
-        }
-        else if (progress < 0.25f)
-        {
-            result = 1f - (16f * Mathf.Pow(progress - 0.25f, 2f));
-        }
-        else
-        {
-            result = 1f;
-        }
-
         return result;
     }
 }

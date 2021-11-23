@@ -35,6 +35,8 @@ public class UpgradeStationHUD : MonoBehaviour
     public static int maxHealth;
     private int newMaxHealth;
     private int healthUpgradeCost;
+    private int healthRefillCost;
+    private int healthRefillAmount;
 
     #endregion
 
@@ -55,6 +57,7 @@ public class UpgradeStationHUD : MonoBehaviour
     private int pepperShotgunMaxAmmo;
     private int pepperShotgunUpgradeCost;
     private int pepperShotgunRefillCost;
+    private int pepperShotgunRefillAmmo;
 
     #endregion
 
@@ -75,6 +78,7 @@ public class UpgradeStationHUD : MonoBehaviour
     private int aSaltRifleMaxAmmo;
     private int aSaltRifleUpgradeCost;
     private int aSaltRifleRefillCost;
+    private int aSaltRifleRefillAmmo;
 
     #endregion
 
@@ -133,7 +137,7 @@ public class UpgradeStationHUD : MonoBehaviour
             
             if (maxHealth - currentHealth > 0)
             {
-                healthRefillStatText.text = "<b>Current HP: </b><size=95%>" + currentHealth + " / " + maxHealth + " (+" + (maxHealth - currentHealth) + ")";
+                healthRefillStatText.text = "<b>Current HP: </b><size=95%>" + currentHealth + " / " + maxHealth + " (+" + (healthRefillAmount) + ")";
             }
             else
             {
@@ -141,7 +145,7 @@ public class UpgradeStationHUD : MonoBehaviour
             }
 
             healthUpgradeCostText.text = "Fibre: " + healthUpgradeCost;
-            healthRefillCostText.text = "Fibre: " + Mathf.CeilToInt((maxHealth - currentHealth) * playerStats.fibrePerHealthPoint);
+            healthRefillCostText.text = "Fibre: " + healthRefillCost;
 
             #endregion
 
@@ -151,7 +155,7 @@ public class UpgradeStationHUD : MonoBehaviour
              
             if (pepperShotgunMaxAmmo - pepperShotgunCurrentAmmo > 0)
             {
-                pepperShotgunRefillStatText.text = "<b>Ammo: </b><size=95%>" + pepperShotgunCurrentAmmo + " / " + pepperShotgunMaxAmmo + " (+" + (pepperShotgunMaxAmmo - pepperShotgunCurrentAmmo) + ")";
+                pepperShotgunRefillStatText.text = "<b>Ammo: </b><size=95%>" + pepperShotgunCurrentAmmo + " / " + pepperShotgunMaxAmmo + " (+" + (pepperShotgunRefillAmmo) + ")";
             }
             else
             {
@@ -169,7 +173,7 @@ public class UpgradeStationHUD : MonoBehaviour
 
             if (aSaltRifleMaxAmmo - aSaltRifleCurrentAmmo > 0)
             {
-                aSaltRifleRefillStatText.text = "<b>Ammo: </b><size=95%>" + aSaltRifleCurrentAmmo + " / " + aSaltRifleMaxAmmo + " (+" + (aSaltRifleMaxAmmo - aSaltRifleCurrentAmmo) + ")";
+                aSaltRifleRefillStatText.text = "<b>Ammo: </b><size=95%>" + aSaltRifleCurrentAmmo + " / " + aSaltRifleMaxAmmo + " (+" + (aSaltRifleRefillAmmo) + ")";
             }
             else
             {
@@ -200,6 +204,10 @@ public class UpgradeStationHUD : MonoBehaviour
         newMaxHealth = playerStats.CalculateHealthUpgrade();
         healthUpgradeCost = playerStats.CalculateHealthUpgradeCost();
 
+        healthRefillCost = Mathf.CeilToInt((maxHealth - currentHealth) * playerStats.fibrePerHealthPoint);
+        healthRefillAmount = Mathf.FloorToInt((maxHealth - currentHealth) * Mathf.Clamp01((float)playerStats.currentFibre / (float)healthRefillCost));
+        healthRefillCost = Mathf.Min(healthRefillCost, (int)playerStats.currentFibre);
+
         #endregion
 
         #region Pepper Shotgun
@@ -213,6 +221,9 @@ public class UpgradeStationHUD : MonoBehaviour
         pepperShotgunRefillCost = Mathf.CeilToInt((pepperShotgunMaxAmmo - pepperShotgunCurrentAmmo) * pepperShotgunController.costPerBullet);
         pepperShotgunRefillCost += Mathf.CeilToInt(pepperShotgunRefillCost * (playerStats.difficultyLevel / 5f));
 
+        pepperShotgunRefillAmmo = Mathf.FloorToInt((pepperShotgunMaxAmmo - pepperShotgunCurrentAmmo) * Mathf.Clamp01((float)playerStats.currentFibre / (float)pepperShotgunRefillCost));
+        pepperShotgunRefillCost = Mathf.Min(pepperShotgunRefillCost, (int)playerStats.currentFibre);
+
         #endregion
 
         #region A-Salt Rifle
@@ -225,6 +236,9 @@ public class UpgradeStationHUD : MonoBehaviour
         aSaltRifleUpgradeCost = aSaltRifleController.CalculateWeaponUpgradeCost();
         aSaltRifleRefillCost = Mathf.CeilToInt(Mathf.CeilToInt((aSaltRifleMaxAmmo - aSaltRifleCurrentAmmo) * aSaltRifleController.costPerBullet));
         aSaltRifleRefillCost += Mathf.CeilToInt(aSaltRifleRefillCost * (playerStats.difficultyLevel / 5f));
+
+        aSaltRifleRefillAmmo = Mathf.FloorToInt((aSaltRifleMaxAmmo - aSaltRifleCurrentAmmo) * Mathf.Clamp01((float)playerStats.currentFibre / (float)aSaltRifleRefillCost));
+        aSaltRifleRefillCost = Mathf.Min(aSaltRifleRefillCost, (int)playerStats.currentFibre);
 
         #endregion
 
@@ -244,53 +258,54 @@ public class UpgradeStationHUD : MonoBehaviour
         // Determine weapon script and the cost of refilling this weapon
         GunController weaponScript = null;
         int ammoCost = 0;
+        int ammoAmount = 0;
         switch (weaponIndex)
         {
             case 1:
                 weaponScript = aSaltRifleController;
                 ammoCost = aSaltRifleRefillCost;
+                ammoAmount = aSaltRifleRefillAmmo;
                 break;
             case 2:
                 weaponScript = pepperShotgunController;
                 ammoCost = pepperShotgunRefillCost;
+                ammoAmount = pepperShotgunRefillAmmo;
                 break;
             default:
                 return;
         }
 
         // Purchase ammo and refill weapon
-        if ((ulong)ammoCost <= playerStats.currentFibre)
+        if ((ulong)ammoCost <= playerStats.currentFibre && ammoCost > 0)
         {
             playerStats.currentFibre -= (ulong)ammoCost;
-            weaponScript.currentAmmoInMagazine = weaponScript.magazineSize;
-            weaponScript.currentAmmoInReserves = weaponScript.ammoTotalReserves;
-        }
-        else
-        {
-            // Insufficient fibre count, do not allow purchase
-            return;
+
+            // Transfer from reserves to magazine
+            int ammoMissingFromMagazine = weaponScript.magazineSize - weaponScript.currentAmmoInMagazine;
+            int additionToMagazine = Mathf.Min(ammoMissingFromMagazine, weaponScript.currentAmmoInReserves);
+            weaponScript.currentAmmoInMagazine += additionToMagazine;
+            weaponScript.currentAmmoInReserves -= additionToMagazine;
+
+            // Fill up remainder of magazine from purchase
+            ammoMissingFromMagazine = weaponScript.magazineSize - weaponScript.currentAmmoInMagazine;
+            additionToMagazine = Mathf.Min(ammoMissingFromMagazine, ammoAmount);
+            weaponScript.currentAmmoInMagazine += additionToMagazine;
+            ammoAmount -= additionToMagazine;
+
+            // Fill up remainder of reserves from purchase
+            weaponScript.currentAmmoInReserves += ammoAmount;
         }
     }
 
     // Return health to full and subtract equivalent fibre 
     public void RefillHealth()
     {
-        int missingHealth = 0;
-        int restoreCost = 0;
-
-        missingHealth = maxHealth - currentHealth;
-        restoreCost = Mathf.CeilToInt(missingHealth * playerStats.fibrePerHealthPoint);
-
         // Purchase ammo and refill weapon
-        if ((ulong)restoreCost <= playerStats.currentFibre)
+        if ((ulong)healthRefillCost <= playerStats.currentFibre)
         {
-            playerStats.currentFibre -= (ulong)restoreCost;
-            playerStats.currentHealth = playerStats.maxHealth;
-        }
-        else
-        {
-            // Insufficient fibre count, do not allow purchase
-            return;
+            playerStats.currentFibre -= (ulong)healthRefillCost;
+            playerStats.currentHealth += healthRefillAmount;
+            playerStats.currentHealth = Mathf.Min(playerStats.currentHealth, playerStats.maxHealth);
         }
     }
 
@@ -303,5 +318,6 @@ public class UpgradeStationHUD : MonoBehaviour
 
         // Make the cursor invisible and stop it from leaving the window
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

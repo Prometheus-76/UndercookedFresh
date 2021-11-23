@@ -104,8 +104,6 @@ public class WaveManager : MonoBehaviour
             upgradeStationInstances.Add(station);
         }
 
-        waveActive = false;
-
         #endregion
     }
 
@@ -374,6 +372,9 @@ public class WaveManager : MonoBehaviour
         }
 
         #endregion
+
+        // Set wave complete UI pop-up
+        UserInterfaceHUD.waveChangeEffectTimer = UserInterfaceHUD.waveChangeEffectDuration;
     }
 
     // Starts a new wave
@@ -388,6 +389,9 @@ public class WaveManager : MonoBehaviour
         waveNumber += 1;
         waveActive = true;
         ChooseWaveEnemies();
+
+        // Set wave starting UI pop-up
+        UserInterfaceHUD.waveChangeEffectTimer = UserInterfaceHUD.waveChangeEffectDuration;
     }
 
     // Starts the cycle of recurring waves

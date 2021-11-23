@@ -434,7 +434,7 @@ public class ThrowingKnifeController : MonoBehaviour
             return;
         }
 
-        maxBounces = Mathf.RoundToInt((float)WaveManager.waveEnemyCount * waveKillPotential);
+        maxBounces = Mathf.CeilToInt((float)WaveManager.waveEnemyCount * waveKillPotential);
         holderTransform.SetParent(null);
         bounceCount = 0;
         airtimeTimer = 0f;

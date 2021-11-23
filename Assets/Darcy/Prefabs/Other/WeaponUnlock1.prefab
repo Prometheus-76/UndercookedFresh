@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInteractable: 0
   baseCost: 0
-  interactDuration: 1
+  interactDuration: 0
   interactPrompt: Unlock Microwave Gun
   unlockItem: 0
   weaponCoordinator: {fileID: 0}
