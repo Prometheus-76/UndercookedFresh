@@ -256,8 +256,8 @@ MonoBehaviour:
   swapTime: 0.15
   grappleRotationSpeed: 12
   piercingBullets: 1
-  maximumPenetrationCount: 5
-  baseDamagePerBullet: 25
+  maximumPenetrationCount: 3
+  baseDamagePerBullet: 20
   damageMultiplier: 1.2
   bulletSpreadAngle: 1
   ultimateChargePerHit: 0.1
@@ -268,7 +268,7 @@ MonoBehaviour:
   shotsPerRound: 1
   roundsPerMinute: 1000
   maxRange: 40
-  dropoffRange: 10
+  dropoffRange: 20
   magazineSize: 30
   ammoTotalReserves: -1
   ammoPerRound: 1
