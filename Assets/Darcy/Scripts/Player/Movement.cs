@@ -20,7 +20,7 @@ public class Movement : MonoBehaviour
     Vector3 walkVelocity;
     Vector3 maxCurrentVelocity;
     float maxCurrentVelocityMagnitude;
-    Vector3 overrideVelocity;
+    Vector3 spawnPosition;
 
     // Movement State Tracking
     public static bool applyingGravity { get; private set; }
@@ -173,7 +173,7 @@ public class Movement : MonoBehaviour
 
     // The player's default height, assigned on scene load from reading the player collider height property
     private float standardHeight = 2f;
-    private float headPointHeight = 2f;
+    private float headPointHeight = 1.9f;
     #endregion
 
     #region Sliding
@@ -293,6 +293,10 @@ public class Movement : MonoBehaviour
     public Rigidbody playerRigidbody;
     [HideInInspector]
     public CapsuleCollider playerCollider;
+    [HideInInspector]
+    public PlayerStats playerStats;
+    [HideInInspector]
+    public CameraController cameraController;
 
     #endregion
 
@@ -323,13 +327,14 @@ public class Movement : MonoBehaviour
 
         standardHeight = playerCollider.height;
         headPointHeight = headPointTransform.localPosition.y;
-
-        overrideVelocity = Vector3.zero;
+        spawnPosition = playerTransform.position;
 
         // Assign components
         playerTransform = transform;
         playerCollider = GetComponent<CapsuleCollider>();
         playerRigidbody = GetComponent<Rigidbody>();
+        playerStats = GetComponent<PlayerStats>();
+        cameraController = cameraHolderTransform.GetComponent<CameraController>();
 
         #endregion
     }
@@ -1213,6 +1218,23 @@ public class Movement : MonoBehaviour
                 // Apply the magnetism force
                 playerRigidbody.AddForce(magnetismForce, ForceMode.Impulse);
             }
+        }
+
+        #endregion
+
+        #region Fall Protection
+
+        // If the player falls below a certain height by dropping out of the map
+        if (playerTransform.position.y < -10f)
+        {
+            playerTransform.position = spawnPosition;
+            cameraHolderTransform.position = spawnPosition + (Vector3.up * headPointHeight);
+            playerTransform.rotation = Quaternion.identity;
+            cameraHolderTransform.localRotation = Quaternion.identity;
+            cameraController.ResetRotation();
+
+            // Punish the player by making them 1hp
+            playerStats.currentHealth = 1;
         }
 
         #endregion

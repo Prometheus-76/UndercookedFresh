@@ -329,7 +329,7 @@ public class GunController : MonoBehaviour
             #region Looped Sounds
 
             // If the sound should loop
-            if (loopFiringSound && Input.GetMouseButton(0) && isReloading == false && Movement.isGrappling == false && PlayerStats.gamePaused == false)
+            if (loopFiringSound && Input.GetMouseButton(0) && isReloading == false && Movement.isGrappling == false && PlayerStats.gamePaused == false && Movement.isSprinting == false)
             {
                 // Pitch up as magazine begins to end
                 shootingAudioSource.pitch = pitchAmmoDepletion ? ((ammoDepletionSoundCurve.Evaluate(1f - ((float)currentAmmoInMagazine / (float)magazineSize)) * maximumPitch) + 1f) : 1f;
@@ -341,7 +341,7 @@ public class GunController : MonoBehaviour
                     shootingAudioSource.Play();
                 }
             }
-            else if (loopFiringSound && (isReloading || Input.GetMouseButton(0) == false || Movement.isGrappling || PlayerStats.gamePaused))
+            else if (loopFiringSound && (isReloading || Input.GetMouseButton(0) == false || Movement.isGrappling || PlayerStats.gamePaused || Movement.isSprinting))
             {
                 // If we stop firing for some reason
                 if (shootingAudioSource.isPlaying)

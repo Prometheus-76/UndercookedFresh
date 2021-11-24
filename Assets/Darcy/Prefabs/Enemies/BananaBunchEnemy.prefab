@@ -683,7 +683,7 @@ MonoBehaviour:
   baseMaxHealth: 400
   maxHealth: 0
   baseDamage: 10
-  despawnDistance: 125
+  despawnDistance: 60
   spawnCost: 4
   damageScaler: 0.2
   healthScaler: 0.2
@@ -697,7 +697,7 @@ MonoBehaviour:
     m_Bits: 8192
   damageNumberPrefab: {fileID: 7903019438563849025, guid: be912b294e711944cb482b96603e2847, type: 3}
   bananaPrefab: {fileID: 308722273640845866, guid: 586fef584e5434f4d85a62a2d340df36, type: 3}
-  bananaCount: 2
+  bananaCount: 3
   attackInterval: 2
   attackRange: 2
 --- !u!1001 &1931115254405211692
