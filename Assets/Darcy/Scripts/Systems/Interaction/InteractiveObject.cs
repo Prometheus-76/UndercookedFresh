@@ -21,10 +21,12 @@ public class InteractiveObject : MonoBehaviour
 
     [Tooltip("The unscaled cost of interacting with this object."), Range(0, 100)]
     public int baseCost;
-    [Tooltip("The time it takes to interact with this object (in seconds)."), Range(0f, 3f)]
+    [Tooltip("The time it takes to interact with this object (in seconds)."), Range(0f, 5f)]
     public float interactDuration;
     [Tooltip("The prompt that appears when looking at this object, automatically adds on \"(keybind)\".")]
     public string interactPrompt;
+    [Tooltip("Whether to add on the keybind prompt for this object.")]
+    public bool displayKeybind = true;
 
     #endregion
 

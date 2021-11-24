@@ -1,0 +1,71 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ClueBarrier : InteractiveObject
+{
+    public LayerMask playerLayer;
+
+    private BoxCollider extendedInteractTrigger;
+    private BoxCollider playerPositionCheckTrigger;
+    private string prompt;
+
+    private int interactCount;
+
+    public void Start()
+    {
+        #region Initialisation
+
+        base.Configure();
+
+        extendedInteractTrigger = GetComponent<BoxCollider>();
+        playerPositionCheckTrigger = transform.GetChild(0).GetComponent<BoxCollider>();
+
+        prompt = "";
+        extendedInteractTrigger.enabled = false;
+
+        interactCount = 0;
+
+        #endregion
+    }
+
+    public void Update()
+    {
+        bool gameStarted = WaveManager.gameStarted;
+        bool playerPositioned = Physics.OverlapBox(playerPositionCheckTrigger.gameObject.transform.position + playerPositionCheckTrigger.center, playerPositionCheckTrigger.size / 2f, Quaternion.identity, playerLayer).Length > 0;
+        bool holdingTab = Input.GetKey(KeyCode.Tab);
+        bool visitedConfirmationScreen = PauseMenuHUD.actionDenied;
+
+        extendedInteractTrigger.enabled = playerPositioned;
+
+        prompt = "Before the beginning.  ";
+        prompt += (gameStarted ? "Elevation truncation.  " : "");
+        prompt += (gameStarted && playerPositioned ? "Any second thoughts.  " : "");
+        prompt += (gameStarted && playerPositioned && visitedConfirmationScreen ? "Accelerating nothingness.  " : "");
+        prompt += (gameStarted && playerPositioned && visitedConfirmationScreen && holdingTab ? "Insist to persist.  " : "");
+
+        interactPrompt = prompt;
+
+        if (interactCount >= 5)
+        {
+
+        }
+    }
+
+    // Return the cost of interacting with this object
+    public override int GetFibreCost()
+    {
+        // Calculate the cost with difficulty scaling here
+        return baseCost;
+    }
+
+    // Interact with the object and perform its function
+    public override void Interact()
+    {
+        // Add to the total counter
+        if (interactDuration <= 0f)
+        {
+            interactCount += 1;
+        }
+    }
+}
