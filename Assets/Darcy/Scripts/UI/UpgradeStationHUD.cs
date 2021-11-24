@@ -151,7 +151,7 @@ public class UpgradeStationHUD : MonoBehaviour
 
             #region Pepper Shotgun
 
-            pepperShotgunUpgradeStatText.text = "<b> DMG / Shot(lvl " + pepperShotgunLevel + "): </b><size=95%>" + pepperShotgunCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + pepperShotgunNextDamage;
+            pepperShotgunUpgradeStatText.text = "<b> DMG / Shot (lvl " + pepperShotgunLevel + "): </b><size=95%>" + pepperShotgunCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + pepperShotgunNextDamage;
              
             if (pepperShotgunMaxAmmo - pepperShotgunCurrentAmmo > 0)
             {
@@ -169,7 +169,7 @@ public class UpgradeStationHUD : MonoBehaviour
 
             #region A-Salt Rifle
 
-            aSaltRifleUpgradeStatText.text = "<b> DMG / Shot(lvl " + aSaltRifleLevel + "): </b><size=95%>" + aSaltRifleCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + aSaltRifleNextDamage;
+            aSaltRifleUpgradeStatText.text = "<b> DMG / Shot (lvl " + aSaltRifleLevel + "): </b><size=95%>" + aSaltRifleCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + aSaltRifleNextDamage;
 
             if (aSaltRifleMaxAmmo - aSaltRifleCurrentAmmo > 0)
             {
@@ -187,7 +187,7 @@ public class UpgradeStationHUD : MonoBehaviour
 
             #region Microwave Gun
 
-            microwaveGunUpgradeStatText.text = "<b> DMG / Shot(lvl " + microwaveGunLevel + "): </b><size=95%>" + microwaveGunCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + microwaveGunNextDamage;
+            microwaveGunUpgradeStatText.text = "<b> DMG / Shot (lvl " + microwaveGunLevel + "): </b><size=95%>" + microwaveGunCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + microwaveGunNextDamage;
             microwaveGunUpgradeCostText.text = "Fibre: " + microwaveGunUpgradeCost;
 
             #endregion

@@ -72,6 +72,14 @@ public class CameraController : MonoBehaviour
     public float recoilDampening = 2f;
     #endregion
 
+    #region Sound
+
+    public AudioClip[] footstepSounds;
+    private float soundedMoveTime;
+    private float defaultVolume;
+
+    #endregion
+
     #endregion
 
     #region Options
@@ -93,6 +101,7 @@ public class CameraController : MonoBehaviour
     public Transform holderTransform;
     public Movement playerMovement;
     public Rigidbody playerRigidbody;
+    public AudioSource footstepAudioSource;
     #endregion
 
     #endregion
@@ -108,6 +117,8 @@ public class CameraController : MonoBehaviour
     {
         // Make the cursor invisible and stop it from leaving the window
         Cursor.lockState = CursorLockMode.Locked;
+        soundedMoveTime = 0f - (Mathf.PI / (speedScale * 2f));
+        defaultVolume = footstepAudioSource.volume;
     }
 
     // Update is called once per frame
@@ -157,22 +168,35 @@ public class CameraController : MonoBehaviour
 
         Vector3 headBounceOffset = Vector3.zero;
 
+        // 0 to 1 representing our % of the max speed, smoothed over time
+        float velocityScale = walkSpeedSmooth / (playerMovement.baseMoveSpeed * headBounceSprintMultiplier);
+        velocityScale = Mathf.Clamp(velocityScale, 0f, 1f);
+
+        // Set the volume based on the speed of the player with max volume at sprinting speed or above
+        footstepAudioSource.volume = Mathf.Round(defaultVolume * velocityScale * 100f) / 100f;
+
+        // Only animate when grounded and not sliding, otherwise pause
+        if (Movement.isSliding == false && Movement.isGrounded)
+        {
+            moveTime += velocityScale * Time.deltaTime;
+        }
+
+        float bounceHeight = (Mathf.Cos(2f * moveTime * speedScale) - 1f) * maxVerticalDistance * velocityScale;
+        float bounceLength = Mathf.Sin(moveTime * speedScale) * maxHorizontalDistance * velocityScale;
+
+        if (moveTime > soundedMoveTime + (Mathf.PI / speedScale))
+        {
+            // Play sound
+            int footstepSoundIndex = Random.Range(0, footstepSounds.Length);
+            footstepAudioSource.PlayOneShot(footstepSounds[footstepSoundIndex]);
+
+            // Update soundedMoveTime
+            soundedMoveTime += (Mathf.PI / speedScale);
+        }
+
         // If the option for head bounce effects is enabled
         if (allowHeadBounce)
         {
-            // 0 to 1 representing our % of the max speed, smoothed over time
-            float velocityScale = walkSpeedSmooth / (playerMovement.baseMoveSpeed * headBounceSprintMultiplier);
-            velocityScale = Mathf.Clamp(velocityScale, 0f, 1f);
-        
-            // Only animate when grounded and not sliding, otherwise pause
-            if (Movement.isSliding == false && Movement.isGrounded)
-            {
-                moveTime += velocityScale * Time.deltaTime;
-            }
-
-            float bounceHeight = (Mathf.Cos(2f * moveTime * speedScale) - 1f) * maxVerticalDistance * velocityScale;
-            float bounceLength = Mathf.Sin(moveTime * speedScale) * maxHorizontalDistance * velocityScale;
-
             headBounceOffset = (Vector3.up * bounceHeight) + (holderTransform.right * bounceLength);
         }
 
@@ -226,7 +250,7 @@ public class CameraController : MonoBehaviour
         #endregion
     }
 
-    // Resets the rotation to the neutral starting rotation
+    // Reset the rotation of the camera to it's neutral default
     public void ResetRotation()
     {
         lookRotation = Vector2.zero;
