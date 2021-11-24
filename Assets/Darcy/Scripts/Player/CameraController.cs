@@ -19,6 +19,7 @@ public class CameraController : MonoBehaviour
 
     // The current XY rotation
     private Vector2 lookRotation = Vector2.zero;
+    private Vector2 startingRotation = Vector2.zero;
     private Vector2 recoilOffset = Vector2.zero;
     #endregion
 
@@ -119,6 +120,9 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         soundedMoveTime = 0f - (Mathf.PI / (speedScale * 2f));
         defaultVolume = footstepAudioSource.volume;
+
+        startingRotation = holderTransform.localRotation.eulerAngles;
+        lookRotation = startingRotation;
     }
 
     // Update is called once per frame
@@ -253,7 +257,7 @@ public class CameraController : MonoBehaviour
     // Reset the rotation of the camera to it's neutral default
     public void ResetRotation()
     {
-        lookRotation = Vector2.zero;
+        lookRotation = startingRotation;
     }
 
     // Sets up a new recoil for the camera

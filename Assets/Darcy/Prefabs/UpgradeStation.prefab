@@ -198,6 +198,7 @@ MonoBehaviour:
   baseCost: 0
   interactDuration: 0
   interactPrompt: Use Upgrade Station
+  displayKeybind: 1
   inactiveModel: {fileID: 2875416498810240721}
   activeModel: {fileID: 831811605654780614}
 --- !u!1 &8182952268953390271

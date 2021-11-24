@@ -1222,6 +1222,14 @@ public class Movement : MonoBehaviour
 
         #endregion
 
+        // Adjust modified y-velocity if we are currently capable of jumping/falling, can be overridden by hitting the ground death barrier
+        if (isMantling == false && isGrappling == false)
+        {
+            CheckVelocity();
+            newVelocity.x = currentVelocity.x;
+            newVelocity.z = currentVelocity.z;
+        }
+
         #region Fall Protection
 
         // If the player falls below a certain height by dropping out of the map
@@ -1235,17 +1243,11 @@ public class Movement : MonoBehaviour
 
             // Punish the player by making them 1hp
             playerStats.currentHealth = 1;
+
+            newVelocity = Vector3.zero;
         }
 
         #endregion
-
-        // Adjust modified y-velocity if we are currently capable of jumping/falling
-        if (isMantling == false && isGrappling == false)
-        {
-            CheckVelocity();
-            newVelocity.x = currentVelocity.x;
-            newVelocity.z = currentVelocity.z;
-        }
 
         // Apply modified velocity
         playerRigidbody.velocity = newVelocity;
