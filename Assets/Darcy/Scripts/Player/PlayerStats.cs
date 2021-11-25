@@ -381,6 +381,7 @@ public class PlayerStats : MonoBehaviour
         
         if (interactPresent && currentInteraction != null)
         {
+            UserInterfaceHUD.displayInteractKeybind = currentInteraction.displayKeybind;
             UserInterfaceHUD.interactProgress = Mathf.Clamp01(1f - (interactTimer / currentInteraction.interactDuration));
             UserInterfaceHUD.interactPrompt = currentInteraction.interactPrompt;
             UserInterfaceHUD.interactCost = currentInteraction.GetFibreCost();
