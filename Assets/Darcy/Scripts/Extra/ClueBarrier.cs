@@ -15,6 +15,7 @@ public class ClueBarrier : InteractiveObject
     private int interactCount;
     private bool allConditionsValid;
     private bool riddleSolved;
+    private bool pressedTabAndShift;
 
     public void Start()
     {
@@ -33,6 +34,7 @@ public class ClueBarrier : InteractiveObject
         interactCount = 0;
         allConditionsValid = false;
         riddleSolved = false;
+        pressedTabAndShift = false;
 
         #endregion
     }
@@ -41,9 +43,12 @@ public class ClueBarrier : InteractiveObject
     {
         bool gameUnstarted = !WaveManager.gameStarted;
         bool playerPositioned = Physics.OverlapBox(playerPositionCheckTrigger.gameObject.transform.position + playerPositionCheckTrigger.center, playerPositionCheckTrigger.size / 2f, Quaternion.identity, playerLayer).Length > 0;
-        bool holdingTab = Input.GetKey(KeyCode.Tab);
+        if (pressedTabAndShift == false)
+        {
+            pressedTabAndShift = Input.GetKey(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift);
+        }
         bool visitedConfirmationScreen = PauseMenuHUD.actionDenied;
-        allConditionsValid = (gameUnstarted && playerPositioned && visitedConfirmationScreen && holdingTab);
+        allConditionsValid = (gameUnstarted && playerPositioned && visitedConfirmationScreen && pressedTabAndShift);
 
         extendedInteractTrigger.enabled = gameUnstarted && playerPositioned && riddleSolved == false;
 
@@ -68,7 +73,7 @@ public class ClueBarrier : InteractiveObject
         {
             // The riddle is ready to be solved and the game has not started
             displayKeybind = true;
-            interactDuration = 5f;
+            interactDuration = 3f;
             prompt = "Proceed with caution...";
         }
         else if (interactCount < 5 || allConditionsValid == false)
@@ -78,9 +83,9 @@ public class ClueBarrier : InteractiveObject
             interactDuration = 0f;
             prompt = "Before the beginning.  ";
             prompt += (gameUnstarted ? "Elevation truncation.  " : "");
-            prompt += (gameUnstarted && playerPositioned ? "Any second thoughts.  " : "");
-            prompt += (gameUnstarted && playerPositioned && visitedConfirmationScreen ? "Accelerating nothingness.  " : "");
-            prompt += (gameUnstarted && playerPositioned && visitedConfirmationScreen && holdingTab ? "Insist to persist.  " : "");
+            prompt += (gameUnstarted && playerPositioned ? "Accelerate all stillness.  " : "");
+            prompt += (gameUnstarted && playerPositioned && pressedTabAndShift ? "Any second thoughts.  " : "");
+            prompt += (gameUnstarted && playerPositioned && pressedTabAndShift && visitedConfirmationScreen ? "Determination.  " : "");
         }
 
         interactPrompt = prompt;
