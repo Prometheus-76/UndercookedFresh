@@ -79,6 +79,15 @@ public class ThrowingKnifeController : MonoBehaviour
     public LayerMask enemyLayers;
     #endregion
 
+    #region Sounds
+    [Header("Sounds")]
+
+    public AudioClip drawSound;
+    public AudioClip throwSound;
+    public AudioClip hitSound;
+
+    #endregion
+
     #endregion
 
     #region Components
@@ -86,6 +95,8 @@ public class ThrowingKnifeController : MonoBehaviour
 
     public Transform holderTransform;
     public Transform pivotTransform;
+    public AudioSource globalAudioSource;
+    public AudioSource localAudioSource;
     public GameObject knifeModel;
     private Transform currentTargetTransform;
     private Enemy currentTargetEnemy;
@@ -371,6 +382,9 @@ public class ThrowingKnifeController : MonoBehaviour
                     playerStats.currentHealth += Mathf.CeilToInt((playerStats.maxHealth / 100f) * healthPercentRestorePerKill);
                     playerStats.currentHealth = Mathf.Clamp(playerStats.currentHealth, 0, playerStats.maxHealth);
 
+                    // Play hit sound in spatial audio
+                    localAudioSource.PlayOneShot(hitSound);
+
                     currentTargetTransform = null;
                     currentTargetEnemy = null;
                 }
@@ -404,6 +418,9 @@ public class ThrowingKnifeController : MonoBehaviour
 
         isFullyDrawn = false;
         isStowed = false;
+
+        // Play throw sound
+        globalAudioSource.PlayOneShot(drawSound);
     }
 
     public void StowKnife()
@@ -433,6 +450,9 @@ public class ThrowingKnifeController : MonoBehaviour
         {
             return;
         }
+
+        // Play throw sound
+        globalAudioSource.PlayOneShot(throwSound);
 
         maxBounces = Mathf.CeilToInt((float)WaveManager.waveEnemyCount * waveKillPotential);
         holderTransform.SetParent(null);
