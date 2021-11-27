@@ -42,6 +42,7 @@ public class BananaBunchEnemy : Enemy
     #region Components
 
     private Transform enemyHolderTransform;
+    public GameObject enemyModel;
 
     #endregion
 
@@ -88,6 +89,7 @@ public class BananaBunchEnemy : Enemy
 
                 enemyAgent.isStopped = true;
                 enemyAgent.ResetPath();
+                enemyAnimator.SetBool("IsMoving", false);
 
                 #endregion
             }
@@ -98,6 +100,7 @@ public class BananaBunchEnemy : Enemy
                 // Move towards the player
                 enemyAgent.isStopped = false;
                 enemyAgent.SetDestination(playerTransform.position);
+                enemyAnimator.SetBool("IsMoving", true);
 
                 #endregion
 
@@ -155,14 +158,15 @@ public class BananaBunchEnemy : Enemy
     // Override the death and spawn several single banana enemies
     public override void Die()
     {
-        // Spawn the children in and change their parent
+        // Spawn the children in and make them orphans
         for (int i = 0; i < bananas.Length; i++)
         {
             bananas[i].SetActive(true);
             bananas[i].transform.parent = enemyHolderTransform;
         }
 
-        // Kill the parent
+        // Kill the parent and hide the body
         base.Die();
+        enemyModel.SetActive(false);
     }
 }

@@ -68,6 +68,7 @@ public class Enemy : MonoBehaviour
     #region Components
 
     public GameObject damageNumberPrefab;
+    public Animator enemyAnimator;
     protected Transform damageNumberParentTransform;
 
     protected Transform playerTransform;
@@ -108,6 +109,7 @@ public class Enemy : MonoBehaviour
         // Default values
         isBurrowing = false;
         pathCheckTimer = 5f;
+        enemyAnimator.SetBool("IsAlive", true);
     }
 
     // Responsible for removing health from the enemy and spawning damage numbers when damage is dealt
@@ -179,8 +181,11 @@ public class Enemy : MonoBehaviour
         playerStats.AddFibre(baseFibreValue);
         playerStats.enemiesKilled += 1;
 
+        // Play death sound and animation
         int soundIndex = Random.Range(0, deathSounds.Length);
         enemyAudioSource.PlayOneShot(deathSounds[soundIndex]);
+        enemyAnimator.SetBool("IsAlive", false);
+
         Destroy(gameObject, deathLingerDuration);
     }
 
