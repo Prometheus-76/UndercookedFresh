@@ -70,6 +70,19 @@ public class OnionEnemy : Enemy
 
     #endregion
 
+    #region Components
+    [Header("Components")]
+
+    public GameObject model1;
+    public Animator animator1;
+
+    public GameObject model2;
+    public Animator animator2;
+
+    public GameObject model3;
+    public Animator animator3;
+    #endregion
+
     #endregion
 
     // Start is called before the first frame update
@@ -77,6 +90,9 @@ public class OnionEnemy : Enemy
     {
         base.Configure();
         currentLayer = 2;
+
+        model2.SetActive(false);
+        model3.SetActive(false);
     }
 
     // Update is called once per frame
@@ -96,6 +112,29 @@ public class OnionEnemy : Enemy
 
             // Assign current armour layer
             currentLayer = RemainingArmourLayers();
+
+            // Set model and animator
+            switch (currentLayer)
+            {
+                case 2:
+                    model1.SetActive(true);
+                    model2.SetActive(false);
+                    model3.SetActive(false);
+                    enemyAnimator = animator1;
+                    break;
+                case 1:
+                    model1.SetActive(false);
+                    model2.SetActive(true);
+                    model3.SetActive(false);
+                    enemyAnimator = animator2;
+                    break;
+                case 0:
+                    model1.SetActive(false);
+                    model2.SetActive(false);
+                    model3.SetActive(true);
+                    enemyAnimator = animator3;
+                    break;
+            }
 
             #region Behaviour Tree
 

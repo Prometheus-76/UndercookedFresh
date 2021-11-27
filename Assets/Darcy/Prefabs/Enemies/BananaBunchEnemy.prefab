@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!95 &3323211289848465486
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869990223535669884}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0ec7da64308fcc04c98f8d9c4a046059, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5129630841821946778
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,11 +641,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5129630843410315884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.25, y: 0, z: -15.75}
+  m_LocalPosition: {x: 39.25, y: -0.15, z: -15.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5129630842834421987}
-  - {fileID: 5980479581415863985}
+  - {fileID: 1348927730665412806}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -701,10 +720,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7503d8021c2349f4eb5d82d7dffcd4fe, type: 3}
   - {fileID: 8300000, guid: 09e49654b7108004c83d91f1f922af54, type: 3}
   damageNumberPrefab: {fileID: 7903019438563849025, guid: be912b294e711944cb482b96603e2847, type: 3}
+  enemyAnimator: {fileID: 3323211289848465486}
   bananaPrefab: {fileID: 308722273640845866, guid: 586fef584e5434f4d85a62a2d340df36, type: 3}
   bananaCount: 3
   attackInterval: 2
   attackRange: 2
+  enemyModel: {fileID: 1869990223535669884}
 --- !u!82 &4607173208444069937
 AudioSource:
   m_ObjectHideFlags: 0
@@ -826,6 +847,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5129630843410315891}
     m_Modifications:
+    - target: {fileID: 609368621584842474, guid: eea6c2769b2ef9e4face60121dcd2ffd, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4862073151873190439, guid: eea6c2769b2ef9e4face60121dcd2ffd, type: 3}
       propertyPath: m_Name
       value: Prefab_BananaBunch
@@ -876,8 +901,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eea6c2769b2ef9e4face60121dcd2ffd, type: 3}
---- !u!4 &5980479581415863985 stripped
+--- !u!1 &1869990223535669884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 233968536595539024, guid: eea6c2769b2ef9e4face60121dcd2ffd, type: 3}
+  m_PrefabInstance: {fileID: 1931115254405211692}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1348927730665412806 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5202323229077524637, guid: eea6c2769b2ef9e4face60121dcd2ffd, type: 3}
+  m_CorrespondingSourceObject: {fileID: 609368621584842474, guid: eea6c2769b2ef9e4face60121dcd2ffd, type: 3}
   m_PrefabInstance: {fileID: 1931115254405211692}
   m_PrefabAsset: {fileID: 0}
