@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7930822437844703633}
   - component: {fileID: 5326359458308074843}
   m_Layer: 0
-  m_Name: Object_TempleDebris
+  m_Name: Prefab_TempleDebris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a2929421cbf932643986c394bdc2d0b8, type: 2}
+  - {fileID: 2100000, guid: 1d7fb9df7f7af064eb9dde8c65802b58, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
