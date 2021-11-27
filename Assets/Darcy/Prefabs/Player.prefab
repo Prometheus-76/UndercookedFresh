@@ -232,7 +232,7 @@ MonoBehaviour:
   difficultyTimeFactor: 0.025
   passiveUltimateChargeRate: 0.002
   screenshakeDamageScaler: 3
-  interactRange: 3
+  interactRange: 4
   interactiveLayer:
     serializedVersion: 2
     m_Bits: 65536

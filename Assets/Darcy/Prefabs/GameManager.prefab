@@ -57,7 +57,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4096
-  minSpawnDistance: 15
+  minSpawnDistance: 20
   maxSpawnDistance: 50
   timeBetweenWaves: 30
   budgetInstancePercentAllowed: 0.4

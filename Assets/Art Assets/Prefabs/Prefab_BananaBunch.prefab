@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 609368621584842474}
   - component: {fileID: 5040549643684970771}
   m_Layer: 0
-  m_Name: BananaBunch_Walk
+  m_Name: Prefab_BananaBunch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

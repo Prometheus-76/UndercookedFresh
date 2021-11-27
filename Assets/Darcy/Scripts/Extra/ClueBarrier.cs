@@ -5,17 +5,22 @@ using UnityEngine;
 public class ClueBarrier : InteractiveObject
 {
     public LayerMask playerLayer;
+    public ClueInteract[] clueInteracts;
 
     private BoxCollider extendedInteractTrigger;
     private BoxCollider playerPositionCheckTrigger;
     private MeshRenderer barrierRenderer;
     private MeshCollider barrierCollider;
+    private Transform cameraHolderTransform;
     private string prompt;
 
+    private bool clickedOnMoon;
+    private int correctInteractsFound;
+    private bool interactMistakeMade;
+    private bool playerPositioned;
     private int interactCount;
     private bool allConditionsValid;
     private bool riddleSolved;
-    private bool pressedTabAndShift;
 
     public void Start()
     {
@@ -27,32 +32,55 @@ public class ClueBarrier : InteractiveObject
         barrierRenderer = GetComponent<MeshRenderer>();
         barrierCollider = GetComponent<MeshCollider>();
         playerPositionCheckTrigger = transform.GetChild(0).GetComponent<BoxCollider>();
+        cameraHolderTransform = Camera.main.transform.parent.transform;
 
         prompt = "";
         extendedInteractTrigger.enabled = false;
 
+        clickedOnMoon = false;
+        correctInteractsFound = 0;
+        interactMistakeMade = false;
+        playerPositioned = false;
         interactCount = 0;
         allConditionsValid = false;
         riddleSolved = false;
-        pressedTabAndShift = false;
 
         #endregion
     }
 
     public void Update()
     {
-        bool gameUnstarted = !WaveManager.gameStarted;
-        bool playerPositioned = Physics.OverlapBox(playerPositionCheckTrigger.gameObject.transform.position + playerPositionCheckTrigger.center, playerPositionCheckTrigger.size / 2f, Quaternion.identity, playerLayer).Length > 0;
-        if (pressedTabAndShift == false)
+        Vector2 lookDirection = cameraHolderTransform.rotation.eulerAngles;
+        bool validLookPitch = lookDirection.x < 335f && lookDirection.x > 325f;
+        bool validLookYaw = lookDirection.y < 5f || lookDirection.y > 355f;
+
+        if (validLookPitch && validLookYaw && Input.GetMouseButtonDown(0) && clickedOnMoon == false)
         {
-            pressedTabAndShift = Input.GetKey(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift);
+            clickedOnMoon = true;
+
+            for (int i = 0; i < clueInteracts.Length; i++)
+            {
+                clueInteracts[i].gameObject.SetActive(true);
+            }
         }
-        bool visitedConfirmationScreen = PauseMenuHUD.actionDenied;
-        allConditionsValid = (gameUnstarted && playerPositioned && visitedConfirmationScreen && pressedTabAndShift);
 
-        extendedInteractTrigger.enabled = gameUnstarted && playerPositioned && riddleSolved == false;
+        bool gameUnstarted = !WaveManager.gameStarted;
+        playerPositioned = Physics.OverlapBox(playerPositionCheckTrigger.gameObject.transform.position + playerPositionCheckTrigger.center, playerPositionCheckTrigger.size / 2f, Quaternion.identity, playerLayer).Length > 0;
+        allConditionsValid = (gameUnstarted && playerPositioned && correctInteractsFound == 3 && interactMistakeMade == false);
 
-        if (riddleSolved && gameUnstarted == false)
+        extendedInteractTrigger.enabled = gameUnstarted && playerPositioned && clickedOnMoon && correctInteractsFound == 3 && interactMistakeMade == false && riddleSolved == false;
+
+        if (interactMistakeMade)
+        {
+            // The riddle has been solved and game started
+            displayKeybind = false;
+            interactDuration = 0f;
+            prompt = "Secrets remain hidden forever.";
+
+            barrierRenderer.enabled = true;
+            barrierCollider.enabled = true;
+        }
+        else if (riddleSolved && gameUnstarted == false)
         {
             // The riddle has been solved and game started
             displayKeybind = false;
@@ -62,30 +90,46 @@ public class ClueBarrier : InteractiveObject
             barrierRenderer.enabled = true;
             barrierCollider.enabled = true;
         }
-        else if (interactCount >= 5 && gameUnstarted == false)
+        else if (interactCount >= 7 && gameUnstarted == false)
         {
             // The riddle is ready to be solved and the game has started
             displayKeybind = false;
             interactDuration = 0f;
             prompt = "Secrets remain hidden forever.";
         }
-        else if (interactCount >= 5 && gameUnstarted)
+        else if (interactCount >= 7 && gameUnstarted)
         {
             // The riddle is ready to be solved and the game has not started
             displayKeybind = true;
             interactDuration = 3f;
             prompt = "Proceed with caution...";
         }
-        else if (interactCount < 5 || allConditionsValid == false)
+        else if (interactCount < 7 || allConditionsValid == false)
         {
             // The riddle is unsolved and the game has not started
             displayKeybind = false;
             interactDuration = 0f;
-            prompt = "Before the beginning.  ";
-            prompt += (gameUnstarted ? "Elevation truncation.  " : "");
-            prompt += (gameUnstarted && playerPositioned ? "Accelerate all stillness.  " : "");
-            prompt += (gameUnstarted && playerPositioned && pressedTabAndShift ? "Any second thoughts.  " : "");
-            prompt += (gameUnstarted && playerPositioned && pressedTabAndShift && visitedConfirmationScreen ? "Determination.  " : "");
+
+            // I SEE YOU CHEATING THERE, WALLIAM ;)
+            prompt = "Before the beginning.";
+
+            if (gameUnstarted)
+                prompt = "Shoot for the moon.";
+
+            if (gameUnstarted && clickedOnMoon)
+                prompt = "A glimpse at the stars.  (Activate 1 / 3)";
+
+            if (gameUnstarted && clickedOnMoon && (correctInteractsFound == 1 && interactMistakeMade == false))
+                prompt = "Organic alcove.  (Activate 2 / 3)";
+
+            if (gameUnstarted && clickedOnMoon && (correctInteractsFound == 2 && interactMistakeMade == false))
+                prompt = "Ceramic and stone.  (Activate 3 / 3)";
+
+            if (gameUnstarted && clickedOnMoon && (correctInteractsFound == 3 && interactMistakeMade == false))
+                prompt = "Windows to the stars and seas.";
+
+            if (gameUnstarted && clickedOnMoon && (correctInteractsFound == 3 && interactMistakeMade == false) && playerPositioned)
+                prompt = "Determination.";
         }
 
         interactPrompt = prompt;
@@ -105,11 +149,11 @@ public class ClueBarrier : InteractiveObject
             return;
 
         // Add to the total counter
-        if (interactDuration <= 0f && allConditionsValid)
+        if (interactDuration <= 0f && allConditionsValid && playerPositioned)
         {
             interactCount += 1;
         }
-        else if (interactCount >= 5)
+        else if (interactCount >= 7)
         {
             riddleSolved = true;
 
@@ -117,6 +161,88 @@ public class ClueBarrier : InteractiveObject
             barrierRenderer.enabled = false;
             barrierCollider.enabled = false;
             extendedInteractTrigger.enabled = false;
+        }
+    }
+
+    public void StationInteracted(int number)
+    {
+        if (correctInteractsFound == 0)
+        {
+            // The first one
+            if (number == 0)
+            {
+                // Correct
+                correctInteractsFound += 1;
+                clueInteracts[number].displayKeybind = false;
+                clueInteracts[number].interactPrompt = "Activated.";
+            }
+            else
+            {
+                // Incorrect
+                for (int i = 0; i < clueInteracts.Length; i++)
+                {
+                    clueInteracts[i].displayKeybind = false;
+                    clueInteracts[i].interactDuration = 0f;
+                    clueInteracts[i].interactPrompt = "Sequence Failed.";
+                    clueInteracts[i].activated = true;
+                }
+
+                interactMistakeMade = true;
+            }
+        }
+        else if (correctInteractsFound == 1)
+        {
+            // The second one
+            if (number == 1)
+            {
+                // Correct
+                correctInteractsFound += 1;
+                clueInteracts[number].displayKeybind = false;
+                clueInteracts[number].interactPrompt = "Activated.";
+            }
+            else
+            {
+                // Incorrect
+                for (int i = 0; i < clueInteracts.Length; i++)
+                {
+                    clueInteracts[i].displayKeybind = false;
+                    clueInteracts[i].interactDuration = 0f;
+                    clueInteracts[i].interactPrompt = "Sequence Failed.";
+                    clueInteracts[i].activated = true;
+                }
+
+                interactMistakeMade = true;
+            }
+        }
+        else if (correctInteractsFound == 2)
+        {
+            // The last one
+            if (number == 2)
+            {
+                // Correct
+                correctInteractsFound += 1;
+
+                for (int i = 0; i < clueInteracts.Length; i++)
+                {
+                    clueInteracts[i].displayKeybind = false;
+                    clueInteracts[i].interactDuration = 0f;
+                    clueInteracts[i].interactPrompt = "Sequence Complete.";
+                    clueInteracts[i].activated = true;
+                }
+            }
+            else
+            {
+                // Incorrect
+                for (int i = 0; i < clueInteracts.Length; i++)
+                {
+                    clueInteracts[i].displayKeybind = false;
+                    clueInteracts[i].interactDuration = 0f;
+                    clueInteracts[i].interactPrompt = "Sequence Failed.";
+                    clueInteracts[i].activated = true;
+                }
+
+                interactMistakeMade = true;
+            }
         }
     }
 }

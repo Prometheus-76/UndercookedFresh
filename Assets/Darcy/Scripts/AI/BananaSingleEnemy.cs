@@ -58,6 +58,7 @@ public class BananaSingleEnemy : Enemy
 
                 enemyAgent.isStopped = true;
                 enemyAgent.ResetPath();
+                enemyAnimator.SetBool("IsMoving", false);
 
                 #endregion
             }
@@ -68,6 +69,7 @@ public class BananaSingleEnemy : Enemy
                 // Move towards the player
                 enemyAgent.SetDestination(playerTransform.position);
                 enemyAgent.isStopped = false;
+                enemyAnimator.SetBool("IsMoving", true);
 
                 #endregion
 
