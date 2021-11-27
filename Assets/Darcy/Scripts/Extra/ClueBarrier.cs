@@ -18,7 +18,11 @@ public class ClueBarrier : InteractiveObject
     private int correctInteractsFound;
     private bool interactMistakeMade;
     private bool playerPositioned;
-    private int interactCount;
+    private bool spamCompleted;
+    private float maxTimeBetweenInteracts;
+    private float timeBetweenInteractsTimer;
+    private float spamTotalTime;
+    private float spamTimer;
     private bool allConditionsValid;
     private bool riddleSolved;
 
@@ -41,7 +45,11 @@ public class ClueBarrier : InteractiveObject
         correctInteractsFound = 0;
         interactMistakeMade = false;
         playerPositioned = false;
-        interactCount = 0;
+        spamCompleted = false;
+        maxTimeBetweenInteracts = 0.5f;
+        timeBetweenInteractsTimer = 0f;
+        spamTotalTime = 3f;
+        spamTimer = 0f;
         allConditionsValid = false;
         riddleSolved = false;
 
@@ -90,21 +98,21 @@ public class ClueBarrier : InteractiveObject
             barrierRenderer.enabled = true;
             barrierCollider.enabled = true;
         }
-        else if (interactCount >= 7 && gameUnstarted == false)
+        else if (spamCompleted && gameUnstarted == false)
         {
             // The riddle is ready to be solved and the game has started
             displayKeybind = false;
             interactDuration = 0f;
             prompt = "Secrets remain hidden forever.";
         }
-        else if (interactCount >= 7 && gameUnstarted)
+        else if (spamCompleted && gameUnstarted)
         {
             // The riddle is ready to be solved and the game has not started
             displayKeybind = true;
             interactDuration = 3f;
             prompt = "Proceed with caution...";
         }
-        else if (interactCount < 7 || allConditionsValid == false)
+        else if (spamCompleted == false || allConditionsValid == false)
         {
             // The riddle is unsolved and the game has not started
             displayKeybind = false;
@@ -132,6 +140,17 @@ public class ClueBarrier : InteractiveObject
                 prompt = "Determination.";
         }
 
+        if (timeBetweenInteractsTimer <= 0f)
+        {
+            // If it has taken too long to press the button
+            spamTimer = spamTotalTime;
+        }
+        else
+        {
+            timeBetweenInteractsTimer -= Time.deltaTime;
+            spamTimer -= Time.deltaTime;
+        }
+
         interactPrompt = prompt;
     }
 
@@ -148,12 +167,8 @@ public class ClueBarrier : InteractiveObject
         if (WaveManager.gameStarted)
             return;
 
-        // Add to the total counter
-        if (interactDuration <= 0f && allConditionsValid && playerPositioned)
-        {
-            interactCount += 1;
-        }
-        else if (interactCount >= 7)
+        // After the determination step is completed
+        if (spamCompleted)
         {
             riddleSolved = true;
 
@@ -161,6 +176,18 @@ public class ClueBarrier : InteractiveObject
             barrierRenderer.enabled = false;
             barrierCollider.enabled = false;
             extendedInteractTrigger.enabled = false;
+        }
+
+        // Before the determination step is completed
+        if (interactDuration <= 0f && allConditionsValid && playerPositioned && spamCompleted == false)
+        {
+            timeBetweenInteractsTimer = maxTimeBetweenInteracts;
+
+            if (spamTimer <= 0f)
+            {
+                spamCompleted = true;
+                interactDuration = 3f;
+            }
         }
     }
 
