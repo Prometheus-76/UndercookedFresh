@@ -53,6 +53,8 @@ public class WaveManager : MonoBehaviour
     public float budgetInstancePercentAllowed;
     public int waveSpawnBudget;
     public int spawnBudgetIncreasePerWave;
+    public AudioClip waveStartingSound;
+    public AudioClip waveCompleteSound;
 
     #endregion
 
@@ -62,6 +64,7 @@ public class WaveManager : MonoBehaviour
     [Header("Components")]
 
     public Transform enemyParent;
+    public AudioSource waveAudioSource;
     private Transform playerTransform;
     private Transform mainCameraTransform;
     private PlayerStats playerStats;
@@ -375,6 +378,9 @@ public class WaveManager : MonoBehaviour
 
         // Set wave complete UI pop-up
         UserInterfaceHUD.waveChangeEffectTimer = UserInterfaceHUD.waveChangeEffectDuration;
+
+        // Play wave ended sound
+        waveAudioSource.PlayOneShot(waveCompleteSound);
     }
 
     // Starts a new wave
@@ -392,6 +398,9 @@ public class WaveManager : MonoBehaviour
 
         // Set wave starting UI pop-up
         UserInterfaceHUD.waveChangeEffectTimer = UserInterfaceHUD.waveChangeEffectDuration;
+
+        // Play new wave sound
+        waveAudioSource.PlayOneShot(waveStartingSound);
     }
 
     // Starts the cycle of recurring waves

@@ -101,6 +101,16 @@ public class PlayerStats : MonoBehaviour
 
     #endregion
 
+    #region Sounds
+    [Header("Sounds")]
+
+    public AudioClip[] takeDamageSounds;
+    public AudioClip deathSound;
+    public float takeDamageSoundMinInterval;
+    private float takeDamageSoundTimer;
+
+    #endregion
+
     #endregion
 
     #region Components
@@ -108,6 +118,7 @@ public class PlayerStats : MonoBehaviour
 
     public Movement playerMovement;
     public GunController[] gunControllers;
+    public AudioSource playerAudioSource;
 
     private Transform mainCameraTransform;
     private InteractiveObject currentInteraction;
@@ -136,6 +147,8 @@ public class PlayerStats : MonoBehaviour
         currentFibre = 0;
 
         playerLevel = 1;
+
+        takeDamageSoundTimer = 0f;
 
         mainCameraTransform = Camera.main.GetComponent<Transform>();
         interactTimer = 0f;
@@ -178,6 +191,20 @@ public class PlayerStats : MonoBehaviour
         {
             Die();
             CameraController.AddTrauma(1f);
+
+            // Play death sound
+            playerAudioSource.PlayOneShot(deathSound);
+        }
+        else if (damageTaken > 0)
+        {
+            // Attempt to play a hurt sound
+            if (takeDamageSoundTimer <= 0f)
+            {
+                takeDamageSoundTimer = takeDamageSoundMinInterval;
+
+                int soundIndex = Random.Range(0, takeDamageSounds.Length);
+                playerAudioSource.PlayOneShot(takeDamageSounds[soundIndex]);
+            }
         }
 
         // Screenshake if sufficient damage is dealt in an instance
@@ -247,8 +274,18 @@ public class PlayerStats : MonoBehaviour
                 }
                 else
                 {
-                    currentRunTime += Time.deltaTime * (Input.GetKey(KeyCode.Tab) ? 20f : 1f);
+                    currentRunTime += Time.deltaTime * (Input.GetKey(KeyCode.Tab) ? 15f : 1f);
                 }
+            }
+
+            // Timer for damage taken sound
+            if (takeDamageSoundTimer > 0f)
+            {
+                takeDamageSoundTimer -= Time.deltaTime;
+            }
+            else
+            {
+                takeDamageSoundTimer = 0f;
             }
 
             #region Item Interaction

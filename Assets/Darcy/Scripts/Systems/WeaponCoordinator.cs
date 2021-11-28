@@ -47,6 +47,8 @@ public class WeaponCoordinator : MonoBehaviour
     
     [Tooltip("The curve for the weapon draw animation, should go from 1 to 0.")]
     public AnimationCurve drawAnimationEasing;
+
+    public AudioClip weaponSwapSound;
     #endregion
 
     #region Components
@@ -67,6 +69,8 @@ public class WeaponCoordinator : MonoBehaviour
     public GunController microwaveGunController;
     public GunController aSaltRifleController;
     public GunController pepperShotgunController;
+
+    public AudioSource weaponCoordinatorAudioSource;
 
     #endregion
 
@@ -125,7 +129,7 @@ public class WeaponCoordinator : MonoBehaviour
         #region Start Switching Weapons
 
         // Only allow one swap at a time, not while recoiling
-        if (gunCount > 0 && switchingWeapons == false && Movement.isGrappling == false && gunControllers[currentGunIndex].isRecoiling == false)
+        if (gunCount > 0 && switchingWeapons == false && Movement.isGrappling == false && gunControllers[currentGunIndex].isRecoiling == false && PlayerStats.isAlive)
         {
             if (Input.mouseScrollDelta.y > 0f)
             {
@@ -328,6 +332,9 @@ public class WeaponCoordinator : MonoBehaviour
             // Prevent further switching until the animation is complete
             switchingWeapons = true;
             newWeaponIndex = weaponIndex;
+
+            // Play swap sound
+            weaponCoordinatorAudioSource.PlayOneShot(weaponSwapSound);
 
             if (currentGunIndex != -1)
             {

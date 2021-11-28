@@ -112,3 +112,4 @@ MonoBehaviour:
   baseCost: 10
   interactDuration: 1
   interactPrompt: Deconstruct Barrier
+  displayKeybind: 0

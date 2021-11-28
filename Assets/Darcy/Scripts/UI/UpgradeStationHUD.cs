@@ -17,6 +17,7 @@ public class UpgradeStationHUD : MonoBehaviour
     public Canvas upgradeStationCanvas;
     public GameObject blurEffect;
     public TextMeshProUGUI currentFibreText;
+    public SoundUI soundUI;
     public static bool showHUD;
 
     private PlayerStats playerStats;
@@ -294,6 +295,14 @@ public class UpgradeStationHUD : MonoBehaviour
 
             // Fill up remainder of reserves from purchase
             weaponScript.currentAmmoInReserves += ammoAmount;
+
+            // Play UI success sound
+            soundUI.PlaySound(0);
+        }
+        else
+        {
+            // Play UI failed sound
+            soundUI.PlaySound(1);
         }
     }
 
@@ -306,6 +315,46 @@ public class UpgradeStationHUD : MonoBehaviour
             playerStats.currentFibre -= (ulong)healthRefillCost;
             playerStats.currentHealth += healthRefillAmount;
             playerStats.currentHealth = Mathf.Min(playerStats.currentHealth, playerStats.maxHealth);
+
+            // Play UI success sound
+            soundUI.PlaySound(0);
+        }
+        else
+        {
+            // Play UI failed sound
+            soundUI.PlaySound(1);
+        }
+    }
+
+    // 0 - MicrowaveGun, 1 - ASaltRifle, 2 - PepperShotgun, 3 - Health
+    public void PlayUpgradeSound(int typeIndex)
+    {
+        int upgradeCost = 0;
+        switch (typeIndex)
+        {
+            case 0:
+                upgradeCost = microwaveGunUpgradeCost;
+                break;
+            case 1:
+                upgradeCost = aSaltRifleUpgradeCost;
+                break;
+            case 2:
+                upgradeCost = pepperShotgunUpgradeCost;
+                break;
+            case 3:
+                upgradeCost = healthUpgradeCost;
+                break;
+        }
+
+        if ((ulong)upgradeCost <= playerStats.currentFibre)
+        {
+            // Play success sound
+            soundUI.PlaySound(0);
+        }
+        else
+        {
+            // Play failure sound
+            soundUI.PlaySound(1);
         }
     }
 

@@ -266,6 +266,18 @@ public class Movement : MonoBehaviour
     private float ropeEffectTimer = 0f;
     #endregion
 
+    #region Sounds
+    [Header("Sounds")]
+
+    [Tooltip("The sound that plays when the player lands on the ground.")]
+    public AudioClip landingSound;
+    [Tooltip("The downward speed of the player at which the landing sound plays the loudest."), Range(-20f, 0f)]
+    public float maxLandingVelocitySound = -20f;
+    [Tooltip("The sound that plays when the player uses the grapple gun mod.")]
+    public AudioClip grappleSound;
+
+    #endregion
+
     #endregion
 
     #region Options
@@ -282,6 +294,8 @@ public class Movement : MonoBehaviour
     public Transform headPointTransform;
     public LineRenderer grappleLine;
     public WeaponCoordinator weaponCoordinator;
+    public AudioSource landingAudioSource;
+    public AudioSource grappleAudioSource;
 
     [HideInInspector]
     public Transform weaponGrapplePointTransform;
@@ -416,35 +430,6 @@ public class Movement : MonoBehaviour
 
             #endregion
 
-            #region Grapple Input
-
-            // Attempt a grapple hookshot
-            if (Input.GetMouseButton(1) && canGrapple && grappleUnlocked)
-            {
-                // Is the player reloading their current gun?
-                bool currentlyReloading = false;
-                for (int i = 0; i < weaponCoordinator.gunControllers.Length; i++)
-                {
-                    if (weaponCoordinator.gunControllers[i].isCurrentlyEquipped && weaponCoordinator.gunControllers[i].isReloading)
-                    {
-                        currentlyReloading = true;
-                        break;
-                    }
-                }
-
-                if (currentlyReloading == false)
-                {
-                    // Only allow a grapple hookshot if there is clear headroom for it
-                    Vector3 headRaycastOrigin = new Vector3(playerTransform.position.x, playerTransform.position.y + crouchColliderHeight, playerTransform.position.z);
-                    if (Physics.Raycast(headRaycastOrigin, Vector3.up, 0.49f + (standardHeight - crouchColliderHeight), groundLayerMask) == false)
-                    {
-                        waitingToAttemptGrapple = true;
-                    }
-                }
-            }
-
-            #endregion
-
             #region Sprint On/Off
 
             #region Direct Changes
@@ -504,6 +489,36 @@ public class Movement : MonoBehaviour
             #endregion
 
             #endregion
+
+            #region Grapple Input
+
+            // Attempt a grapple hookshot
+            if (Input.GetMouseButton(1) && canGrapple && grappleUnlocked)
+            {
+                // Is the player reloading their current gun?
+                bool currentlyReloading = false;
+                for (int i = 0; i < weaponCoordinator.gunControllers.Length; i++)
+                {
+                    if (weaponCoordinator.gunControllers[i].isCurrentlyEquipped && weaponCoordinator.gunControllers[i].isReloading)
+                    {
+                        currentlyReloading = true;
+                        break;
+                    }
+                }
+
+                if (currentlyReloading == false)
+                {
+                    // Only allow a grapple hookshot if there is clear headroom for it
+                    Vector3 headRaycastOrigin = new Vector3(playerTransform.position.x, playerTransform.position.y + crouchColliderHeight, playerTransform.position.z);
+                    if (Physics.Raycast(headRaycastOrigin, Vector3.up, 0.49f + (standardHeight - crouchColliderHeight), groundLayerMask) == false)
+                    {
+                        waitingToAttemptGrapple = true;
+                    }
+                }
+            }
+
+            #endregion
+
         }
         else
         {
@@ -540,7 +555,7 @@ public class Movement : MonoBehaviour
                     if (col.transform.position.y > cameraHolderTransform.position.y + grappleMinHeightOffset)
                     {
                         // If there is a clear line of sight to the grapple point
-                        if (Physics.Raycast(cameraHolderTransform.position, directionToPoint.normalized, directionToPoint.magnitude, groundLayerMask) == false)
+                        if (Physics.Raycast(cameraHolderTransform.position, directionToPoint.normalized, directionToPoint.magnitude, groundLayerMask | invisibleWallMask) == false)
                         {
                             float similarity = Vector3.Dot(directionToPoint.normalized, cameraHolderTransform.forward);
 
@@ -587,6 +602,9 @@ public class Movement : MonoBehaviour
                         // Start cooldown for ground checks
                         groundCheckTimer = groundCheckCooldown;
                         isGrounded = false;
+
+                        // Play grapple sound
+                        grappleAudioSource.PlayOneShot(grappleSound);
                     }
                 }
             }
@@ -1283,6 +1301,19 @@ public class Movement : MonoBehaviour
         isSlideJumping = false;
 
         nearLedgeClearance = false;
+
+        // Play landing sound if velocity is fast enough
+        if (playerRigidbody.velocity.y < -2f)
+        {
+            // Scale volume non-linearly with impact force
+            landingAudioSource.volume = Mathf.Pow(Mathf.Clamp01(playerRigidbody.velocity.y / maxLandingVelocitySound), 3f);
+            
+            // Play if volume is significant enough
+            if (landingAudioSource.volume > 0.1f)
+            {
+                landingAudioSource.PlayOneShot(landingSound);
+            }
+        }
     }
 
     // When the player first leaves the ground
