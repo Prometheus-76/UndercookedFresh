@@ -192,10 +192,10 @@ MonoBehaviour:
   chargeSpeed: 20
   chargeTurningSpeed: 0.5
   windupTurningSpeed: 3
-  outerLayerDefense: 60
-  innerLayerDefense: 40
-  outerLayerPercentage: 80
-  innerLayerPercentage: 50
+  outerLayerDefense: 50
+  innerLayerDefense: 30
+  outerLayerPercentage: 75
+  innerLayerPercentage: 35
   model1: {fileID: 6373578059794603007}
   animator1: {fileID: 5353545492569489607}
   model2: {fileID: 2341479778946154003}
