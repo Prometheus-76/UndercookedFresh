@@ -151,7 +151,6 @@ public class SettingsMenu : MonoBehaviour
 
     #endregion
 
-
     void Start()
     {
         SetVarsToDefault();
@@ -205,7 +204,34 @@ public class SettingsMenu : MonoBehaviour
 
         #region Framerate
         fpsTarget = PlayerPrefs.GetInt("RefreshRate", fpsTarget);
-        fpsDropdown.value = fpsTarget;
+        switch (fpsTarget)
+        {
+            case 0:
+                fpsDropdown.value = 0;
+                break;
+            case 30:
+                fpsDropdown.value = 1;
+                break;
+            case 60:
+                fpsDropdown.value = 2;
+                break;
+            case 75:
+                fpsDropdown.value = 3;
+                break;
+            case 120:
+                fpsDropdown.value = 4;
+                break;
+            case 144:
+                fpsDropdown.value = 5;
+                break;
+            case 240:
+                fpsDropdown.value = 5;
+                break;
+            default:
+                fpsDropdown.value = 2;
+                break;
+        }
+        fpsDropdown.RefreshShownValue();
         #endregion
 
         #region V-Sync
@@ -266,6 +292,7 @@ public class SettingsMenu : MonoBehaviour
         #endregion
 
         SetVideoSettings();
+
 
     }
 
@@ -329,8 +356,10 @@ public class SettingsMenu : MonoBehaviour
         Screen.SetResolution(
             PlayerPrefs.GetInt("ResolutionX", 1920),
             PlayerPrefs.GetInt("ResolutionY", 1080),
-            (FullScreenMode)PlayerPrefs.GetInt("WindowMode", 2),
-            PlayerPrefs.GetInt("RefreshRate", 60));
+            (FullScreenMode)PlayerPrefs.GetInt("WindowMode", 2));
+
+        Application.targetFrameRate = PlayerPrefs.GetInt("RefreshRate", 60);
+
         QualitySettings.vSyncCount = PlayerPrefs.GetInt("VSync", 1);
     }
 
@@ -389,7 +418,6 @@ public class SettingsMenu : MonoBehaviour
         fpsTarget = GetFramerate(fpsDropdown.value);
     }
 
-    
     private int GetFramerate(int fpsNumber)
     {
         switch (fpsNumber)
