@@ -219,7 +219,7 @@ MonoBehaviour:
   enemiesKilled: 0
   damageDealt: 0
   highscore: 0
-  baseHealth: 100
+  baseHealth: 200
   healthMultiplierPerLevel: 1.2
   timeBeforeRegeneration: 10
   percentRegenerationPerSecond: 1
@@ -231,7 +231,7 @@ MonoBehaviour:
   difficultyWaveFactor: 1.05
   difficultyTimeFactor: 0.025
   passiveUltimateChargeRate: 0.002
-  screenshakeDamageScaler: 3
+  screenshakeDamageScaler: 4
   interactRange: 4
   interactiveLayer:
     serializedVersion: 2

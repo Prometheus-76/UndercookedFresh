@@ -81,7 +81,7 @@ public class UnlockItem : InteractiveObject
                 break;
             case ItemType.ThrowingKnife:
                 weaponCoordinator.UnlockKnife();
-                //playerStats.AddUltimateCharge(100f);
+                playerStats.AddUltimateCharge(100f);
                 break;
             case ItemType.GrappleAbility:
                 playerMovement.UnlockGrapple();

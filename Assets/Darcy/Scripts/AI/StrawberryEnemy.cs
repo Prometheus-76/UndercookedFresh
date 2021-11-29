@@ -137,6 +137,7 @@ public class StrawberryEnemy : Enemy
                 // Lock enemy into attacking mode until burst completes
                 isAttacking = true;
                 enemyAnimator.SetBool("IsAiming", true);
+                movementParticles.SetActive(false);
 
                 #endregion
             }
@@ -149,6 +150,7 @@ public class StrawberryEnemy : Enemy
                 enemyAgent.isStopped = false;
                 isAttacking = false;
                 enemyAnimator.SetBool("IsAiming", false);
+                movementParticles.SetActive(true);
 
                 #endregion
             }

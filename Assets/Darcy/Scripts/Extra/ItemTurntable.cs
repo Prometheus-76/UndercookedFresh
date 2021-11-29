@@ -21,6 +21,7 @@ public class ItemTurntable : MonoBehaviour
     #region Configuration
     [Header("Configuration")]
 
+    public Transform excludeFromRotation;
     public float verticalDistance;
     public float verticalSpeed;
     public float rotationSpeed;
@@ -54,5 +55,8 @@ public class ItemTurntable : MonoBehaviour
         currentRotation += Time.deltaTime * rotationSpeed * 360f;
         Quaternion newRotation = Quaternion.Euler(0f, currentRotation + (seed * 360f), 0f);
         itemTransform.rotation = newRotation;
+
+        newRotation = Quaternion.Euler(0f, -(currentRotation + (seed * 360f)), 0f);
+        excludeFromRotation.localRotation = newRotation;
     }
 }

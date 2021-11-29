@@ -350,6 +350,9 @@ public class Movement : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         cameraController = cameraHolderTransform.GetComponent<CameraController>();
 
+        // Get the toggle crouch setting
+        toggleCrouch = PlayerPrefs.GetInt("CrouchToggle", 0) == 1 ? true : false;
+
         #endregion
     }
 

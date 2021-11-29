@@ -155,6 +155,7 @@ public class OnionEnemy : Enemy
                 enemyAnimator.SetBool("IsStunned", true);
                 enemyAnimator.SetBool("IsCharging", false);
                 enemyAnimator.SetBool("IsAiming", false);
+                movementParticles.SetActive(false);
                 stunTimer -= Time.deltaTime;
 
                 // Stop movement
@@ -200,6 +201,7 @@ public class OnionEnemy : Enemy
 
                     enemyAnimator.SetBool("IsCharging", true);
                     enemyAnimator.SetBool("IsAiming", false);
+                    movementParticles.SetActive(true);
                 }
                 else
                 {
@@ -229,6 +231,7 @@ public class OnionEnemy : Enemy
                 enemyTransform.rotation = Quaternion.Lerp(enemyTransform.rotation, targetRotation, Time.deltaTime * windupTurningSpeed);
 
                 enemyAnimator.SetBool("IsAiming", true);
+                movementParticles.SetActive(false);
 
                 if (windupTimer < 0f)
                 {
@@ -257,6 +260,7 @@ public class OnionEnemy : Enemy
                 enemyAnimator.SetBool("IsCharging", false);
                 enemyAnimator.SetBool("IsAiming", false);
                 enemyAnimator.SetBool("IsStunned", false);
+                movementParticles.SetActive(true);
 
                 // Start aiming if within range and line of sight
                 if (traversalDistanceToPlayer <= chargeRange)
