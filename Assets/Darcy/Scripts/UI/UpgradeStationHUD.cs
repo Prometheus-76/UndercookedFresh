@@ -17,6 +17,7 @@ public class UpgradeStationHUD : MonoBehaviour
     public Canvas upgradeStationCanvas;
     public GameObject blurEffect;
     public TextMeshProUGUI currentFibreText;
+    public SoundUI soundUI;
     public static bool showHUD;
 
     private PlayerStats playerStats;
@@ -151,7 +152,7 @@ public class UpgradeStationHUD : MonoBehaviour
 
             #region Pepper Shotgun
 
-            pepperShotgunUpgradeStatText.text = "<b> DMG / Shot(lvl " + pepperShotgunLevel + "): </b><size=95%>" + pepperShotgunCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + pepperShotgunNextDamage;
+            pepperShotgunUpgradeStatText.text = "<b> DMG / Shot (lvl " + pepperShotgunLevel + "): </b><size=95%>" + pepperShotgunCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + pepperShotgunNextDamage;
              
             if (pepperShotgunMaxAmmo - pepperShotgunCurrentAmmo > 0)
             {
@@ -169,7 +170,7 @@ public class UpgradeStationHUD : MonoBehaviour
 
             #region A-Salt Rifle
 
-            aSaltRifleUpgradeStatText.text = "<b> DMG / Shot(lvl " + aSaltRifleLevel + "): </b><size=95%>" + aSaltRifleCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + aSaltRifleNextDamage;
+            aSaltRifleUpgradeStatText.text = "<b> DMG / Shot (lvl " + aSaltRifleLevel + "): </b><size=95%>" + aSaltRifleCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + aSaltRifleNextDamage;
 
             if (aSaltRifleMaxAmmo - aSaltRifleCurrentAmmo > 0)
             {
@@ -187,7 +188,7 @@ public class UpgradeStationHUD : MonoBehaviour
 
             #region Microwave Gun
 
-            microwaveGunUpgradeStatText.text = "<b> DMG / Shot(lvl " + microwaveGunLevel + "): </b><size=95%>" + microwaveGunCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + microwaveGunNextDamage;
+            microwaveGunUpgradeStatText.text = "<b> DMG / Shot (lvl " + microwaveGunLevel + "): </b><size=95%>" + microwaveGunCurrentDamage + "  <sprite=\"Arrow\" index=0>  " + microwaveGunNextDamage;
             microwaveGunUpgradeCostText.text = "Fibre: " + microwaveGunUpgradeCost;
 
             #endregion
@@ -294,6 +295,14 @@ public class UpgradeStationHUD : MonoBehaviour
 
             // Fill up remainder of reserves from purchase
             weaponScript.currentAmmoInReserves += ammoAmount;
+
+            // Play UI success sound
+            soundUI.PlaySound(0);
+        }
+        else
+        {
+            // Play UI failed sound
+            soundUI.PlaySound(1);
         }
     }
 
@@ -301,11 +310,51 @@ public class UpgradeStationHUD : MonoBehaviour
     public void RefillHealth()
     {
         // Purchase ammo and refill weapon
-        if ((ulong)healthRefillCost <= playerStats.currentFibre)
+        if ((ulong)healthRefillCost <= playerStats.currentFibre && healthRefillCost > 0)
         {
             playerStats.currentFibre -= (ulong)healthRefillCost;
             playerStats.currentHealth += healthRefillAmount;
             playerStats.currentHealth = Mathf.Min(playerStats.currentHealth, playerStats.maxHealth);
+
+            // Play UI success sound
+            soundUI.PlaySound(0);
+        }
+        else
+        {
+            // Play UI failed sound
+            soundUI.PlaySound(1);
+        }
+    }
+
+    // 0 - MicrowaveGun, 1 - ASaltRifle, 2 - PepperShotgun, 3 - Health
+    public void PlayUpgradeSound(int typeIndex)
+    {
+        int upgradeCost = 0;
+        switch (typeIndex)
+        {
+            case 0:
+                upgradeCost = microwaveGunUpgradeCost;
+                break;
+            case 1:
+                upgradeCost = aSaltRifleUpgradeCost;
+                break;
+            case 2:
+                upgradeCost = pepperShotgunUpgradeCost;
+                break;
+            case 3:
+                upgradeCost = healthUpgradeCost;
+                break;
+        }
+
+        if ((ulong)upgradeCost <= playerStats.currentFibre)
+        {
+            // Play success sound
+            soundUI.PlaySound(0);
+        }
+        else
+        {
+            // Play failure sound
+            soundUI.PlaySound(1);
         }
     }
 

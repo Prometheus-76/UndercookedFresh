@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7634653382766133710}
   - component: {fileID: 6799423166839885419}
   - component: {fileID: 8770918679192631969}
+  - component: {fileID: -927750402664154462}
   m_Layer: 0
   m_Name: Prefab_TemplePillerMiddle
   m_TagString: Untagged
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-927750402664154462
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7113554778347723636}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7957013081116030305, guid: 08ea86ee75ec5b84990614ad4dc1b773, type: 3}

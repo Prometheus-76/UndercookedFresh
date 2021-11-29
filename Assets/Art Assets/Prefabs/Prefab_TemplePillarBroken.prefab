@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3371234067570871708}
   - component: {fileID: 1830392262439125561}
   - component: {fileID: 4504210240461223667}
+  - component: {fileID: 7090216478588709923}
   m_Layer: 0
   m_Name: Prefab_TemplePillarBroken
   m_TagString: Untagged
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7090216478588709923
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702959298659587878}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6526778140300661980, guid: cb859348fcdb4344886bc61e56a4d138, type: 3}

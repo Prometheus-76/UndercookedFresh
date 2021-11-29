@@ -97,11 +97,23 @@ public class ScoreScreenHUD : MonoBehaviour
         // Set score screen on/off
         scoreScreenCanvas.enabled = showHUD;
         blurEffect.SetActive(showHUD);
+        
+        if (showHUD)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     // Reload the current scene
     public void RestartStage()
     {
         sceneLoader.LoadSceneWithProgress(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    // Return to the main menu
+    public void ReturnToMenu()
+    {
+        sceneLoader.LoadSceneWithProgress(0);
     }
 }

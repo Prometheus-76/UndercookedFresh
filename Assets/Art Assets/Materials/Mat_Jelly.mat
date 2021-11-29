@@ -8,12 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Jelly
-  m_Shader: {fileID: -6465566751694194690, guid: d61628cd6c60aae448fe5ddb799af444, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: f3921693fe61c1247a49cbf6382d807c, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2999
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -21,17 +21,17 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - Vector1_1B6B0D91: 0.029
-    - Vector1_66712F5F: 0.78
-    - Vector1_82EEE563: -0.06
+    - Vector1_66712F5F: 0.1
+    - Vector1_82EEE563: 0.05
     - Vector1_84C4087C: 1
     - Vector1_88D9B481: -3.56
     - Vector1_8CE03A96: 0.69
     - Vector1_A4D721B: 0.73
-    - Vector1_BFFC75D4: 0.06
+    - Vector1_BFFC75D4: 0.1
     - Vector1_D7C492FC: 85
     - Vector1_D936DEFC: 0.5
     m_Colors:
-    - Color_20BA4525: {r: 0.87383986, g: 0, b: 1, a: 0.29803923}
+    - Color_20BA4525: {r: 0, g: 0.7169812, b: 0.6551239, a: 0.078431375}
     - Color_31864110: {r: 0.723, g: 0.8598706, b: 1, a: 0}
     - Color_D649624C: {r: 1, g: 1, b: 1, a: 1}
     - Vector2_68345F09: {r: 1, g: 0, b: 0, a: 0}

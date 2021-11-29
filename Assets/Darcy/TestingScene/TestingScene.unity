@@ -129,7 +129,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18168
+  m_Name: pb_Mesh776888
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1130,7 +1130,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17906
+  m_Name: pb_Mesh776628
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1294,7 +1294,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17834
+  m_Name: pb_Mesh776556
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2233,7 +2233,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1236
+  m_Name: pb_Mesh-46378
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3108,7 +3108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8182952268896873903, guid: 696d7bf3bdde1f6428059b699931db7a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 8182952268896873903, guid: 696d7bf3bdde1f6428059b699931db7a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3159,7 +3159,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17814
+  m_Name: pb_Mesh776536
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3365,6 +3365,7 @@ MonoBehaviour:
   baseCost: 0
   interactDuration: 0
   interactPrompt: Unlock Throwing Knife
+  displayKeybind: 1
   unlockItem: 3
   weaponCoordinator: {fileID: 634716515}
 --- !u!135 &494440062
@@ -3577,7 +3578,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18006
+  m_Name: pb_Mesh776726
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5105,7 +5106,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17932
+  m_Name: pb_Mesh776654
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -40516,7 +40517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8182952268896873903, guid: 696d7bf3bdde1f6428059b699931db7a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 8182952268896873903, guid: 696d7bf3bdde1f6428059b699931db7a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -40567,7 +40568,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1524
+  m_Name: pb_Mesh-46666
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -40762,6 +40763,7 @@ MonoBehaviour:
   baseCost: 0
   interactDuration: 0
   interactPrompt: Unlock Pepper Shotgun
+  displayKeybind: 1
   unlockItem: 2
   weaponCoordinator: {fileID: 634716515}
 --- !u!135 &824025435
@@ -40861,7 +40863,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18194
+  m_Name: pb_Mesh776914
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -49924,7 +49926,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18150
+  m_Name: pb_Mesh776872
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -50093,7 +50095,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18082
+  m_Name: pb_Mesh776804
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -50301,7 +50303,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17794
+  m_Name: pb_Mesh776516
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -54297,7 +54299,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1328
+  m_Name: pb_Mesh-46470
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -54492,6 +54494,7 @@ MonoBehaviour:
   baseCost: 0
   interactDuration: 0
   interactPrompt: Unlock A-Salt Rifle
+  displayKeybind: 1
   unlockItem: 1
   weaponCoordinator: {fileID: 634716515}
 --- !u!135 &1137978425
@@ -54591,7 +54594,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17782
+  m_Name: pb_Mesh776504
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -54755,7 +54758,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17892
+  m_Name: pb_Mesh776614
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -54919,7 +54922,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18138
+  m_Name: pb_Mesh776860
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -56978,7 +56981,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18068
+  m_Name: pb_Mesh776790
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -57142,7 +57145,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17848
+  m_Name: pb_Mesh776570
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -57438,7 +57441,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18228
+  m_Name: pb_Mesh776948
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -57633,6 +57636,7 @@ MonoBehaviour:
   baseCost: 0
   interactDuration: 0
   interactPrompt: Unlock Grapple Mod
+  displayKeybind: 1
   unlockItem: 4
   weaponCoordinator: {fileID: 634716515}
 --- !u!135 &1753794173
@@ -57754,7 +57758,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1776040779 stripped
 Transform:
@@ -58412,7 +58416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8182952268896873903, guid: 696d7bf3bdde1f6428059b699931db7a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 8182952268896873903, guid: 696d7bf3bdde1f6428059b699931db7a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -58458,7 +58462,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18054
+  m_Name: pb_Mesh776776
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -58975,7 +58979,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1955949574
 Mesh:
@@ -58983,7 +58987,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18212
+  m_Name: pb_Mesh776932
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -59177,7 +59181,7 @@ Transform:
   - {fileID: 5318272811815574763}
   - {fileID: 5318272810995966260}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1982720995 stripped
 Transform:
@@ -59860,7 +59864,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17972
+  m_Name: pb_Mesh776692
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -60465,7 +60469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1533979780033568543, guid: d5a15d8b650dc7e419a550358eb3a725, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1533979780033568543, guid: d5a15d8b650dc7e419a550358eb3a725, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -60518,7 +60522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2234785439003819440, guid: 8e0573df933f44146ac95ac61539ebbc, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2234785439003819440, guid: 8e0573df933f44146ac95ac61539ebbc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -60607,7 +60611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2282653199915333255, guid: 828390d441d69b44d9932c58802304da, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2282653199915333255, guid: 828390d441d69b44d9932c58802304da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -60680,7 +60684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3313231880126348067, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3313231880126348067, guid: 92a574f2a2714a04f922f3e1eee60099, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -60761,7 +60765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3797604817709621440, guid: bdf1877831588824d8c9617d90d76585, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3797604817709621440, guid: bdf1877831588824d8c9617d90d76585, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -60940,7 +60944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8245374944010033072, guid: 62bb52b307a389a4caecfb9a512ad089, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8245374944010033072, guid: 62bb52b307a389a4caecfb9a512ad089, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -60968,7 +60972,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 9021833308045979875, guid: 389ab223755e1d642ab6b1ba003985e3, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1357830268}
     - target: {fileID: 9021833308148012895, guid: 389ab223755e1d642ab6b1ba003985e3, type: 3}
@@ -60984,15 +60988,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9021833308777653440, guid: 389ab223755e1d642ab6b1ba003985e3, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 676987861}
     - target: {fileID: 9021833308843376828, guid: 389ab223755e1d642ab6b1ba003985e3, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 474163893}
     - target: {fileID: 9021833308859783861, guid: 389ab223755e1d642ab6b1ba003985e3, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 886132873}
     - target: {fileID: 9021833309234205840, guid: 389ab223755e1d642ab6b1ba003985e3, type: 3}

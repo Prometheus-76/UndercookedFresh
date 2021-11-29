@@ -56,13 +56,19 @@ public class Enemy : MonoBehaviour
     [Tooltip("The base amount of fibre this enemy awards when killed (scales with difficulty)."), Range(1, 10)]
     public int baseFibreValue;
 
+    [Tooltip("The time in seconds after death that the enemy lingers before despawning (allow time for death sound and animation to play)."), Range(0f, 3f)]
+    public float deathLingerDuration;
+
     public LayerMask environmentLayers;
     public LayerMask playerLayer;
+
+    public AudioClip[] deathSounds;
     #endregion
 
     #region Components
 
     public GameObject damageNumberPrefab;
+    public Animator enemyAnimator;
     protected Transform damageNumberParentTransform;
 
     protected Transform playerTransform;
@@ -74,6 +80,8 @@ public class Enemy : MonoBehaviour
     protected NavMeshAgent enemyAgent;
 
     protected PlayerStats playerStats;
+
+    protected AudioSource enemyAudioSource;
     #endregion
 
     #endregion
@@ -87,6 +95,7 @@ public class Enemy : MonoBehaviour
         enemyTransform = GetComponent<Transform>();
         enemyAgent = GetComponent<NavMeshAgent>();
         enemyCollider = GetComponent<CapsuleCollider>();
+        enemyAudioSource = GetComponent<AudioSource>();
         damageNumberParentTransform = GameObject.FindGameObjectWithTag("DamageNumberParent").GetComponent<Transform>();
 
         // Create path variable
@@ -99,7 +108,8 @@ public class Enemy : MonoBehaviour
 
         // Default values
         isBurrowing = false;
-        pathCheckTimer = 3f;
+        pathCheckTimer = 5f;
+        enemyAnimator.SetBool("IsAlive", true);
     }
 
     // Responsible for removing health from the enemy and spawning damage numbers when damage is dealt
@@ -171,7 +181,12 @@ public class Enemy : MonoBehaviour
         playerStats.AddFibre(baseFibreValue);
         playerStats.enemiesKilled += 1;
 
-        Destroy(gameObject, 0.5f);
+        // Play death sound and animation
+        int soundIndex = Random.Range(0, deathSounds.Length);
+        enemyAudioSource.PlayOneShot(deathSounds[soundIndex]);
+        enemyAnimator.SetBool("IsAlive", false);
+
+        Destroy(gameObject, deathLingerDuration);
     }
 
     protected void CheckDistanceValidity()
@@ -179,12 +194,9 @@ public class Enemy : MonoBehaviour
         if (isBurrowing)
             return;
 
-        enemyAgent.CalculatePath(playerTransform.position, enemyPath);
-        float traversalDistanceToPlayer = CalculatePathLength(enemyPath);
         float absoluteDistanceToPlayer = Vector3.Distance(playerTransform.position, enemyTransform.position);
-        //if ((traversalDistanceToPlayer == -1f || traversalDistanceToPlayer > despawnDistance || (enemyPath.corners.Length > 1 && enemyPath.status != NavMeshPathStatus.PathComplete)))
         
-        if (absoluteDistanceToPlayer > despawnDistance || traversalDistanceToPlayer > despawnDistance)
+        if ((absoluteDistanceToPlayer > despawnDistance || (enemyPath.corners.Length > 1 && enemyPath.status != NavMeshPathStatus.PathComplete)))
         {
             // The path is invalid
             pathCheckTimer -= Time.deltaTime;
@@ -192,7 +204,7 @@ public class Enemy : MonoBehaviour
         else
         {
             // The path is valid
-            pathCheckTimer = 3f;
+            pathCheckTimer = 5f;
         }
         
         if (pathCheckTimer < 0f)

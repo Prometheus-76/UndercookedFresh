@@ -1,0 +1,85 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ClueBarrier : InteractiveObject
+{
+    public LayerMask playerLayer;
+
+    private BoxCollider extendedInteractTrigger;
+    private BoxCollider playerPositionCheckTrigger;
+    private string prompt;
+
+    private int interactCount;
+    private bool allConditionsValid;
+
+    public void Start()
+    {
+        #region Initialisation
+
+        base.Configure();
+
+        extendedInteractTrigger = GetComponent<BoxCollider>();
+        playerPositionCheckTrigger = transform.GetChild(0).GetComponent<BoxCollider>();
+
+        prompt = "";
+        extendedInteractTrigger.enabled = false;
+
+        interactCount = 0;
+        allConditionsValid = false;
+
+        #endregion
+    }
+
+    public void Update()
+    {
+        bool gameUnstarted = !WaveManager.gameStarted;
+        bool playerPositioned = Physics.OverlapBox(playerPositionCheckTrigger.gameObject.transform.position + playerPositionCheckTrigger.center, playerPositionCheckTrigger.size / 2f, Quaternion.identity, playerLayer).Length > 0;
+        bool holdingTab = Input.GetKey(KeyCode.Tab);
+        bool visitedConfirmationScreen = PauseMenuHUD.actionDenied;
+
+        extendedInteractTrigger.enabled = playerPositioned;
+
+        if (interactCount < 5)
+        {
+            prompt = "Before the beginning.  ";
+            prompt += (gameUnstarted ? "Elevation truncation.  " : "");
+            prompt += (gameUnstarted && playerPositioned ? "Any second thoughts.  " : "");
+            prompt += (gameUnstarted && playerPositioned && visitedConfirmationScreen ? "Accelerating nothingness.  " : "");
+            prompt += (gameUnstarted && playerPositioned && visitedConfirmationScreen && holdingTab ? "Insist to persist.  " : "");
+        }
+        else
+        {
+
+        }
+        allConditionsValid = (gameUnstarted && playerPositioned && visitedConfirmationScreen && holdingTab);
+
+        interactPrompt = prompt;
+
+        if (interactCount >= 5)
+        {
+            interactDuration = 5f;
+        }
+    }
+
+    // Return the cost of interacting with this object
+    public override int GetFibreCost()
+    {
+        // Calculate the cost with difficulty scaling here
+        return baseCost;
+    }
+
+    // Interact with the object and perform its function
+    public override void Interact()
+    {
+        // Add to the total counter
+        if (interactDuration <= 0f && allConditionsValid)
+        {
+            interactCount += 1;
+        }
+        else
+        {
+
+        }
+    }
+}

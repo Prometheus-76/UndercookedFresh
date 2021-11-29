@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8739306576640028509}
   - component: {fileID: 5685683006800535800}
   - component: {fileID: 7567012590568789042}
+  - component: {fileID: -7290899835240425760}
   m_Layer: 0
   m_Name: Prefab_TempleBrokenWall_04
   m_TagString: Untagged
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a2929421cbf932643986c394bdc2d0b8, type: 2}
+  - {fileID: 2100000, guid: a22f96d120c46154aaa62f0c9eb7eafd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-7290899835240425760
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8215570312258745831}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6215128458364208374, guid: 49feea7e56552564e8aca6c4bfefc6c2, type: 3}
