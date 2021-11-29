@@ -468,8 +468,8 @@ RectTransform:
   - {fileID: 289744805}
   - {fileID: 878760159}
   - {fileID: 544637718}
-  - {fileID: 421482910}
   - {fileID: 673408296}
+  - {fileID: 421482910}
   m_Father: {fileID: 99467238}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1819,12 +1819,12 @@ RectTransform:
   m_Children:
   - {fileID: 521429537}
   m_Father: {fileID: 94352758}
-  m_RootOrder: 32
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 740, y: -540}
-  m_SizeDelta: {x: 270, y: 120}
+  m_AnchoredPosition: {x: 800, y: -540}
+  m_SizeDelta: {x: 180, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &421482911
 MonoBehaviour:
@@ -2885,7 +2885,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Reset to \nDefaults"
+  m_text: Reset
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ec5f2aa92cc83ce4997cf216b1833475, type: 2}
   m_sharedMaterial: {fileID: -6986053416065017344, guid: ec5f2aa92cc83ce4997cf216b1833475, type: 2}
@@ -3780,12 +3780,12 @@ RectTransform:
   m_Children:
   - {fileID: 1996108608}
   m_Father: {fileID: 94352758}
-  m_RootOrder: 33
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 450, y: -540}
-  m_SizeDelta: {x: 270, y: 120}
+  m_AnchoredPosition: {x: 500, y: -540}
+  m_SizeDelta: {x: 390, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673408297
 MonoBehaviour:
@@ -5670,9 +5670,9 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Toggle
-      m_Image: {fileID: 0}
     - m_Text: Hold
+      m_Image: {fileID: 0}
+    - m_Text: Toggle
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9488,7 +9488,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Toggle
+  m_text: Hold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ec5f2aa92cc83ce4997cf216b1833475, type: 2}
   m_sharedMaterial: {fileID: -6986053416065017344, guid: ec5f2aa92cc83ce4997cf216b1833475, type: 2}
@@ -11375,9 +11375,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Apply
-
-    Changes'
+  m_text: Apply Settings
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ec5f2aa92cc83ce4997cf216b1833475, type: 2}
   m_sharedMaterial: {fileID: -6986053416065017344, guid: ec5f2aa92cc83ce4997cf216b1833475, type: 2}
