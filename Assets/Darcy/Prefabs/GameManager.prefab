@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1533979780033568543}
   - component: {fileID: 1533979780033568542}
+  - component: {fileID: 4432594342106088194}
   - component: {fileID: 2725642508252569019}
   m_Layer: 0
   m_Name: GameManager
@@ -67,6 +68,19 @@ MonoBehaviour:
   waveCompleteSound: {fileID: 8300000, guid: a8e754ea5cff9794bb839ffb35a3b396, type: 3}
   enemyParent: {fileID: 0}
   waveAudioSource: {fileID: 2725642508252569019}
+--- !u!114 &4432594342106088194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533979780033568541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0dd3db57386d40489a18cd433a6db2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 0e2e5575f416f84429a66c444c6b115d, type: 2}
 --- !u!82 &2725642508252569019
 AudioSource:
   m_ObjectHideFlags: 0
@@ -76,7 +90,7 @@ AudioSource:
   m_GameObject: {fileID: 1533979780033568541}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -6175492501689867049, guid: 0e2e5575f416f84429a66c444c6b115d, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.3
