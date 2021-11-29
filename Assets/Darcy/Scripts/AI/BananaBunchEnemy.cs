@@ -90,6 +90,7 @@ public class BananaBunchEnemy : Enemy
                 enemyAgent.isStopped = true;
                 enemyAgent.ResetPath();
                 enemyAnimator.SetBool("IsMoving", false);
+                movementParticles.SetActive(false);
 
                 #endregion
             }
@@ -101,6 +102,7 @@ public class BananaBunchEnemy : Enemy
                 enemyAgent.isStopped = false;
                 enemyAgent.SetDestination(playerTransform.position);
                 enemyAnimator.SetBool("IsMoving", true);
+                movementParticles.SetActive(true);
 
                 #endregion
 

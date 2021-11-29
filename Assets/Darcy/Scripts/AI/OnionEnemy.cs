@@ -121,18 +121,27 @@ public class OnionEnemy : Enemy
                     model2.SetActive(false);
                     model3.SetActive(false);
                     enemyAnimator = animator1;
+                    enemyCollider.radius = 1f;
+                    enemyCollider.height = 2.5f;
+                    enemyCollider.center = Vector3.up * 1f;
                     break;
                 case 1:
                     model1.SetActive(false);
                     model2.SetActive(true);
                     model3.SetActive(false);
                     enemyAnimator = animator2;
+                    enemyCollider.radius = 1f;
+                    enemyCollider.height = 2f;
+                    enemyCollider.center = Vector3.up * 0.75f;
                     break;
                 case 0:
                     model1.SetActive(false);
                     model2.SetActive(false);
                     model3.SetActive(true);
                     enemyAnimator = animator3;
+                    enemyCollider.radius = 0.75f;
+                    enemyCollider.height = 1f;
+                    enemyCollider.center = Vector3.up * 0.5f;
                     break;
             }
 
@@ -143,6 +152,10 @@ public class OnionEnemy : Enemy
             {
                 #region Stunned
 
+                enemyAnimator.SetBool("IsStunned", true);
+                enemyAnimator.SetBool("IsCharging", false);
+                enemyAnimator.SetBool("IsAiming", false);
+                movementParticles.SetActive(false);
                 stunTimer -= Time.deltaTime;
 
                 // Stop movement
@@ -155,6 +168,7 @@ public class OnionEnemy : Enemy
                 {
                     // Stop the stun
                     stunTimer = 0f;
+                    enemyAnimator.SetBool("IsStunned", false);
                 }
 
                 #endregion
@@ -184,11 +198,16 @@ public class OnionEnemy : Enemy
 
                     // The enemy hasn't collided with anything
                     enemyAgent.Move(newPosition);
+
+                    enemyAnimator.SetBool("IsCharging", true);
+                    enemyAnimator.SetBool("IsAiming", false);
+                    movementParticles.SetActive(true);
                 }
                 else
                 {
                     // Charge has timed out
                     chargeTimer = 0f;
+                    enemyAnimator.SetBool("IsCharging", false);
                 }
 
                 #endregion
@@ -211,6 +230,9 @@ public class OnionEnemy : Enemy
                 targetRotation = Quaternion.LookRotation(chargeDirection);
                 enemyTransform.rotation = Quaternion.Lerp(enemyTransform.rotation, targetRotation, Time.deltaTime * windupTurningSpeed);
 
+                enemyAnimator.SetBool("IsAiming", true);
+                movementParticles.SetActive(false);
+
                 if (windupTimer < 0f)
                 {
                     // The charge windup has completed, commence the charge
@@ -228,13 +250,17 @@ public class OnionEnemy : Enemy
                 #region Navigation
 
                 // Navigate to the player
-                if (enemyAgent.hasPath == false)
-                    enemyAgent.SetDestination(playerTransform.position);
+                enemyAgent.SetDestination(playerTransform.position);
 
                 enemyAgent.isStopped = false;
                 chargeTimer = 0f;
                 windupTimer = 0f;
                 stunTimer = 0f;
+
+                enemyAnimator.SetBool("IsCharging", false);
+                enemyAnimator.SetBool("IsAiming", false);
+                enemyAnimator.SetBool("IsStunned", false);
+                movementParticles.SetActive(true);
 
                 // Start aiming if within range and line of sight
                 if (traversalDistanceToPlayer <= chargeRange)
@@ -392,6 +418,11 @@ public class OnionEnemy : Enemy
         if (startingHealth > 0 && currentHealth <= 0)
         {
             Die();
+            model1.SetActive(false);
+            model2.SetActive(false);
+            model3.SetActive(true);
+            enemyAnimator = animator3;
+            enemyAnimator.SetBool("IsAlive", false);
         }
     }
 

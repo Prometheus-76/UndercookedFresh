@@ -68,6 +68,7 @@ public class Enemy : MonoBehaviour
     #region Components
 
     public GameObject damageNumberPrefab;
+    public GameObject movementParticles;
     public Animator enemyAnimator;
     protected Transform damageNumberParentTransform;
 
@@ -185,6 +186,7 @@ public class Enemy : MonoBehaviour
         int soundIndex = Random.Range(0, deathSounds.Length);
         enemyAudioSource.PlayOneShot(deathSounds[soundIndex]);
         enemyAnimator.SetBool("IsAlive", false);
+        movementParticles.SetActive(false);
 
         Destroy(gameObject, deathLingerDuration);
     }

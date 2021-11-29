@@ -77,15 +77,19 @@ public class UserInterfaceHUD : MonoBehaviour
     public TextMeshProUGUI ammoText;
     public TextMeshProUGUI currentWeaponText;
     public Image weaponDividerImage;
+    public Image weaponIconMicrowaveGun;
+    public Image weaponIconASaltRifle;
+    public Image weaponIconPepperShotgun;
 
     public static int ammoInMagazine;
     public static int ammoInReserves;
     public static int equippedWeapon;
     #endregion
-    
+
     #region Ultimate Ability
     [Header("Ultimate Ability")]
 
+    public GameObject superDisplayParent;
     public Image minorFillImage;
     public Image majorFillImage;
     public TextMeshProUGUI ultimateProgressText;
@@ -375,30 +379,44 @@ public class UserInterfaceHUD : MonoBehaviour
                     weaponDividerImage.enabled = false;
                     currentWeaponText.enabled = false;
                     currentWeaponText.text = "None";
+                    weaponIconMicrowaveGun.enabled = false;
+                    weaponIconASaltRifle.enabled = false;
+                    weaponIconPepperShotgun.enabled = false;
                     break;
                 case 0:
                     ammoText.enabled = true;
                     weaponDividerImage.enabled = true;
                     currentWeaponText.enabled = true;
                     currentWeaponText.text = "Microwave Gun";
+                    weaponIconMicrowaveGun.enabled = true;
+                    weaponIconASaltRifle.enabled = false;
+                    weaponIconPepperShotgun.enabled = false;
                     break;
                 case 1:
                     ammoText.enabled = true;
                     weaponDividerImage.enabled = true;
                     currentWeaponText.enabled = true;
                     currentWeaponText.text = "A-Salt Rifle";
+                    weaponIconMicrowaveGun.enabled = false;
+                    weaponIconASaltRifle.enabled = true;
+                    weaponIconPepperShotgun.enabled = false;
                     break;
                 case 2:
                     ammoText.enabled = true;
                     weaponDividerImage.enabled = true;
                     currentWeaponText.enabled = true;
                     currentWeaponText.text = "Pepper Shotgun";
+                    weaponIconMicrowaveGun.enabled = false;
+                    weaponIconASaltRifle.enabled = false;
+                    weaponIconPepperShotgun.enabled = true;
                     break;
             }
 
             #endregion
 
             #region Ultimate Ability
+
+            superDisplayParent.SetActive(WeaponCoordinator.knifeUnlocked);
 
             float ultimateChargePercent = (ultimateCharge * 100f);
 

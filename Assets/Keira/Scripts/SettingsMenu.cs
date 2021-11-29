@@ -26,19 +26,21 @@ Toggles: -                                      - Type: Int   | Range: 0 or 1 | 
 
 Presets: - 
 
-"Resolution"           - Resolution of game     - Type: Int   | Range: 0 - 5  | Default: 2   | Displayed as: below
+"Resolution"  X/Y      - Resolution of game     - Type: Int   | Range: 0 - 5  | Default: 2   | Displayed (and stored seperately) as: below
                                                 + 0 - 1366x768 | 1 - 1600x900 | 2 - 1920x1080 | 3 - 2560x1440 | 4 - 3440x1440 | 5 - 3840x2160
 
-"RefreshRate"          - target framerate       - Type: Int   | Range: 0 - 6  | Default: 2   | Displayed as: below
+"RefreshRate"          - target framerate       - Type: Int   | Range: 0 - 6  | Default: 2   | Displayed (and stored) as: below
                                                 + 0 - Unlimited | 1 - 30 | 2 - 60 | 3 - 75 | 4 - 120 | 5 - 144 | 6 - 240
 
-"WindowMode"           - Window Mode            - Type: Int   | Range: 0 - 1  | Default: 1   | Displayed as: below
-                                                + 0 - FullScreen | 1 - Windowed 
+"WindowMode"           - Window Mode            - Type: Int   | Range: 0 - 3  | Default: 2   | Displayed as: below
+                                                + 0 - Exclusive Full Screen | 1 - Full Screen Window | 2 - Maximized Window | 3 - Windowed
 */
 
 public class SettingsMenu : MonoBehaviour
 {
     #region variables
+
+    //All Default values are handles by "SetVarsToDefault"
 
     #region Video
 
@@ -53,14 +55,15 @@ public class SettingsMenu : MonoBehaviour
     [Header("Resolution")]
     [Tooltip("Slider For Refreshrate")]
     public TMP_Dropdown resolutionDropdown;
-    private int resolutionTarget = 2;
+    private int resolutionXTarget = 1920;
+    private int resolutionYTarget = 1080;
     #endregion
 
     #region Framerate
     [Header("Framerate")]
     [Tooltip("Drop Down For Refreshrate")]
     public TMP_Dropdown fpsDropdown;
-    private int fpsTarget = 2;
+    private int fpsTarget = 60;
     #endregion
 
     #region V Sync
@@ -148,9 +151,16 @@ public class SettingsMenu : MonoBehaviour
 
     #endregion
 
-
     void Start()
     {
+        SetVarsToDefault();
+        LoadSettings();
+    }
+
+    //Loads all settings, applying defaults to prefabs if empty, and updating all settings options to display correctly
+    public void LoadSettings()
+    {
+        SetVarsToDefault();
 
         #region Initialisation
 
@@ -163,14 +173,65 @@ public class SettingsMenu : MonoBehaviour
         #endregion
 
         #region Resolution
-        resolutionTarget = PlayerPrefs.GetInt("Resolution", resolutionTarget);
-        resolutionDropdown.value = resolutionTarget;
+        resolutionXTarget = PlayerPrefs.GetInt("ResolutionX", resolutionXTarget);
+        resolutionYTarget = PlayerPrefs.GetInt("ResolutionY", resolutionYTarget);
+        switch (resolutionXTarget)
+        {
+            case 1366:
+                resolutionDropdown.value = 0;
+                break;
+            case 1600:
+                resolutionDropdown.value = 1;
+                break;
+            case 1920:
+                resolutionDropdown.value = 2;
+                break;
+            case 2560:
+                resolutionDropdown.value = 3;
+                break;
+            case 3440:
+                resolutionDropdown.value = 4;
+                break;
+            case 3480:
+                resolutionDropdown.value = 5;
+                break;
+            default:
+                resolutionDropdown.value = 2;
+                break;
+        }
         resolutionDropdown.RefreshShownValue();
         #endregion
 
         #region Framerate
         fpsTarget = PlayerPrefs.GetInt("RefreshRate", fpsTarget);
-        fpsDropdown.value = fpsTarget;
+        switch (fpsTarget)
+        {
+            case 0:
+                fpsDropdown.value = 0;
+                break;
+            case 30:
+                fpsDropdown.value = 1;
+                break;
+            case 60:
+                fpsDropdown.value = 2;
+                break;
+            case 75:
+                fpsDropdown.value = 3;
+                break;
+            case 120:
+                fpsDropdown.value = 4;
+                break;
+            case 144:
+                fpsDropdown.value = 5;
+                break;
+            case 240:
+                fpsDropdown.value = 5;
+                break;
+            default:
+                fpsDropdown.value = 2;
+                break;
+        }
+        fpsDropdown.RefreshShownValue();
         #endregion
 
         #region V-Sync
@@ -230,9 +291,79 @@ public class SettingsMenu : MonoBehaviour
 
         #endregion
 
+        SetVideoSettings();
+
+
     }
 
     #region functions
+
+    #region Other
+
+    //Sets all variables to default values
+    private void SetVarsToDefault()
+    {
+        windowModeTarget = 2;
+        resolutionXTarget = 1920;
+        resolutionYTarget = 1080;
+        fpsTarget = 60;
+        vSyncTarget = 1;
+
+        audioMasterTarget = 8;
+        audioMusicTarget = 10;
+        audioSfxTarget = 10;
+
+        mouseSensitivityTarget = 2.5f;
+        screenshakeTarget = 10;
+        headbobTarget = 1;
+        crouchToggleTarget = 0;      
+    }
+
+    //Returns all settings to default, but keeps track of high score and attempt count as to not wipe them
+    public void ReturnToDefault()
+    {
+        int SaveHighScore = PlayerPrefs.GetInt("HighScore", 0);
+        int SaveAttemptCount = PlayerPrefs.GetInt("AttemptCount", 0);
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("HighScore", SaveHighScore);
+        PlayerPrefs.SetInt("AttemptCount", SaveAttemptCount);
+        SetVarsToDefault();
+        LoadSettings();
+    }
+
+    //Applies all settings
+    public void ApplySettings()
+    {
+        PlayerPrefs.SetInt("WindowMode", windowModeTarget);
+        PlayerPrefs.SetInt("ResolutionX", resolutionXTarget);
+        PlayerPrefs.SetInt("ResolutionY", resolutionYTarget);
+        PlayerPrefs.SetInt("RefreshRate", fpsTarget);
+        PlayerPrefs.SetInt("VSync", vSyncTarget);
+        PlayerPrefs.SetFloat("AudioLevelMaster", audioMasterTarget / 10f);
+        PlayerPrefs.SetFloat("AudioLevelMusic", audioMusicTarget / 10f);
+        PlayerPrefs.SetFloat("AudioLevelSfx", audioSfxTarget / 10f);
+        PlayerPrefs.SetFloat("MouseSensitivity", mouseSensitivityTarget);
+        PlayerPrefs.SetInt("ScreenshakeIntensity", screenshakeTarget);
+        PlayerPrefs.SetInt("HeadBob", headbobTarget);
+        PlayerPrefs.SetInt("CrouchToggle", crouchToggleTarget);
+
+        SetVideoSettings();
+    }
+
+    //Sets Resolution, Windowmode, Refreshrate and Vsync.
+    public void SetVideoSettings()
+    {
+        Screen.SetResolution(
+            PlayerPrefs.GetInt("ResolutionX", 1920),
+            PlayerPrefs.GetInt("ResolutionY", 1080),
+            (FullScreenMode)PlayerPrefs.GetInt("WindowMode", 2));
+
+        Application.targetFrameRate = PlayerPrefs.GetInt("RefreshRate", 60);
+
+        QualitySettings.vSyncCount = PlayerPrefs.GetInt("VSync", 1);
+    }
+
+    #endregion
 
     #region Video
 
@@ -240,23 +371,73 @@ public class SettingsMenu : MonoBehaviour
     public void WindowModeDropdownUpdate()
     {
         windowModeTarget = windowModeDropdown.value;
-        PlayerPrefs.SetInt("WindowMode", windowModeTarget);
     }
     #endregion
 
     #region Resolution
     public void ResolutionDropdownUpdate()
     {
-        resolutionTarget = resolutionDropdown.value;
-        PlayerPrefs.SetInt("Resolution", resolutionTarget);
+        SetResXY(resolutionDropdown.value);
+    }
+
+    private void SetResXY(int resNumber)
+    {
+        switch (resNumber)
+        {
+            case 0:
+                resolutionXTarget = 1366;
+                resolutionYTarget = 768;
+                break;
+            case 1:
+                resolutionXTarget = 1600;
+                resolutionYTarget = 900;
+                break;
+            case 2:
+                resolutionXTarget = 1920;
+                resolutionYTarget = 1080;
+                break;
+            case 3:
+                resolutionXTarget = 2560;
+                resolutionYTarget = 1440;
+                break;
+            case 4:
+                resolutionXTarget = 3440;
+                resolutionYTarget = 1440;
+                break;
+            case 5:
+                resolutionXTarget = 3840;
+                resolutionYTarget = 2160;
+                break;
+        }
     }
     #endregion
 
     #region Framerate
     public void FramerateDropdownUpdate()
     {
-        fpsTarget = fpsDropdown.value;
-        PlayerPrefs.SetInt("RefreshRate", fpsTarget);
+        fpsTarget = GetFramerate(fpsDropdown.value);
+    }
+
+    private int GetFramerate(int fpsNumber)
+    {
+        switch (fpsNumber)
+        {
+            case 0:
+                return 0;
+            case 1:
+                return 30;
+            case 2:
+                return 60;
+            case 3:
+                return 75;
+            case 4:
+                return 120;
+            case 5:
+                return 144;
+            case 6:
+                return 240;
+        }
+        return 60;
     }
     #endregion
 
@@ -264,7 +445,6 @@ public class SettingsMenu : MonoBehaviour
     public void VSyncToggleUpdate()
     {
         vSyncTarget = vSyncToggle.isOn ? 1 : 0;
-        PlayerPrefs.SetInt("VSync", vSyncTarget);
     }
     #endregion
 
@@ -278,7 +458,6 @@ public class SettingsMenu : MonoBehaviour
     {
         audioMasterTarget = (int)audioMasterSlider.value;
         AudioMasterTextUpdate();
-        PlayerPrefs.SetFloat("AudioLevelMaster", audioMasterTarget / 10f);
     }
     private void AudioMasterTextUpdate()
     {
@@ -292,7 +471,6 @@ public class SettingsMenu : MonoBehaviour
     {
         audioMusicTarget = (int)audioMusicSlider.value;
         AudioMusicTextUpdate();
-        PlayerPrefs.SetFloat("AudioLevelMusic", audioMusicTarget / 10f);
     }
     private void AudioMusicTextUpdate()
     {
@@ -306,7 +484,6 @@ public class SettingsMenu : MonoBehaviour
     {
         audioSfxTarget = (int)audioSfxSlider.value;
         AudioSfxTextUpdate();
-        PlayerPrefs.SetFloat("AudioLevelSfx", audioSfxTarget / 10f);
     }
     private void AudioSfxTextUpdate()
     {
@@ -323,7 +500,6 @@ public class SettingsMenu : MonoBehaviour
     {
         mouseSensitivityTarget = Mathf.Round(mouseSensitivitySlider.value * 10f) / 10f;
         MouseSensitivityTextUpdate();
-        PlayerPrefs.SetFloat("MouseSensitivity", mouseSensitivityTarget);
     }
     private void MouseSensitivityTextUpdate()
     {
@@ -336,7 +512,6 @@ public class SettingsMenu : MonoBehaviour
     {
         screenshakeTarget = (int)screenshakeSlider.value;
         ScreenshakeTextUpdate();
-        PlayerPrefs.SetInt("ScreenshakeIntensity", screenshakeTarget);
     }
     public void ScreenshakeTextUpdate()
     {
@@ -348,7 +523,6 @@ public class SettingsMenu : MonoBehaviour
     public void HeadbobToggleUpdate()
     {
         headbobTarget = headbobToggle.isOn ? 1 : 0;
-        PlayerPrefs.SetInt("HeadBob", headbobTarget);
     }
     #endregion
 
@@ -356,7 +530,6 @@ public class SettingsMenu : MonoBehaviour
     public void CrouchToggleDropdownUpdate()
     {
         crouchToggleTarget = crouchToggleDropdown.value;
-        PlayerPrefs.SetInt("CrouchToggle", crouchToggleTarget);
     }
     #endregion
 

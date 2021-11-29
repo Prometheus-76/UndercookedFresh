@@ -123,6 +123,9 @@ public class CameraController : MonoBehaviour
 
         startingRotation = holderTransform.localRotation.eulerAngles;
         lookRotation = startingRotation;
+
+        allowHeadBounce = PlayerPrefs.GetInt("HeadBob", 1) == 0 ? false : true;
+        screenShakeIntensity = PlayerPrefs.GetInt("ScreenshakeIntensity", 10) / 10f;
     }
 
     // Update is called once per frame
