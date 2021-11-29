@@ -147,6 +147,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2193214790335797830}
     m_Modifications:
+    - target: {fileID: 2366127212886907492, guid: 41b06c9d4ff823c478a6c482c5993001, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 60c7eed752402134f913202716231201, type: 2}
     - target: {fileID: 2366127212886907493, guid: 41b06c9d4ff823c478a6c482c5993001, type: 3}
       propertyPath: m_Name
       value: Particle_TorchFlame
