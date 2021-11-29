@@ -59,6 +59,7 @@ public class BananaSingleEnemy : Enemy
                 enemyAgent.isStopped = true;
                 enemyAgent.ResetPath();
                 enemyAnimator.SetBool("IsMoving", false);
+                movementParticles.SetActive(false);
 
                 #endregion
             }
@@ -70,6 +71,7 @@ public class BananaSingleEnemy : Enemy
                 enemyAgent.SetDestination(playerTransform.position);
                 enemyAgent.isStopped = false;
                 enemyAnimator.SetBool("IsMoving", true);
+                movementParticles.SetActive(true);
 
                 #endregion
 

@@ -14,8 +14,8 @@ public class MenuScreenManager : MonoBehaviour
     void Start()
     {
         DisableOptionsScreen();
-        overlayOpacity = 1f;
         Time.timeScale = 1f;
+        overlayOpacity = 1f;
     }
 
     private void Update()
