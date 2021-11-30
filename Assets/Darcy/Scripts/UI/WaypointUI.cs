@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// Author: Darcy Matheson
+// Purpose: Generic waypoint controller, includes scaling with distance, rotation to face camera, line of sight fading and a distance readout on a TextMeshProUGUI component.
+
 public class WaypointUI : MonoBehaviour
 {
     #region Variables 

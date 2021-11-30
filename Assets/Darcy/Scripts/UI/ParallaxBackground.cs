@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Author: Darcy Matheson
+// Purpose: Uses an eased lerp to move the background inverse to mouse movement, creating a parallax effect.
+
 public class ParallaxBackground : MonoBehaviour
 {
     [Range(0f, 1f)]

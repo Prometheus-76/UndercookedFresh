@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Author: Darcy Matheson
+// Purpose: Basic interaction interface that reports activation to the ClueBarrier for the ordered activation step.
+
 public class ClueInteract : InteractiveObject
 {
     public ClueBarrier clueBarrier;

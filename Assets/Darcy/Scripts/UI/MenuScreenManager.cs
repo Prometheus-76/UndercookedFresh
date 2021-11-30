@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// Author: Darcy Matheson
+// Purpose: Manages navigation of the main menu, the tutorial and the options screen.
+
 public class MenuScreenManager : MonoBehaviour
 {
     public GameObject menuScreen;

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Author: Darcy Matheson
+// Purpose: Flickers the intensity of an attached light source using procedural perlin noise lookup.
+
 public class LightFlicker : MonoBehaviour
 {
     public float effectIntensity;

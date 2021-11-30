@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Author: Darcy Matheson
+// Purpose: Raises the stones behind the window one at a time, used for accessing part of the easter egg.
+
 public class SteppingStones : MonoBehaviour
 {
     public GameObject[] stoneObjects;

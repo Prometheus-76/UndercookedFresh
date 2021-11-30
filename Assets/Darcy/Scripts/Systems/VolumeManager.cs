@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+// Author: Darcy Matheson
+// Purpose: Manages the audio attenuation level with a logarithmic scale. Used for applying options menu settings to game scene.
+
 public class VolumeManager : MonoBehaviour
 {
     public AudioMixer mixer;

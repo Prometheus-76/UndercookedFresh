@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Author: Darcy Matheson
+// Purpose: Basic class storing some generic UI sounds, which can be played by clicking on buttons.
+
 public class SoundUI : MonoBehaviour
 {
     public AudioSource audioSource;
