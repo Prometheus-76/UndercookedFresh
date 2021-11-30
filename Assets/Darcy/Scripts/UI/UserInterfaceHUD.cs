@@ -15,6 +15,7 @@ public class UserInterfaceHUD : MonoBehaviour
     [Header("General")]
 
     public Canvas HUDCanvas;
+    public TextMeshProUGUI startPromptText;
 
     public static bool showHUD;
 
@@ -45,6 +46,7 @@ public class UserInterfaceHUD : MonoBehaviour
     #region Wave Counter and Progress
     [Header("Wave Counter and Progress")]
 
+    public GameObject waveProgressionDisplay;
     public Image waveProgressImage;
     public TextMeshProUGUI waveStatusText;
     public TextMeshProUGUI waveProgressText;
@@ -161,7 +163,7 @@ public class UserInterfaceHUD : MonoBehaviour
         intermissionProgress = 0f;
         waveNumber = 1;
         intermissionDuration = 0;
-        waveChangeEffectDuration = 3f;
+        waveChangeEffectDuration = 5f;
         waveChangeEffectTimer = 0f;
         playerCurrentHealth = 100;
         playerMaxHealth = 100;
@@ -195,6 +197,9 @@ public class UserInterfaceHUD : MonoBehaviour
 
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
+        startPromptText.enabled = true;
+        waveProgressionDisplay.SetActive(false);
+
         #endregion
     }
 
@@ -209,6 +214,13 @@ public class UserInterfaceHUD : MonoBehaviour
 
         if (showHUD)
         {
+            #region Start Prompt
+
+            startPromptText.enabled = !WaveManager.gameStarted;
+            waveProgressionDisplay.SetActive(WaveManager.gameStarted);
+
+            #endregion
+
             #region Hit Marker
 
             if (hitMarkerFadeTimer > 0f)

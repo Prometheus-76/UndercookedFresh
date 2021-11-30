@@ -202,6 +202,15 @@ public class GunController : MonoBehaviour
 
     #endregion
 
+    #region Visual Effects
+    [Header("Visual Effects")]
+
+    public Transform[] shotOrigins;
+    public ParticleSystem beamEffect;
+    public GameObject shotEffectPrefab;
+
+    #endregion
+
     #endregion
 
     #region Components
@@ -326,6 +335,8 @@ public class GunController : MonoBehaviour
 
             #endregion
 
+            #endregion
+
             #region Looped Sounds
 
             // If the sound should loop
@@ -359,6 +370,27 @@ public class GunController : MonoBehaviour
             }
 
             #endregion
+
+            #region Looping Visual Effects
+
+            if (weaponType == WeaponType.MicrowaveGun)
+            {
+                bool playEffect = (recoilTimer > 0f && isReloading == false && Input.GetMouseButton(0));
+
+                if (playEffect)
+                {
+                    // Start the effect
+                    if (beamEffect.IsAlive() == false)
+                    {
+                        beamEffect.Play(true);
+                    }
+                }
+                else
+                {
+                    // Stop the effect
+                    beamEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                }
+            }
 
             #endregion
 
@@ -510,12 +542,29 @@ public class GunController : MonoBehaviour
                 Vector3 unrotatedDirection = Quaternion.AngleAxis(spreadInstance, mainCameraTransform.up).normalized * mainCameraTransform.forward;
 
                 float rotationInstance = Random.Range(0f, 360f);
-                bulletDirection = Quaternion.AngleAxis(rotationInstance, mainCameraTransform.forward) * unrotatedDirection;
+                bulletDirection = Quaternion.AngleAxis(rotationInstance, mainCameraTransform.forward).normalized * unrotatedDirection;
                 bulletDirection.Normalize();
             }
 
-            // Draw bullet graphics
+            #region Individual Visual Effects
 
+            // Weapons that shoot one bullet at a time, can be compared to whether the sound loops or not
+            if (weaponType != WeaponType.MicrowaveGun)
+            {
+                // Shoots one bullet effect from each barrel, as specified in exposed shotOrigins Transform array
+                for (int i = 0; i < shotOrigins.Length; i++)
+                {
+                    // Alternates rendering shots from each barrel
+                    if ((i + bulletNumber) % 2 == 0)
+                    {
+                        Quaternion launchRotation = Quaternion.LookRotation(bulletDirection, Vector3.Cross(bulletDirection, mainCameraTransform.right)) * Quaternion.Euler(0f, 90f, 0f);
+                        launchRotation = launchRotation * Quaternion.Euler(-2f, 0f, 0f) * Quaternion.Euler(0f, -1f, 0f);
+                        Instantiate<GameObject>(shotEffectPrefab, shotOrigins[i].position, launchRotation, weaponModelTransform);
+                    }
+                }
+            }
+
+            #endregion
 
             // Fire from camera
             // Get hit info (RaycastAll for piercing ammo)
