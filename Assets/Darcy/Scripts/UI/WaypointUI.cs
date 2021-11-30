@@ -55,7 +55,7 @@ public class WaypointUI : MonoBehaviour
         iconBaseAlpha = iconImage.color.a;
         iconImage.color = Color.clear;
         distanceText.color = Color.clear;
-        isActivated = false;
+        isActivated = true;
 
         #endregion
     }
