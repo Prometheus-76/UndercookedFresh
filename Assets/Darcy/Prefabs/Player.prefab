@@ -230,7 +230,7 @@ MonoBehaviour:
   minOneShotProtectionThreshold: 10
   difficultyWaveFactor: 1.05
   difficultyTimeFactor: 0.025
-  passiveUltimateChargeRate: 0.002
+  passiveUltimateChargeRate: 0.001
   screenshakeDamageScaler: 4
   interactRange: 4
   interactiveLayer:

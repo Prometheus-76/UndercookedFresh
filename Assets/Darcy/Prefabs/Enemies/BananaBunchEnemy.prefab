@@ -234,7 +234,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enemy Name
+  m_text: Banana Split
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dba48d0cf7c77f541b49b7d6b1f1ae3f, type: 2}
   m_sharedMaterial: {fileID: -267445729454621190, guid: dba48d0cf7c77f541b49b7d6b1f1ae3f, type: 2}
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}

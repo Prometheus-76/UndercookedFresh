@@ -130,7 +130,7 @@ public class StrawberryEnemy : Enemy
 
                 #endregion
             }
-            else if (absoluteDistanceToPlayer <= attackRange && Physics.Linecast(enemyTransform.position + (Vector3.up * (enemyAgent.height - 0.2f)), mainCameraTransform.position, environmentLayers) == false)
+            else if (absoluteDistanceToPlayer <= attackRange && Physics.Linecast(enemyTransform.position + (Vector3.up * ((enemyAgent.height / 2f) - 0.2f)), mainCameraTransform.position, environmentLayers) == false)
             {
                 #region Start Attack
 
