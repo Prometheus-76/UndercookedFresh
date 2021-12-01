@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Author: Darcy Matheson
+// Purpose: Basic camera flight controller, used to record a scene flythrough just before gold.
+
 public class FlyingCamera : MonoBehaviour
 {
     public float moveSpeed;
