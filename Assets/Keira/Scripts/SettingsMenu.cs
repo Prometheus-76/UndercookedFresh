@@ -204,9 +204,13 @@ public class SettingsMenu : MonoBehaviour
 
         #region Framerate
         fpsTarget = PlayerPrefs.GetInt("RefreshRate", fpsTarget);
+        if (fpsTarget < 30 && fpsTarget != -1)
+        {
+            fpsTarget = 60;
+        }
         switch (fpsTarget)
         {
-            case 0:
+            case  -1:
                 fpsDropdown.value = 0;
                 break;
             case 30:
@@ -225,7 +229,7 @@ public class SettingsMenu : MonoBehaviour
                 fpsDropdown.value = 5;
                 break;
             case 240:
-                fpsDropdown.value = 5;
+                fpsDropdown.value = 6;
                 break;
             default:
                 fpsDropdown.value = 2;
@@ -423,7 +427,7 @@ public class SettingsMenu : MonoBehaviour
         switch (fpsNumber)
         {
             case 0:
-                return 0;
+                return -1;
             case 1:
                 return 30;
             case 2:
