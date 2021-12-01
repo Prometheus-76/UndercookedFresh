@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Author: Darcy Matheson
+// Purpose: Runs the easter egg riddle.
+
 public class ClueBarrier : InteractiveObject
 {
     public LayerMask playerLayer;
